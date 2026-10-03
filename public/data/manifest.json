@@ -1,0 +1,13 @@
+{
+  "fetchedAt": "2026-10-03T17:11:17.889Z",
+  "sets": [
+    {
+      "code": "grn",
+      "name": "Guilds of Ravnica",
+      "releasedAt": "2018-10-05",
+      "cardCount": 273,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1790568000",
+      "file": "sets/grn.json"
+    }
+  ]
+}
