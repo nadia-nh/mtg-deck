@@ -6,14 +6,17 @@ import { DeckList } from './DeckList'
 import { DeckManager } from './DeckManager'
 import { DeckStats } from './DeckStats'
 import { DeckValidation } from './DeckValidation'
+import { ImportExport } from './ImportExport'
+import type { NameResolver } from '../../domain/decklist'
 import { useDeck } from './deckContext'
 
 interface Props {
   resolve: ResolveCard
+  resolveForImport: NameResolver
   onSelect?: (card: Card) => void
 }
 
-export function DeckPanel({ resolve, onSelect }: Props) {
+export function DeckPanel({ resolve, resolveForImport, onSelect }: Props) {
   const { active, storageOk } = useDeck()
   // Collapsed by default on narrow screens, like the filters.
   const [open, setOpen] = useState(() => !window.matchMedia?.('(max-width: 1100px)').matches)
@@ -44,6 +47,8 @@ export function DeckPanel({ resolve, onSelect }: Props) {
       <DeckList zone="main" resolve={resolve} onSelect={onSelect} />
       <h3>Sideboard ({side})</h3>
       <DeckList zone="side" resolve={resolve} onSelect={onSelect} />
+
+      <ImportExport resolve={resolve} resolveForImport={resolveForImport} />
     </details>
   )
 }

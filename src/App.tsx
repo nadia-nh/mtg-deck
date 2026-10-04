@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { findByName, type CardDb } from './data/loadCards'
+import { findByName, resolveCardName, type CardDb } from './data/loadCards'
 import type { Card } from './domain/card'
 import { copiesByName } from './domain/deck'
 import { CardsProvider } from './data/CardsProvider'
@@ -27,6 +27,7 @@ function Workspace({ db }: { db: CardDb }) {
   const { active, addCard } = useDeck()
   const [selected, setSelected] = useState<Card | null>(null)
   const resolve = useCallback((name: string) => findByName(db, name), [db])
+  const resolveForImport = useCallback((name: string) => resolveCardName(db, name), [db])
   const deckCounts = useMemo(() => copiesByName(active), [active])
 
   return (
@@ -38,7 +39,7 @@ function Workspace({ db }: { db: CardDb }) {
           onAdd={(card) => addCard('main', card.name)}
           deckCounts={deckCounts}
         />
-        <DeckPanel resolve={resolve} onSelect={setSelected} />
+        <DeckPanel resolve={resolve} resolveForImport={resolveForImport} onSelect={setSelected} />
       </div>
       <CardDetail
         card={selected}

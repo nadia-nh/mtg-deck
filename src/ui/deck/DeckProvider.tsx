@@ -66,8 +66,11 @@ export function DeckProvider({
       active,
       storageOk,
       select: activate,
-      create(name = DEFAULT_NAME, formatId = active?.formatId ?? DEFAULT_FORMAT_ID) {
-        const deck = store.save(D.createDeck(name, formatId))
+      create(name = DEFAULT_NAME, formatId = active?.formatId ?? DEFAULT_FORMAT_ID, cards) {
+        const blank = D.createDeck(name, formatId)
+        const deck = store.save(
+          cards ? { ...blank, main: { ...cards.main }, side: { ...cards.side } } : blank,
+        )
         refresh()
         activate(deck.id)
         return deck

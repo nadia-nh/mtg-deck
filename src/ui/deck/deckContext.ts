@@ -7,7 +7,11 @@ export interface DeckActions {
   /** False when the browser refused the last save (blocked or full storage). */
   storageOk: boolean
   select(id: string): void
-  create(name?: string, formatId?: string): Deck
+  create(
+    name?: string,
+    formatId?: string,
+    cards?: { main: Record<string, number>; side: Record<string, number> },
+  ): Deck
   deleteDeck(id: string): void
   duplicate(id: string): void
   rename(name: string): void

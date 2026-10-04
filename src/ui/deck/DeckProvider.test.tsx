@@ -77,4 +77,21 @@ describe('DeckProvider', () => {
     act(() => result.current.rename('   '))
     expect(result.current.active.name).toBe('Untitled deck')
   })
+
+  test('create can start a deck with cards (used by import)', () => {
+    const { result } = setup()
+    act(
+      () =>
+        void result.current.create('Imported', 'modern', {
+          main: { 'Lava Coil': 4 },
+          side: { Mountain: 1 },
+        }),
+    )
+    expect(result.current.active).toMatchObject({
+      name: 'Imported',
+      formatId: 'modern',
+      main: { 'Lava Coil': 4 },
+      side: { Mountain: 1 },
+    })
+  })
 })
