@@ -1,5 +1,7 @@
 # UI improvement plan
 
+> **Status:** Phase A and Phase B are done (except set symbols in B3). Next: set symbols, then C1.
+
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
 stands out, with a manual light/dark toggle.

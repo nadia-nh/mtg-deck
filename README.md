@@ -63,6 +63,11 @@ e2e/                Playwright tests
 Implement `FormatRules` (`src/domain/formats/types.ts`), or call `constructedFormat()` with
 a Scryfall legality key, and add it to `FORMATS` in `registry.ts`.
 
+## Contributing
+
+See [CLAUDE.md](CLAUDE.md) for conventions and the definition of done, and
+[docs/ui-plan.md](docs/ui-plan.md) for the UI roadmap.
+
 ## Legal
 
 This is unofficial Fan Content permitted under the
