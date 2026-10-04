@@ -3,6 +3,7 @@ import type { Card } from '../../domain/card'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import { BasicLandButtons } from './BasicLandButtons'
 import { DeckList } from './DeckList'
+import { DeckValidation } from './DeckValidation'
 import { useDeck } from './deckContext'
 
 interface Props {
@@ -27,10 +28,12 @@ export function DeckPanel({ resolve, onSelect }: Props) {
       </summary>
 
       {!storageOk && (
-        <p role="alert" className="warning">
+        <p role="alert" className="storage-warning">
           Your browser didn’t allow saving. Changes will be lost when you close this tab.
         </p>
       )}
+
+      <DeckValidation resolve={resolve} />
 
       <h3>Main deck ({main})</h3>
       <BasicLandButtons resolve={resolve} />

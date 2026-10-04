@@ -549,7 +549,7 @@ button {
 .deck-empty {
   font-size: 0.9rem;
 }
-.warning {
+.storage-warning {
   background: #fff3cd;
   color: #5c4400;
   padding: 8px;
@@ -592,4 +592,34 @@ button {
   height: 26px;
   font-size: 0.8rem;
   opacity: 1;
+}
+
+.deck-validation {
+  margin-top: 12px;
+}
+.validity {
+  margin: 8px 0 4px;
+  font-weight: 600;
+}
+.validity.ok {
+  color: #1f8a4c;
+}
+.validity.bad {
+  color: #c0392b;
+}
+.issues {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.85rem;
+}
+.issues li.warning {
+  color: var(--muted);
+}
+@media (prefers-color-scheme: dark) {
+  .validity.ok {
+    color: #5fd38d;
+  }
+  .validity.bad {
+    color: #ff7b6e;
+  }
 }
