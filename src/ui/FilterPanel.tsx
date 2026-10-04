@@ -10,15 +10,8 @@ import {
   type Guild,
   type SortKey,
 } from '../domain/search'
+import { COLOR_NAMES } from '../domain/describeFilter'
 import type { BrowseState } from './filterParams'
-
-const COLOR_NAMES: Record<Color, string> = {
-  W: 'White',
-  U: 'Blue',
-  B: 'Black',
-  R: 'Red',
-  G: 'Green',
-}
 
 const SORT_LABELS: Record<SortKey, string> = {
   number: 'Collector number',
