@@ -1,0 +1,76 @@
+/*
+ * Design tokens. Every color, space, radius, and type size used by the app
+ * lives here. Colors use light-dark(), so the theme follows `color-scheme`:
+ * the OS setting by default, or a forced theme via <html data-theme="...">.
+ */
+:root {
+  color-scheme: light dark;
+
+  /* Surfaces & text */
+  --bg: light-dark(#f6f5f1, #141417);
+  --surface: light-dark(#ffffff, #1e1e23);
+  --fg: light-dark(#1d1d1f, #ececf0);
+  --muted: light-dark(#5f5f66, #a3a3ad);
+  --border: light-dark(#d9d7cf, #34343c);
+  --accent: light-dark(#7a3cff, #a77bff);
+  --accent-fg: light-dark(#ffffff, #141417);
+
+  /* Status (text on surface; all ≥ 4.5:1) */
+  --ok: light-dark(#17713d, #5fd38d);
+  --danger: light-dark(#c0392b, #ff7b6e);
+  --danger-solid: #c0392b;
+  --danger-solid-fg: #ffffff;
+  --warn-bg: light-dark(#fff3cd, #3a3000);
+  --warn-fg: light-dark(#5c4400, #ffe08a);
+
+  /* Mana colors (pips are light in both themes, so text stays dark) */
+  --pip-W: #f8f1d4;
+  --pip-U: #a9d3f0;
+  --pip-B: #b9b0ad;
+  --pip-R: #f2a68b;
+  --pip-G: #9bcfa3;
+  --pip-C: #d4d0cb;
+  --pip-fg: #1d1d1f;
+
+  /* Spacing: 4px scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-pill: 999px;
+  --radius-card: 4.75% / 3.5%; /* matches printed card corners */
+
+  /* Type */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.8rem;
+  --text-md: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+
+  /* Effects */
+  --shadow-raised: 0 2px 6px rgb(0 0 0 / 0.35);
+  --backdrop: rgb(0 0 0 / 0.6);
+  --focus-ring: 3px solid var(--accent);
+
+  /* Layout */
+  --page-max: 1600px;
+  --filters-width: 260px;
+  --deck-width: 340px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}

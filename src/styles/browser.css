@@ -1,0 +1,126 @@
+/* ---- Filters ---- */
+
+.filters {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  margin-top: var(--space-3);
+}
+.filters fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) 14px;
+  margin-top: 6px;
+  font-size: var(--text-md);
+}
+.field.compact {
+  flex: 1;
+  min-width: 0;
+}
+.checks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px var(--space-2);
+  font-size: var(--text-md);
+}
+.checks label {
+  white-space: nowrap;
+}
+.inline-check {
+  font-size: var(--text-md);
+}
+.color-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+.reset {
+  padding: var(--space-2);
+}
+
+/* ---- Results ---- */
+
+.result-count {
+  font-size: var(--text-base);
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+}
+.empty {
+  color: var(--muted);
+}
+
+.card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+.card-cell {
+  position: relative;
+}
+.card-tile {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-card);
+  transition: transform 0.12s ease;
+}
+.card-tile:hover {
+  transform: translateY(-2px);
+}
+.card-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+  background: var(--border);
+}
+.card-placeholder {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 488 / 680;
+  border: 1px solid var(--border);
+  border-radius: var(--space-3);
+  padding: var(--space-2);
+}
+
+.tile-add {
+  position: absolute;
+  right: var(--space-2);
+  bottom: var(--space-2);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow-raised);
+}
+.tile-add:focus-visible {
+  outline-color: var(--fg);
+}
+.tile-count {
+  position: absolute;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--fg);
+  color: var(--bg);
+  font-weight: 700;
+  font-size: var(--text-md);
+  pointer-events: none;
+}

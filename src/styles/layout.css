@@ -1,0 +1,81 @@
+.app-header {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.app-header h1 {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+
+main {
+  padding: var(--space-4);
+  max-width: var(--page-max);
+  margin: 0 auto;
+}
+
+footer {
+  margin-top: var(--space-8);
+  color: var(--muted);
+  font-size: var(--text-md);
+}
+
+/* Shared look for the filter drawer and deck panel. */
+.panel,
+.filters-drawer,
+.deck-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+.filters-drawer summary,
+.deck-panel summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Browser + deck panel side by side; deck panel moves on top below 1100px. */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--deck-width);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* Filters + results. */
+.browser {
+  display: grid;
+  grid-template-columns: var(--filters-width) 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.browser aside,
+.deck-panel {
+  position: sticky;
+  top: var(--space-4);
+  max-height: calc(100vh - 2 * var(--space-4));
+  overflow-y: auto;
+}
+
+@media (max-width: 1100px) {
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+  .workspace .deck-panel {
+    order: -1;
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .browser {
+    grid-template-columns: 1fr;
+  }
+  .browser aside {
+    position: static;
+    max-height: none;
+  }
+}

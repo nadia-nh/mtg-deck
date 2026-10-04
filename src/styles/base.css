@@ -1,0 +1,140 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: var(--font-sans);
+  line-height: 1.4;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+}
+
+a {
+  color: var(--accent);
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Buttons ---- */
+
+/* Quiet outlined button used throughout panels. */
+.btn,
+.reset,
+.detail-actions button,
+.manager-actions button,
+.qty-controls button,
+.move,
+.close {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.btn:disabled,
+.manager-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.primary,
+.detail-actions button.primary {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border: 1px solid var(--accent);
+}
+.danger,
+.manager-actions button.danger {
+  background: var(--danger-solid);
+  border-color: var(--danger-solid);
+  color: var(--danger-solid-fg);
+}
+
+/* ---- Form fields ---- */
+
+.field > span,
+.filters legend {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.field input,
+.field select,
+.import-export textarea {
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  padding: 6px var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* ---- Mana pips ---- */
+
+.pip {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  font-weight: 700;
+  color: var(--pip-fg);
+  cursor: pointer;
+  opacity: 0.55;
+}
+.pip[aria-pressed='true'] {
+  opacity: 1;
+  border-color: var(--fg);
+}
+.pip-W {
+  background: var(--pip-W);
+}
+.pip-U {
+  background: var(--pip-U);
+}
+.pip-B {
+  background: var(--pip-B);
+}
+.pip-R {
+  background: var(--pip-R);
+}
+.pip-G {
+  background: var(--pip-G);
+}
+.pip-C {
+  background: var(--pip-C);
+}
+
+.mana {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
