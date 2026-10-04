@@ -576,3 +576,20 @@ button {
   color: var(--accent-fg);
   border-color: var(--accent);
 }
+
+.basic-lands {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.basic-lands span {
+  margin-right: 4px;
+}
+.basic-lands .pip {
+  width: 26px;
+  height: 26px;
+  font-size: 0.8rem;
+  opacity: 1;
+}

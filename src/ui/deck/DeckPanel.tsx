@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Card } from '../../domain/card'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
+import { BasicLandButtons } from './BasicLandButtons'
 import { DeckList } from './DeckList'
 import { useDeck } from './deckContext'
 
@@ -32,6 +33,7 @@ export function DeckPanel({ resolve, onSelect }: Props) {
       )}
 
       <h3>Main deck ({main})</h3>
+      <BasicLandButtons resolve={resolve} />
       <DeckList zone="main" resolve={resolve} onSelect={onSelect} />
       <h3>Sideboard ({side})</h3>
       <DeckList zone="side" resolve={resolve} onSelect={onSelect} />

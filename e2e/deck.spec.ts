@@ -27,3 +27,12 @@ test('add cards from the grid and the detail dialog, edit counts, persist', asyn
   await page.reload()
   await expect(page.getByTestId('deck-counts')).toHaveText('2 main · 2 side')
 })
+
+test('basic land quick-add', async ({ page }) => {
+  await page.goto('/')
+  const basics = page.getByRole('group', { name: 'Add basic land' })
+  for (let i = 0; i < 3; i++) await basics.getByRole('button', { name: 'Add Mountain' }).click()
+  await basics.getByRole('button', { name: 'Add Plains' }).click()
+  await expect(page.getByTestId('deck-counts')).toHaveText('4 main · 0 side')
+  await expect(page.locator('.deck-panel').getByRole('region', { name: 'Lands (4)' })).toBeVisible()
+})
