@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { totalCards } from './manifest'
 
 const count = async (page: Page) => {
   const text = await page.locator('#results-heading').textContent()
@@ -7,13 +8,13 @@ const count = async (page: Page) => {
 
 test('filters by guild and restores the full list', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('#results-heading')).toHaveText('273 cards')
+  await expect(page.locator('#results-heading')).toHaveText(`${totalCards} cards`)
 
   await page.getByRole('combobox', { name: /^Guild/ }).selectOption('izzet')
   await expect(page).toHaveURL(/g=izzet/)
   const n = await count(page)
   expect(n).toBeGreaterThan(10)
-  expect(n).toBeLessThan(273)
+  expect(n).toBeLessThan(totalCards)
 
   const identities = await page
     .locator('.card-tile')
@@ -24,7 +25,7 @@ test('filters by guild and restores the full list', async ({ page }) => {
 
   // Back button undoes the filter.
   await page.goBack()
-  await expect(page.locator('#results-heading')).toHaveText('273 cards')
+  await expect(page.locator('#results-heading')).toHaveText(`${totalCards} cards`)
 })
 
 test('URL params are applied on load (shareable searches)', async ({ page }) => {
