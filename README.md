@@ -1,8 +1,8 @@
 # mtg-deck
 
 A Magic: The Gathering card browser and deck builder for the web. It currently includes
-**Guilds of Ravnica** and **Ravnica Allegiance**; more sets and format rules can be added
-without touching the UI.
+the Ravnica trilogy (**Guilds of Ravnica**, **Ravnica Allegiance**, **War of the Spark**);
+more sets and format rules can be added without touching the UI.
 
 - Browse and filter cards by text, color, guild, type, rarity, mana value, and set.
   Searches are kept in the URL, so you can bookmark or share them.
