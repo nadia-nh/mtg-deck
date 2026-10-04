@@ -15,6 +15,7 @@ export type FetchLike = (
   ok: boolean
   status: number
   json(): Promise<unknown>
+  text(): Promise<string>
 }>
 
 export interface ScryfallSet {
@@ -43,6 +44,17 @@ export function createClient(fetchFn: FetchLike, delayMs = 100) {
 
   return {
     getSet: (code: string) => get<ScryfallSet>(`${SCRYFALL}/sets/${code}`),
+
+    /** The set symbol SVG markup (from `icon_svg_uri`). */
+    async getSetIcon(set: ScryfallSet): Promise<string> {
+      const url = set.icon_svg_uri
+      const res = await fetchFn(url, { headers: { ...HEADERS, Accept: 'image/svg+xml' } })
+      if (!res.ok) throw new Error(`Scryfall ${res.status} for ${url}`)
+      await sleep(delayMs)
+      const svg = await res.text()
+      if (!/<svg[\s>]/.test(svg)) throw new Error(`Not an SVG: ${url}`)
+      return svg
+    },
 
     /** Every printing in a set, following pagination. */
     async getSetCards(code: string): Promise<ScryfallCard[]> {

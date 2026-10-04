@@ -76,7 +76,9 @@ button {
   cursor: pointer;
 }
 .btn:disabled,
-.manager-actions button:disabled {
+.manager-actions button:disabled,
+.detail-actions button:disabled,
+.qty-controls button:disabled {
   opacity: 0.5;
   cursor: default;
 }
@@ -222,5 +224,20 @@ button {
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
+  }
+}
+
+.set-icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  background: currentColor;
+  mask: var(--set-icon) center / contain no-repeat;
+}
+@media (forced-colors: active) {
+  .set-icon {
+    forced-color-adjust: none;
+    background: CanvasText;
   }
 }

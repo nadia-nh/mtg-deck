@@ -3,7 +3,7 @@ import type { Card } from '../card'
 import { addCard, createDeck, type Deck } from '../deck'
 import { copyLimitOverride } from './constructed'
 import { FORMATS, getFormat } from './registry'
-import { hasErrors } from './types'
+import { copiesLeft, hasErrors } from './types'
 import grnJson from '../../../public/data/sets/grn.json'
 
 const grn = grnJson as Card[]
@@ -130,6 +130,30 @@ describe('registry', () => {
     const ids = FORMATS.map((f) => f.id)
     expect(new Set(ids).size).toBe(ids.length)
     expect(getFormat('nope').id).toBe('casual')
+  })
+
+  test('copyLimit: 4 by default, overrides for basics and named exceptions', () => {
+    const pioneer = getFormat('pioneer')
+    expect(pioneer.copyLimit(resolve('Lava Coil')!)).toBe(4)
+    expect(pioneer.copyLimit(resolve('Mountain')!)).toBe(Infinity)
+    expect(pioneer.copyLimit(resolve('Persistent Petitioners')!)).toBe(Infinity)
+    expect(pioneer.copyLimit(resolve('Seven Dwarves')!)).toBe(7)
+  })
+
+  test('copyLimit: restricted cards allow 1 only where restricted', () => {
+    expect(getFormat('vintage').copyLimit(resolve('Restricted Thing')!)).toBe(1)
+    expect(getFormat('casual').copyLimit(resolve('Restricted Thing')!)).toBe(4)
+  })
+
+  test('copiesLeft counts main and sideboard together', () => {
+    const pioneer = getFormat('pioneer')
+    const coil = resolve('Lava Coil')!
+    expect(copiesLeft(deckOf({}), pioneer, coil)).toBe(4)
+    expect(copiesLeft(deckOf({ 'Lava Coil': 3 }), pioneer, coil)).toBe(1)
+    expect(copiesLeft(deckOf({ 'Lava Coil': 3 }, { 'Lava Coil': 1 }), pioneer, coil)).toBe(0)
+    // Already over the limit (e.g. after an import): no more, never negative.
+    expect(copiesLeft(deckOf({ 'Lava Coil': 6 }), pioneer, coil)).toBe(0)
+    expect(copiesLeft(deckOf({ Mountain: 30 }), pioneer, resolve('Mountain')!)).toBe(Infinity)
   })
 
   test('copyLimitOverride', () => {

@@ -23,6 +23,7 @@ const manifest: SetManifest = {
       cardCount: 1,
       iconSvgUri: '',
       file: 'sets/rna.json',
+      icon: 'sets/rna.svg',
     },
     {
       code: 'grn',
@@ -31,6 +32,7 @@ const manifest: SetManifest = {
       cardCount: 2,
       iconSvgUri: '',
       file: 'sets/grn.json',
+      icon: 'sets/grn.svg',
     },
   ],
 }

@@ -45,6 +45,10 @@ export function constructedFormat(opts: ConstructedOptions): FormatRules {
   const minMainDeck = opts.minMainDeck ?? 60
   const maxSideboard = opts.maxSideboard ?? 15
   const maxCopies = opts.maxCopies ?? 4
+  const isRestricted = (card: Card) =>
+    opts.legalityKey !== undefined && card.legalities[opts.legalityKey] === 'restricted'
+  const copyLimit = (card: Card) =>
+    isRestricted(card) ? 1 : (copyLimitOverride(card) ?? maxCopies)
 
   return {
     id: opts.id,
@@ -52,6 +56,7 @@ export function constructedFormat(opts: ConstructedOptions): FormatRules {
     description: opts.description,
     minMainDeck,
     maxSideboard,
+    copyLimit,
 
     validate(deck, resolve) {
       const issues: Issue[] = []
@@ -85,8 +90,9 @@ export function constructedFormat(opts: ConstructedOptions): FormatRules {
           continue
         }
 
-        const limit = copyLimitOverride(card) ?? maxCopies
-        if (copies > limit) {
+        // Restricted cards get their own, more specific message below.
+        const limit = copyLimit(card)
+        if (copies > limit && !isRestricted(card)) {
           issues.push({
             severity: 'error',
             code: 'too-many-copies',

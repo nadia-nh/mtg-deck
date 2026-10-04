@@ -1,6 +1,8 @@
 # UI improvement plan
 
-> **Status:** Phase A and Phase B are done (except set symbols in B3). Next: set symbols, then C1.
+> **Status:** Phase A and Phase B are done. Set symbols show in the detail view; List view
+> (C2) will reuse `<SetIcon>`. Not done: the set filter is a native `<select>`, which can't
+> show icons, and deck rows are keyed by name, so they have no single set. Next: C1.
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
@@ -86,6 +88,22 @@ no extra package is needed.
 
 A → B → C1–C2 → D → E → F → C3 → G. Roughly 20 small commits. C3 (virtualization) can wait until
 the card pool grows past about 2,000 cards, since today's ~850 still renders smoothly.
+
+## Future ideas (not scheduled)
+
+Requests from Nadia, kept here so they aren't lost. Each needs a short design pass before it
+becomes a numbered step.
+
+- **Mark cards as owned.** A per-browser collection (card name → copies owned), stored in
+  localStorage like decks. Possible UI: an "Owned" toggle/count in the detail dialog, an
+  "Owned only" browse filter, and "missing N cards" (with price) in the deck panel. Open
+  question: track owned per name (simpler, matches decks) or per printing (needed for
+  foils/alt-arts)?
+- **Random deck names.** New decks start with a random name (e.g. adjective + noun, or
+  guild-flavored once colors are known) instead of "Untitled deck". After a few cards are
+  added, offer a name based on the deck's colors (e.g. "Boros Aggro"), but **only if the
+  user hasn't edited the name** — store a `nameEdited` flag on the deck.
+- Import/export already covers Arena and MTGO formats; no work needed there.
 
 ## Open questions
 

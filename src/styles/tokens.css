@@ -53,6 +53,9 @@
   --shadow-raised: 0 2px 6px rgb(0 0 0 / 0.35);
   --shadow-lift: 0 8px 20px rgb(0 0 0 / 0.28);
   --backdrop: rgb(0 0 0 / 0.6);
+  /* Frosted controls floating over card art */
+  --glass: color-mix(in srgb, var(--surface) 80%, transparent);
+  --glass-border: color-mix(in srgb, var(--fg) 12%, transparent);
   --focus-ring: 3px solid var(--accent);
 
   /* Layout */

@@ -23,6 +23,17 @@ test('opens card details with text, legality, and links', async ({ page }) => {
   await expect(dialog).toBeHidden()
 })
 
+test('shows the set symbol next to the set name', async ({ page }) => {
+  await page.goto('/?q=teferi, time raveler')
+  await page.getByRole('button', { name: 'Teferi, Time Raveler', exact: true }).click()
+  const icon = page.getByRole('dialog').getByRole('img', { name: 'War of the Spark set symbol' })
+  await expect(icon).toBeVisible()
+  const box = await icon.boundingBox()
+  expect(box?.width).toBeGreaterThan(0)
+  const svg = await page.request.get('/data/sets/war.svg')
+  expect(svg.ok()).toBe(true)
+})
+
 test('close button closes the dialog', async ({ page }) => {
   await page.goto('/?q=doom whisperer')
   await page.getByRole('button', { name: 'Doom Whisperer', exact: true }).click()
