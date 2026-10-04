@@ -4,7 +4,14 @@ import { buildCardDb, findByName, loadCards } from './loadCards'
 import type { SetManifest } from './manifest'
 
 const card = (over: Partial<Card>): Card =>
-  ({ id: 'x', name: 'X', set: 'grn', releasedAt: '2018-10-05', ...over }) as Card
+  ({
+    id: 'x',
+    name: 'X',
+    set: 'grn',
+    releasedAt: '2018-10-05',
+    collectorNumber: '1',
+    ...over,
+  }) as Card
 
 const manifest: SetManifest = {
   fetchedAt: '2026-10-03T00:00:00Z',
@@ -75,5 +82,35 @@ describe('with the real GRN + RNA snapshot', () => {
     expect(findByName(db, 'Gateway Plaza')?.set).toBe('rna')
     expect(findByName(db, 'Lava Coil')?.set).toBe('grn')
     expect(db.byName.get('Mountain')?.map((c) => c.set)).toEqual(['rna', 'grn'])
+  })
+})
+
+describe('comparePrintings', () => {
+  test('regular printing beats a same-set alternate art, regardless of input order', () => {
+    const alt = card({
+      id: 'alt',
+      name: 'Teferi',
+      collectorNumber: '221★',
+      releasedAt: '2019-05-03',
+    })
+    const reg = card({
+      id: 'reg',
+      name: 'Teferi',
+      collectorNumber: '221',
+      releasedAt: '2019-05-03',
+    })
+    const older = card({
+      id: 'old',
+      name: 'Teferi',
+      collectorNumber: '1',
+      releasedAt: '2018-01-01',
+    })
+    for (const order of [
+      [alt, reg, older],
+      [older, alt, reg],
+    ]) {
+      const db = buildCardDb(manifest, order)
+      expect(db.byName.get('Teferi')?.map((c) => c.id)).toEqual(['reg', 'alt', 'old'])
+    }
   })
 })

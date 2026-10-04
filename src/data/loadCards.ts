@@ -1,5 +1,21 @@
 import type { Card } from '../domain/card'
+import { collectorNumberValue } from '../domain/search'
 import type { SetManifest } from './manifest'
+
+/** Regular printings have plain numeric collector numbers ("221", not "221★"). */
+const isRegularPrinting = (c: Card) => /^\d+$/.test(c.collectorNumber)
+
+/**
+ * Order of preference for a card's printings: newest set first; within a set,
+ * regular printings before alternate arts, then lowest collector number.
+ */
+export function comparePrintings(a: Card, b: Card): number {
+  return (
+    b.releasedAt.localeCompare(a.releasedAt) ||
+    Number(isRegularPrinting(b)) - Number(isRegularPrinting(a)) ||
+    collectorNumberValue(a.collectorNumber) - collectorNumberValue(b.collectorNumber)
+  )
+}
 
 export interface CardDb {
   manifest: SetManifest
@@ -7,7 +23,7 @@ export interface CardDb {
   cards: Card[]
   byId: Map<string, Card>
   /**
-   * Printings grouped by exact card name, newest release first.
+   * Printings grouped by exact card name, most preferred first (see comparePrintings).
    * Decks are keyed by name, so this resolves a name to a display printing.
    */
   byName: Map<string, Card[]>
@@ -23,7 +39,7 @@ export function buildCardDb(manifest: SetManifest, cards: Card[]): CardDb {
     else byName.set(card.name, [card])
   }
   for (const list of byName.values()) {
-    list.sort((a, b) => b.releasedAt.localeCompare(a.releasedAt))
+    list.sort(comparePrintings)
   }
   return { manifest, cards, byId, byName }
 }
