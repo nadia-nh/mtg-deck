@@ -3,6 +3,8 @@ import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
 import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
+import { CardTable } from './CardTable'
+import { loadDensity, saveDensity, type Density } from './density'
 import type { CopyAllowance } from './deck/deckContext'
 import { FilterPanel } from './FilterPanel'
 import { ResultsToolbar } from './ResultsToolbar'
@@ -22,6 +24,11 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
   const [filtersOpen, setFiltersOpen] = useState(
     () => !window.matchMedia?.('(max-width: 760px)').matches,
   )
+  const [density, setDensity] = useState<Density>(loadDensity)
+  const changeDensity = (d: Density) => {
+    setDensity(d)
+    saveDensity(d)
+  }
   const results = useMemo(() => {
     const found = searchCards(db.cards, state.filter, state.sort)
     if (state.filter.allPrintings) return found
@@ -47,14 +54,29 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
           sets={db.manifest.sets}
           count={results.length}
           onChange={setState}
+          density={density}
+          onDensityChange={changeDensity}
         />
-        <CardGrid
-          cards={results}
-          onSelect={onSelect}
-          onAdd={onAdd}
-          deckCounts={deckCounts}
-          copyAllowance={copyAllowance}
-        />
+        {density === 'list' ? (
+          <CardTable
+            cards={results}
+            sort={state.sort}
+            onSort={(sort) => setState({ ...state, sort })}
+            onSelect={onSelect}
+            onAdd={onAdd}
+            deckCounts={deckCounts}
+            copyAllowance={copyAllowance}
+          />
+        ) : (
+          <CardGrid
+            density={density}
+            cards={results}
+            onSelect={onSelect}
+            onAdd={onAdd}
+            deckCounts={deckCounts}
+            copyAllowance={copyAllowance}
+          />
+        )}
       </section>
     </div>
   )

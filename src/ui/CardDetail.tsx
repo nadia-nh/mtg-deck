@@ -3,6 +3,7 @@ import type { Card, CardFace, Legality } from '../domain/card'
 import type { Zone } from '../domain/deck'
 import { ManaCost, RulesText } from './mana/ManaCost'
 import { SetIcon } from './SetIcon'
+import { usd } from './format'
 import { limitReachedText, type CopyAllowance } from './deck/deckContext'
 
 const FORMATS: [key: string, label: string][] = [
@@ -21,8 +22,6 @@ const LEGALITY_LABEL: Record<Legality, string> = {
   banned: 'Banned',
   restricted: 'Restricted',
 }
-
-const usd = (n: number | null) => (n == null ? '—' : `$${n.toFixed(2)}`)
 
 type FaceFields = Pick<
   CardFace,

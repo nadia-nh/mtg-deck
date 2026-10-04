@@ -2,6 +2,8 @@ import { useLayoutEffect, useRef } from 'react'
 import type { SetEntry } from '../data/manifest'
 import { describeFilter } from '../domain/describeFilter'
 import type { SortKey } from '../domain/search'
+import type { Density } from './density'
+import { DensityToggle } from './DensityToggle'
 import type { BrowseState } from './filterParams'
 import { XIcon } from './icons'
 
@@ -18,10 +20,12 @@ interface Props {
   sets: SetEntry[]
   count: number
   onChange: (next: BrowseState) => void
+  density: Density
+  onDensityChange: (d: Density) => void
 }
 
-/** Result count, one removable chip per active filter, "Clear all", and the sort order. */
-export function ResultsToolbar({ state, sets, count, onChange }: Props) {
+/** Result count, removable filter chips and "Clear all", then sort order and view density. */
+export function ResultsToolbar({ state, sets, count, onChange, density, onDensityChange }: Props) {
   const chips = describeFilter(state.filter, (code) => sets.find((s) => s.code === code)?.name)
   const listRef = useRef<HTMLUListElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -80,19 +84,22 @@ export function ResultsToolbar({ state, sets, count, onChange }: Props) {
           </button>
         </>
       )}
-      <label className="toolbar-sort">
-        <span>Sort by</span>
-        <select
-          value={state.sort}
-          onChange={(e) => onChange({ ...state, sort: e.target.value as SortKey })}
-        >
-          {Object.entries(SORT_LABELS).map(([k, label]) => (
-            <option key={k} value={k}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <div className="toolbar-end">
+        <label className="toolbar-sort">
+          <span>Sort by</span>
+          <select
+            value={state.sort}
+            onChange={(e) => onChange({ ...state, sort: e.target.value as SortKey })}
+          >
+            {Object.entries(SORT_LABELS).map(([k, label]) => (
+              <option key={k} value={k}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <DensityToggle value={density} onChange={onDensityChange} />
+      </div>
     </div>
   )
 }

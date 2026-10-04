@@ -1,5 +1,6 @@
 import type { Card } from '../domain/card'
 import { limitReachedText, type CopyAllowance } from './deck/deckContext'
+import type { Density } from './density'
 import { PlusIcon } from './icons'
 
 interface Props {
@@ -11,14 +12,22 @@ interface Props {
   deckCounts?: ReadonlyMap<string, number>
   /** Copy limit per card; the + button is disabled once the deck holds the maximum. */
   copyAllowance?: (card: Card) => CopyAllowance
+  density?: Exclude<Density, 'list'>
 }
 
-export function CardGrid({ cards, onSelect, onAdd, deckCounts, copyAllowance }: Props) {
+export function CardGrid({
+  cards,
+  onSelect,
+  onAdd,
+  deckCounts,
+  copyAllowance,
+  density = 'large',
+}: Props) {
   if (cards.length === 0) {
     return <p className="empty">No cards match these filters.</p>
   }
   return (
-    <ul className="card-grid" aria-label="Cards">
+    <ul className="card-grid" data-density={density} aria-label="Cards">
       {cards.map((card) => {
         const inDeck = deckCounts?.get(card.name) ?? 0
         const allowance = copyAllowance?.(card)

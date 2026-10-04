@@ -217,6 +217,17 @@ button {
   outline: var(--focus-ring);
   outline-offset: 1px;
 }
+/* Icon-only segments: the text stays for screen readers and the tooltip shows it on hover. */
+.segmented.icon-only label {
+  padding: var(--space-1) var(--space-2);
+}
+.segmented.icon-only .segmented-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
 @media (max-width: 520px) {
   .segmented-label {
     position: absolute;
