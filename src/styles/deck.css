@@ -1,5 +1,5 @@
 .deck-panel h3 {
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   margin: var(--space-4) 0 6px;
   padding-bottom: var(--space-1);
   border-bottom: 1px solid var(--border);

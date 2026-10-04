@@ -10,6 +10,7 @@ import { CardDetail } from './ui/CardDetail'
 import { DeckPanel } from './ui/deck/DeckPanel'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
+import { Logo } from './ui/Logo'
 import { ThemeToggle } from './ui/ThemeToggle'
 
 function DataStatus({ db }: { db: CardDb }) {
@@ -82,7 +83,10 @@ export default function App({
     <CardsProvider load={load}>
       <DeckProvider store={deckStore}>
         <header className="app-header">
-          <h1>MTG Deck Builder</h1>
+          <div className="brand">
+            <Logo />
+            <h1>MTG Deck Builder</h1>
+          </div>
           <ThemeToggle />
         </header>
         <main>

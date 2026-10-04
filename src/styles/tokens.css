@@ -58,12 +58,15 @@
   --text-xl: 1.25rem;
 
   /* Effects */
+  --shadow-panel: 0 1px 2px rgb(0 0 0 / 0.05);
   --shadow-raised: 0 2px 6px rgb(0 0 0 / 0.35);
+  --shadow-lift: 0 8px 20px rgb(0 0 0 / 0.28);
   --backdrop: rgb(0 0 0 / 0.6);
   --focus-ring: 3px solid var(--accent);
 
   /* Layout */
   --page-max: 1600px;
+  --header-h: 60px;
   --filters-width: 260px;
   --deck-width: 340px;
 }

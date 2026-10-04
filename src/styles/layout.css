@@ -7,9 +7,30 @@
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-h);
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
 .app-header h1 {
   margin: 0;
   font-size: var(--text-xl);
+  font-weight: 700;
+}
+.logo .logo-back {
+  fill: color-mix(in srgb, var(--accent) 35%, var(--surface));
+}
+.logo .logo-mid {
+  fill: color-mix(in srgb, var(--accent) 65%, var(--surface));
+}
+.logo .logo-front {
+  fill: var(--accent);
 }
 
 main {
@@ -32,6 +53,7 @@ footer {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
+  box-shadow: var(--shadow-panel);
 }
 .filters-drawer summary,
 .deck-panel summary {
@@ -58,8 +80,8 @@ footer {
 .browser aside,
 .deck-panel {
   position: sticky;
-  top: var(--space-4);
-  max-height: calc(100vh - 2 * var(--space-4));
+  top: calc(var(--header-h) + var(--space-4));
+  max-height: calc(100vh - var(--header-h) - 2 * var(--space-4));
   overflow-y: auto;
 }
 
