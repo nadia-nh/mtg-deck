@@ -1,0 +1,8 @@
+/* Mana symbol font (SIL OFL 1.1). woff2 only: every supported browser has it. */
+@font-face {
+  font-family: 'Mana';
+  src: url('../../node_modules/mana-font/fonts/mana.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}

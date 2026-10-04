@@ -12,9 +12,11 @@
     "test:watch": "vitest",
     "e2e": "playwright test",
     "fetch-data": "tsx scripts/fetch-sets.ts",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "vendor:mana": "tsx scripts/vendor-mana-css.ts"
   },
   "dependencies": {
+    "mana-font": "^1.18.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },

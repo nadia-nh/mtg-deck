@@ -158,6 +158,27 @@ button {
   font-size: 0.9em;
 }
 
+/* Mana symbols (Mana font). Sized in em so they follow surrounding text. */
+.mana-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.12em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.ms.ms-cost {
+  font-size: 0.9em;
+}
+.mana-sep {
+  color: var(--muted);
+  font-size: 0.9em;
+}
+.oracle .ms.ms-cost {
+  font-size: 0.8em;
+  margin: 0 0.05em;
+  vertical-align: 0.05em;
+}
+
 /* ---- Segmented control (radio group styled as buttons) ---- */
 
 .segmented {

@@ -8,6 +8,7 @@ test('opens card details with text, legality, and links', async ({ page }) => {
   await expect(dialog).toBeVisible()
   await expect(dialog).toContainText('Destroy target permanent an opponent controls')
   await expect(dialog).toContainText('Instant')
+  await expect(dialog.getByRole('img', { name: 'black, green' })).toBeVisible()
   await expect(dialog.getByRole('row', { name: /Modern/ })).toContainText('Legal')
   await expect(dialog.getByRole('link', { name: 'View on Scryfall' })).toHaveAttribute(
     'href',

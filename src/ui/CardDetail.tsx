@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Card, CardFace, Legality } from '../domain/card'
 import type { Zone } from '../domain/deck'
+import { ManaCost } from './mana/ManaCost'
 
 const FORMATS: [key: string, label: string][] = [
   ['standard', 'Standard'],
@@ -38,8 +39,7 @@ function FaceText({ face, showName }: { face: FaceFields; showName: boolean }) {
     <div className="face-text">
       {showName && (
         <p className="face-head">
-          <strong>{face.name}</strong>{' '}
-          {face.manaCost && <span className="mana">{face.manaCost}</span>}
+          <strong>{face.name}</strong> <ManaCost cost={face.manaCost} />
         </p>
       )}
       <p className="type-line">{face.typeLine}</p>
@@ -86,8 +86,7 @@ export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd }: Props) 
         <div className="detail-body">
           <header className="detail-header">
             <h2 id="card-detail-title">
-              {card.name}{' '}
-              {!card.faces && card.manaCost && <span className="mana">{card.manaCost}</span>}
+              {card.name} {!card.faces && <ManaCost cost={card.manaCost} className="detail-cost" />}
             </h2>
             <button type="button" className="close" onClick={onClose} aria-label="Close">
               ×

@@ -1,5 +1,6 @@
 import type { Card } from '../../domain/card'
 import { groupEntries, type ResolveCard, type Zone } from '../../domain/deck'
+import { ManaCost } from '../mana/ManaCost'
 import { useDeck } from './deckContext'
 
 const GROUP_LABEL: Record<string, string> = {
@@ -69,7 +70,7 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
                 ) : (
                   <span className="deck-card-name unknown">{name}</span>
                 )}
-                <span className="mana">{card?.manaCost}</span>
+                <span className="mana">{card && <ManaCost cost={card.manaCost} />}</span>
                 <button
                   type="button"
                   className="move"

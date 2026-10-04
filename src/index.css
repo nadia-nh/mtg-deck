@@ -1,6 +1,8 @@
 /* Order matters: tokens → base → layout → feature styles. */
 @import './styles/tokens.css';
 @import './styles/base.css';
+@import './styles/vendor/mana.css';
+@import './styles/mana-font.css';
 @import './styles/layout.css';
 @import './styles/browser.css';
 @import './styles/detail.css';

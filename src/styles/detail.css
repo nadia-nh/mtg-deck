@@ -31,10 +31,12 @@
 .detail-header h2 {
   margin: 0;
 }
-.detail-header .mana {
-  font-size: 0.6em;
-  font-weight: normal;
-  color: var(--muted);
+.detail-cost {
+  font-size: 0.75em;
+  margin-left: var(--space-2);
+}
+.face-head .mana-cost {
+  margin-left: var(--space-1);
 }
 .close {
   font-size: 1.5rem;

@@ -70,3 +70,6 @@ This is unofficial Fan Content permitted under the
 It is not approved or endorsed by Wizards. Portions of the materials used are property of
 Wizards of the Coast. © Wizards of the Coast LLC. Card data and images are provided by
 Scryfall.
+
+Mana symbols use the [Mana font](https://mana.andrewgioia.com) by Andrew Gioia (font: SIL OFL
+1.1; CSS: MIT). `npm run vendor:mana` regenerates `src/styles/vendor/mana.css` after upgrading it.
