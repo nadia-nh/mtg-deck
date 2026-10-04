@@ -39,6 +39,21 @@ export function findByName(db: CardDb, name: string): Card | undefined {
   return undefined
 }
 
+/**
+ * Resolves names as people type them in decklists: exact, case-insensitive,
+ * or the front face of a double-faced card ("Delver of Secrets").
+ */
+export function resolveCardName(db: CardDb, name: string): Card | undefined {
+  const hit = findByName(db, name)
+  if (hit) return hit
+  const lower = name.trim().toLowerCase()
+  for (const list of db.byName.values()) {
+    const front = list[0].faces?.[0]?.name
+    if (front && front.toLowerCase() === lower && list[0].layout !== 'split') return list[0]
+  }
+  return undefined
+}
+
 type FetchJson = (url: string) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
 
 export async function loadCards(
