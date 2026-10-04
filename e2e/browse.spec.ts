@@ -38,13 +38,38 @@ test('URL params are applied on load (shareable searches)', async ({ page }) => 
     'aria-pressed',
     'true',
   )
-  await expect(page.getByLabel('Mythic')).toBeChecked()
+  await expect(page.getByLabel('Mythic', { exact: true })).toBeChecked()
   const names = await page
     .locator('.card-tile img')
     .evaluateAll((els) => els.map((el) => el.getAttribute('alt')!))
   expect(names.length).toBeGreaterThan(0)
   expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
   expect(names).toContain('Doom Whisperer')
+})
+
+test('active filter chips: remove one, then clear all', async ({ page }) => {
+  await page.goto('/?g=izzet&r=rare&cmin=2&cmax=3')
+  const chips = page.getByRole('list', { name: 'Active filters' })
+  await expect(chips.getByRole('button')).toHaveText(['Izzet', 'Rare', 'MV 2–3'])
+  const narrowed = await count(page)
+
+  await chips.getByRole('button', { name: 'Remove filter: Rare' }).click()
+  await expect(page).not.toHaveURL(/r=rare/)
+  await expect(page).toHaveURL(/g=izzet/)
+  await expect(page.getByLabel('Rare', { exact: true })).not.toBeChecked()
+  await expect.poll(() => count(page)).toBeGreaterThan(narrowed)
+  // Focus moves to the next chip so keyboard users keep their place.
+  await expect(chips.getByRole('button', { name: 'Remove filter: MV 2–3' })).toBeFocused()
+
+  // Back restores the removed chip.
+  await page.goBack()
+  await expect(chips.getByRole('button')).toHaveText(['Izzet', 'Rare', 'MV 2–3'])
+
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(chips).toBeHidden()
+  await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+  await expect(page.locator('#results-heading')).toBeFocused()
+  await expect(page).toHaveURL(/\/$/)
 })
 
 test('text search narrows results', async ({ page }) => {
