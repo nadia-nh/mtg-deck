@@ -1,6 +1,14 @@
 {
-  "fetchedAt": "2026-10-03T17:11:17.889Z",
+  "fetchedAt": "2026-10-04T02:53:13.128Z",
   "sets": [
+    {
+      "code": "rna",
+      "name": "Ravnica Allegiance",
+      "releasedAt": "2019-01-25",
+      "cardCount": 273,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1790568000",
+      "file": "sets/rna.json"
+    },
     {
       "code": "grn",
       "name": "Guilds of Ravnica",
