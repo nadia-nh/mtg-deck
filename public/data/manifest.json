@@ -7,7 +7,8 @@
       "releasedAt": "2019-05-03",
       "cardCount": 311,
       "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1790568000",
-      "file": "sets/war.json"
+      "file": "sets/war.json",
+      "icon": "sets/war.svg"
     },
     {
       "code": "rna",
@@ -15,7 +16,8 @@
       "releasedAt": "2019-01-25",
       "cardCount": 273,
       "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1790568000",
-      "file": "sets/rna.json"
+      "file": "sets/rna.json",
+      "icon": "sets/rna.svg"
     },
     {
       "code": "grn",
@@ -23,7 +25,8 @@
       "releasedAt": "2018-10-05",
       "cardCount": 273,
       "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1790568000",
-      "file": "sets/grn.json"
+      "file": "sets/grn.json",
+      "icon": "sets/grn.svg"
     }
   ]
 }

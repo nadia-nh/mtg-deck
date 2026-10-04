@@ -15,6 +15,7 @@ const manifest = {
       cardCount: 2,
       iconSvgUri: '',
       file: '',
+      icon: '',
     },
   ],
 }
