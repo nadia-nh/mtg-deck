@@ -30,3 +30,9 @@ export const MoonIcon = () => (
     <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
   </svg>
 )
+
+export const PlusIcon = () => (
+  <svg {...base}>
+    <path d="M12 5v14M5 12h14" />
+  </svg>
+)

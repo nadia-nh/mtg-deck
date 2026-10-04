@@ -1,4 +1,5 @@
 import type { Card } from '../domain/card'
+import { PlusIcon } from './icons'
 
 interface Props {
   cards: Card[]
@@ -53,7 +54,7 @@ export function CardGrid({ cards, onSelect, onAdd, deckCounts }: Props) {
                 title="Add to main deck"
                 onClick={() => onAdd(card)}
               >
-                +
+                <PlusIcon />
               </button>
             )}
           </li>

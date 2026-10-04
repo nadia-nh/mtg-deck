@@ -114,16 +114,47 @@
   position: absolute;
   right: var(--space-2);
   bottom: var(--space-2);
-  width: 36px;
-  height: 36px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
   border-radius: 50%;
-  border: 2px solid var(--surface);
-  background: var(--accent);
-  color: var(--accent-fg);
-  font-size: 1.4rem;
-  line-height: 1;
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  color: var(--fg);
   cursor: pointer;
   box-shadow: var(--shadow-raised);
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+.tile-add svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.5;
+}
+.tile-add:hover,
+.tile-add:focus-visible {
+  background: var(--accent);
+  border-color: transparent;
+  color: var(--accent-fg);
+  transform: scale(1.08);
+}
+.tile-add:active {
+  transform: scale(0.96);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tile-add {
+    transition: none;
+  }
+  .tile-add:hover,
+  .tile-add:focus-visible,
+  .tile-add:active {
+    transform: none;
+  }
 }
 .tile-add:focus-visible {
   outline-color: var(--fg);
