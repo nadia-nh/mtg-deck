@@ -9,6 +9,7 @@ import { DeckValidation } from './DeckValidation'
 import { ImportExport } from './ImportExport'
 import type { NameResolver } from '../../domain/decklist'
 import { useDeck } from './deckContext'
+import { Tabs } from '../Tabs'
 
 interface Props {
   resolve: ResolveCard
@@ -32,23 +33,43 @@ export function DeckPanel({ resolve, resolveForImport, onSelect }: Props) {
         </span>
       </summary>
 
-      {!storageOk && (
-        <p role="alert" className="storage-warning">
-          Your browser didn’t allow saving. Changes will be lost when you close this tab.
-        </p>
-      )}
-
-      <DeckManager />
-      <DeckValidation resolve={resolve} />
-      <DeckStats resolve={resolve} />
-
-      <h3>Main deck ({main})</h3>
-      <BasicLandButtons resolve={resolve} />
-      <DeckList zone="main" resolve={resolve} onSelect={onSelect} />
-      <h3>Sideboard ({side})</h3>
-      <DeckList zone="side" resolve={resolve} onSelect={onSelect} />
-
-      <ImportExport resolve={resolve} resolveForImport={resolveForImport} />
+      <Tabs
+        label="Deck sections"
+        className="deck-tabs"
+        header={
+          // Pinned with the tab list on desktop, so the deck, format and validity stay in view.
+          <>
+            {!storageOk && (
+              <p role="alert" className="storage-warning">
+                Your browser didn’t allow saving. Changes will be lost when you close this tab.
+              </p>
+            )}
+            <DeckManager />
+            <DeckValidation resolve={resolve} />
+          </>
+        }
+        tabs={[
+          {
+            id: 'cards',
+            label: 'Cards',
+            content: (
+              <>
+                <h3>Main deck ({main})</h3>
+                <BasicLandButtons resolve={resolve} />
+                <DeckList zone="main" resolve={resolve} onSelect={onSelect} />
+                <h3>Sideboard ({side})</h3>
+                <DeckList zone="side" resolve={resolve} onSelect={onSelect} />
+              </>
+            ),
+          },
+          { id: 'stats', label: 'Stats', content: <DeckStats resolve={resolve} /> },
+          {
+            id: 'io',
+            label: 'Import / export',
+            content: <ImportExport resolve={resolve} resolveForImport={resolveForImport} />,
+          },
+        ]}
+      />
     </details>
   )
 }

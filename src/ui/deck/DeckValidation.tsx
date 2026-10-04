@@ -35,7 +35,8 @@ export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
           : `✗ ${errorCount} ${errorCount === 1 ? 'problem' : 'problems'} for ${format.name}`}
       </p>
       {issues.length > 0 && (
-        <ul className="issues">
+        // Capped height and scrollable, so focusable for keyboard scrolling.
+        <ul className="issues" tabIndex={0} aria-label="Deck problems">
           {issues.map((issue) => (
             <li key={`${issue.code}:${issue.cardName ?? ''}`} className={issue.severity}>
               {issue.message}

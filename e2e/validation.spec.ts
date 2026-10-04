@@ -28,13 +28,16 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
 
   await expect(page.getByTestId('deck-counts')).toHaveText('60 main · 0 side')
   await expect(validity).toHaveText('✓ Valid for Pioneer')
+  const panel = page.locator('.deck-panel')
+  await panel.getByRole('tab', { name: 'Stats' }).click()
   const stats = page.getByRole('region', { name: 'Deck statistics' })
   await expect(stats).toContainText('34lands')
   await expect(stats).toContainText('26spells')
   await expect(page.getByTestId('deck-price')).toHaveText(/^\$\d+\.\d{2}$/)
 
   // Dropping below 60 is an error. (A 5th copy can't be added at all; see deck.spec.)
-  await page.locator('.deck-panel').getByRole('button', { name: 'Remove one Mountain' }).click()
+  await panel.getByRole('tab', { name: 'Cards' }).click()
+  await panel.getByRole('button', { name: 'Remove one Mountain' }).click()
   await expect(validity).toHaveText('✗ 1 problem for Pioneer')
   await expect(page.locator('.issues')).toContainText('Main deck has 59 cards; needs at least 60.')
 

@@ -46,9 +46,62 @@
   color: var(--danger);
 }
 .issues {
+  max-height: 6.5em;
+  overflow-y: auto;
   margin: 0;
   padding-left: 18px;
   font-size: var(--text-md);
+}
+
+/* ---- Tabs ---- */
+
+.tablist {
+  display: flex;
+  gap: var(--space-1);
+  margin-top: var(--space-3);
+  border-bottom: 1px solid var(--border);
+}
+/* Desktop: the panel scrolls on its own, so pin the deck controls and tabs at its top.
+   The negative top cancels the panel's padding so scrolled rows don't peek out above. */
+@media (min-width: 1101px) {
+  .deck-tabs .tabs-head {
+    position: sticky;
+    top: calc(-1 * var(--space-3));
+    z-index: 1;
+    padding-top: var(--space-3);
+    background: var(--surface);
+  }
+  .deck-tabs .tabs-head > :first-child {
+    margin-top: 0;
+  }
+}
+.tablist [role='tab'] {
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font: inherit;
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+}
+.tablist [role='tab']:hover {
+  color: var(--fg);
+}
+.tablist [role='tab'][aria-selected='true'] {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+}
+.tabpanel:focus-visible {
+  outline-offset: 2px;
+}
+.deck-tabs .tabpanel > h3:first-child {
+  margin-top: var(--space-3);
+}
+.deck-tabs .import-export {
+  margin-top: var(--space-3);
 }
 .issues li.warning {
   color: var(--muted);
@@ -224,18 +277,12 @@
 
 /* ---- Import / export ---- */
 
-.import-export {
-  margin-top: var(--space-4);
-  border-top: 1px solid var(--border);
-  padding-top: var(--space-3);
-}
-.import-export summary {
-  font-weight: 600;
-}
 .import-export section {
   display: grid;
   gap: var(--space-2);
-  margin-top: var(--space-3);
+}
+.import-export section + section {
+  margin-top: var(--space-4);
 }
 .import-export textarea {
   font: var(--text-md) / 1.4 var(--font-mono);

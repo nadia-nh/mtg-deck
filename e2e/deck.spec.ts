@@ -52,6 +52,71 @@ test('a fifth copy cannot be added; removing one re-enables adding', async ({ pa
   await expect(counts).toHaveText('3 main · 0 side')
 })
 
+test('deck panel tabs switch with the keyboard and keep validity pinned', async ({ page }) => {
+  await page.goto('/')
+  const panel = page.locator('.deck-panel')
+  const tabs = panel.getByRole('tablist', { name: 'Deck sections' })
+  const cards = tabs.getByRole('tab', { name: 'Cards' })
+  await expect(cards).toHaveAttribute('aria-selected', 'true')
+  await expect(panel.getByRole('tabpanel', { name: 'Cards' })).toContainText('Main deck (0)')
+
+  await cards.focus()
+  await page.keyboard.press('ArrowRight')
+  const stats = tabs.getByRole('tab', { name: 'Stats' })
+  await expect(stats).toBeFocused()
+  await expect(stats).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByRole('region', { name: 'Deck statistics' })).toBeVisible()
+  await expect(panel.getByRole('tabpanel', { name: 'Cards' })).toBeHidden()
+
+  await page.keyboard.press('End')
+  await expect(tabs.getByRole('tab', { name: 'Import / export' })).toBeFocused()
+  await expect(panel.getByRole('region', { name: 'Import decklist' })).toBeVisible()
+
+  // The format and validity line stay outside the tabs, visible on every tab.
+  await expect(page.getByTestId('validity')).toBeVisible()
+  await expect(panel.getByRole('combobox', { name: /^Format/ })).toBeVisible()
+})
+
+test('on desktop the deck header and tabs stay pinned while the list scrolls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 800 })
+  await page.addInitScript(() => {
+    const deck = {
+      id: 'big',
+      name: 'Big deck',
+      formatId: 'casual',
+      createdAt: '2026-10-04T00:00:00Z',
+      updatedAt: '2026-10-04T00:00:00Z',
+      main: {
+        'Boros Challenger': 4,
+        'Legion Warboss': 4,
+        'Skyknight Legionnaire': 4,
+        'Lava Coil': 4,
+        'Conclave Tribunal': 4,
+        'Sure Strike': 4,
+        'Sacred Foundry': 4,
+        'Boros Guildgate': 4,
+        Mountain: 14,
+        Plains: 14,
+      },
+      side: { 'Justice Strike': 2 },
+    }
+    localStorage.setItem('mtg-deck-builder:decks', JSON.stringify({ version: 1, decks: [deck] }))
+    localStorage.setItem('mtg-deck-builder:active-deck', deck.id)
+  })
+  await page.goto('/')
+  const panel = page.locator('.deck-panel')
+  await expect(panel.getByRole('button', { name: 'Justice Strike', exact: true })).toBeAttached()
+  await panel.evaluate((el) => (el.scrollTop = el.scrollHeight))
+
+  const panelTop = (await panel.boundingBox())!.y
+  for (const pinned of [page.getByTestId('validity'), panel.getByRole('tablist')]) {
+    const box = (await pinned.boundingBox())!
+    expect(box.y).toBeGreaterThanOrEqual(panelTop)
+    expect(box.y).toBeLessThan(panelTop + 400)
+  }
+  await expect(panel.getByRole('button', { name: 'Justice Strike', exact: true })).toBeInViewport()
+})
+
 test('basic land quick-add', async ({ page }) => {
   await page.goto('/')
   const basics = page.getByRole('group', { name: 'Add basic land' })

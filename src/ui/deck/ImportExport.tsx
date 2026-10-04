@@ -68,9 +68,7 @@ export function ImportExport({ resolve, resolveForImport }: Props) {
   }
 
   return (
-    <details className="import-export">
-      <summary>Import / export</summary>
-
+    <div className="import-export">
       <section aria-label="Import decklist">
         <label className="field">
           <span>Paste a decklist (Arena or MTGO)</span>
@@ -137,6 +135,6 @@ export function ImportExport({ resolve, resolveForImport }: Props) {
           </button>
         </div>
       </section>
-    </details>
+    </div>
   )
 }
