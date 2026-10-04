@@ -366,7 +366,7 @@ footer {
   font-weight: normal;
 }
 .legality-legal {
-  color: #1f8a4c;
+  color: #17713d;
 }
 .legality-banned {
   color: #c0392b;
@@ -602,7 +602,7 @@ button {
   font-weight: 600;
 }
 .validity.ok {
-  color: #1f8a4c;
+  color: #17713d;
 }
 .validity.bad {
   color: #c0392b;
