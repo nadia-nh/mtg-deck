@@ -623,3 +623,94 @@ button {
     color: #ff7b6e;
   }
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.deck-stats {
+  margin-top: 12px;
+}
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+.curve {
+  margin: 12px 0 0;
+}
+.curve figcaption {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.curve-plot {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  height: 84px;
+}
+.curve-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+.curve-track {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+}
+.curve-bar {
+  width: 70%;
+  max-width: 18px;
+  background: var(--accent);
+  border-radius: 4px 4px 0 0;
+}
+.curve-col:hover .curve-bar {
+  filter: brightness(1.15);
+}
+.curve-tick {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.pip-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.85rem;
+}
+.pip-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pip-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}

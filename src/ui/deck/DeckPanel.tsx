@@ -3,6 +3,7 @@ import type { Card } from '../../domain/card'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import { BasicLandButtons } from './BasicLandButtons'
 import { DeckList } from './DeckList'
+import { DeckStats } from './DeckStats'
 import { DeckValidation } from './DeckValidation'
 import { useDeck } from './deckContext'
 
@@ -34,6 +35,7 @@ export function DeckPanel({ resolve, onSelect }: Props) {
       )}
 
       <DeckValidation resolve={resolve} />
+      <DeckStats resolve={resolve} />
 
       <h3>Main deck ({main})</h3>
       <BasicLandButtons resolve={resolve} />

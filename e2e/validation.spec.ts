@@ -28,6 +28,10 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
 
   await expect(page.getByTestId('deck-counts')).toHaveText('60 main · 0 side')
   await expect(validity).toHaveText('✓ Valid for Pioneer')
+  const stats = page.getByRole('region', { name: 'Deck statistics' })
+  await expect(stats).toContainText('34lands')
+  await expect(stats).toContainText('26spells')
+  await expect(page.getByTestId('deck-price')).toHaveText(/^\$\d+\.\d{2}$/)
 
   // A 5th copy is an error.
   await page.locator('.deck-panel').getByRole('button', { name: 'Add one Lava Coil' }).click()
