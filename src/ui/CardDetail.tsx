@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Card, CardFace, Legality } from '../domain/card'
 import type { Zone } from '../domain/deck'
-import { ManaCost } from './mana/ManaCost'
+import { ManaCost, RulesText } from './mana/ManaCost'
 
 const FORMATS: [key: string, label: string][] = [
   ['standard', 'Standard'],
@@ -43,7 +43,11 @@ function FaceText({ face, showName }: { face: FaceFields; showName: boolean }) {
         </p>
       )}
       <p className="type-line">{face.typeLine}</p>
-      {face.oracleText && <p className="oracle">{face.oracleText}</p>}
+      {face.oracleText && (
+        <p className="oracle">
+          <RulesText text={face.oracleText} />
+        </p>
+      )}
       {stats && <p className="stats">{stats}</p>}
     </div>
   )

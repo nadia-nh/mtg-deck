@@ -31,3 +31,12 @@ test('close button closes the dialog', async ({ page }) => {
   await dialog.getByRole('button', { name: 'Close' }).click()
   await expect(dialog).toBeHidden()
 })
+
+test('rules text shows mana symbols with labels', async ({ page }) => {
+  await page.goto("/?q=firemind's research")
+  await page.getByRole('button', { name: "Firemind's Research", exact: true }).click()
+  const oracle = page.getByRole('dialog').locator('.oracle')
+  await expect(oracle.getByRole('img', { name: 'blue' })).toHaveCount(1)
+  await expect(oracle.getByRole('img', { name: 'red' })).toHaveCount(1)
+  await expect(oracle).not.toContainText('{')
+})
