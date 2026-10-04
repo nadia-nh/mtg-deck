@@ -1,6 +1,8 @@
 # UI improvement plan
 
-> **Status:** Phase A and Phase B are done (except set symbols in B3). Next: set symbols, then C1.
+> **Status:** Phase A and Phase B are done. Set symbols show in the detail view; List view
+> (C2) will reuse `<SetIcon>`. Not done: the set filter is a native `<select>`, which can't
+> show icons, and deck rows are keyed by name, so they have no single set. Next: C1.
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art

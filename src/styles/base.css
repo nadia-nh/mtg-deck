@@ -224,3 +224,18 @@ button {
     clip: rect(0 0 0 0);
   }
 }
+
+.set-icon {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  background: currentColor;
+  mask: var(--set-icon) center / contain no-repeat;
+}
+@media (forced-colors: active) {
+  .set-icon {
+    forced-color-adjust: none;
+    background: CanvasText;
+  }
+}

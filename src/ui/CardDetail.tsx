@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import type { Card, CardFace, Legality } from '../domain/card'
 import type { Zone } from '../domain/deck'
 import { ManaCost, RulesText } from './mana/ManaCost'
+import { SetIcon } from './SetIcon'
 
 const FORMATS: [key: string, label: string][] = [
   ['standard', 'Standard'],
@@ -109,8 +110,8 @@ export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd }: Props) 
             )}
 
             <p className="meta">
-              {card.setName} · #{card.collectorNumber} ·{' '}
-              <span className="rarity">{card.rarity}</span>
+              <SetIcon code={card.set} name={card.setName} /> {card.setName} · #
+              {card.collectorNumber} · <span className="rarity">{card.rarity}</span>
             </p>
 
             {onAdd && (
