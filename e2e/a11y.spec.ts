@@ -19,6 +19,17 @@ test('card detail dialog has no WCAG A/AA violations', async ({ page }) => {
   expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
 })
 
+for (const colorScheme of ['light', 'dark'] as const) {
+  test(`list view has no violations (${colorScheme})`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme })
+    await page.goto('/?g=izzet&sort=price')
+    await page.getByRole('group', { name: 'View' }).getByLabel('List').check()
+    await page.getByRole('button', { name: 'Add Niv-Mizzet, Parun to deck' }).click()
+    const { violations } = await scan(page).include('.card-table-wrap').analyze()
+    expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
+  })
+}
+
 test('forced dark theme has no violations', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' })
   await page.goto('/')

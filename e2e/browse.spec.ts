@@ -103,6 +103,43 @@ test('density toggle switches to small tiles and is remembered', async ({ page }
   await expect(grid).toHaveAttribute('data-density', 'small')
 })
 
+test('list view: one row per card, sortable headers, add and open details', async ({ page }) => {
+  await page.goto('/?g=izzet&r=rare')
+  const n = await count(page)
+  await page.getByRole('group', { name: 'View' }).getByLabel('List').check()
+  const table = page.getByRole('table', { name: 'Cards', exact: true })
+  await expect(table.getByRole('row')).toHaveCount(n + 1) // + header row
+
+  // Clicking a header sorts by that column, through the same URL state as the dropdown.
+  await table.getByRole('button', { name: 'Price' }).click()
+  await expect(page).toHaveURL(/sort=price/)
+  await expect(table.getByRole('columnheader', { name: /Price/ })).toHaveAttribute(
+    'aria-sort',
+    'descending',
+  )
+  await expect(page.getByRole('combobox', { name: 'Sort by' })).toHaveValue('price')
+  const prices = await table
+    .locator('tbody .row-price')
+    .evaluateAll((els) => els.map((el) => Number(el.textContent!.replace(/[^\d.]/g, '') || -1)))
+  expect(prices).toEqual([...prices].sort((a, b) => b - a))
+
+  await table.getByRole('button', { name: 'Name' }).click()
+  const names = await table.locator('tbody th').allTextContents()
+  expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
+
+  await table.getByRole('button', { name: 'Add Niv-Mizzet, Parun to deck' }).click()
+  await expect(page.getByTestId('deck-counts')).toHaveText('1 main · 0 side')
+  await expect(table.getByLabel('1 in deck')).toBeVisible()
+
+  await table.getByRole('button', { name: 'Niv-Mizzet, Parun', exact: true }).click()
+  await expect(page.getByRole('dialog', { name: 'Niv-Mizzet, Parun' })).toBeVisible()
+
+  // The choice is remembered.
+  await page.keyboard.press('Escape')
+  await page.reload()
+  await expect(page.getByRole('table', { name: 'Cards', exact: true })).toBeVisible()
+})
+
 test('text search narrows results', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('searchbox').fill('trophy')

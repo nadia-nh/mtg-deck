@@ -12,7 +12,7 @@ interface Props {
   deckCounts?: ReadonlyMap<string, number>
   /** Copy limit per card; the + button is disabled once the deck holds the maximum. */
   copyAllowance?: (card: Card) => CopyAllowance
-  density?: Density
+  density?: Exclude<Density, 'list'>
 }
 
 export function CardGrid({

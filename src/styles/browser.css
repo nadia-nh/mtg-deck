@@ -264,3 +264,138 @@
   font-size: var(--text-md);
   pointer-events: none;
 }
+
+/* ---- List view ---- */
+
+.card-table-wrap {
+  position: relative; /* keeps visually-hidden header text inside the scroll area */
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.card-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-md);
+}
+.card-table th,
+.card-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+.card-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.card-table thead th {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.card-table thead button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.card-table thead button:hover,
+.card-table th[aria-sort] button {
+  color: var(--fg);
+}
+.sort-arrow {
+  font-size: 0.7em;
+}
+.card-table tbody tr:hover {
+  background: var(--bg);
+}
+.card-table tbody th {
+  font-weight: 400;
+}
+.row-name {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+}
+.row-name:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.row-type {
+  color: var(--muted);
+}
+.row-set,
+.row-price {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.row-price {
+  text-align: right;
+}
+.row-add {
+  white-space: nowrap;
+  text-align: right;
+}
+.row-count {
+  margin-right: var(--space-2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.row-add-button {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  vertical-align: middle;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.row-add-button svg {
+  width: 15px;
+  height: 15px;
+  stroke-width: 2.5;
+}
+.row-add-button:not(:disabled):hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+.row-add-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+@media (max-width: 640px) {
+  .card-table .col-optional,
+  .row-set-text {
+    display: none;
+  }
+  /* Long costs (split cards) wrap instead of widening the table. */
+  .card-table .mana-cost {
+    flex-wrap: wrap;
+    max-width: 7.5em;
+  }
+  .card-table th,
+  .card-table td {
+    padding: var(--space-2);
+  }
+}

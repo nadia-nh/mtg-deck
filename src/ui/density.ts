@@ -1,11 +1,11 @@
 /**
- * How the card results are shown: large or small tiles.
+ * How the card results are shown: large tiles, small tiles, or a table.
  * Remembered per browser; storage failures fall back to the default.
  */
-export type Density = 'large' | 'small'
+export type Density = 'large' | 'small' | 'list'
 
 export const DENSITY_KEY = 'mtg-deck:density'
-export const DENSITIES: Density[] = ['large', 'small']
+export const DENSITIES: Density[] = ['large', 'small', 'list']
 const DEFAULT: Density = 'large'
 
 type KV = Pick<Storage, 'getItem' | 'setItem'>

@@ -3,6 +3,7 @@ import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
 import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
+import { CardTable } from './CardTable'
 import { loadDensity, saveDensity, type Density } from './density'
 import type { CopyAllowance } from './deck/deckContext'
 import { FilterPanel } from './FilterPanel'
@@ -56,14 +57,26 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
           density={density}
           onDensityChange={changeDensity}
         />
-        <CardGrid
-          density={density}
-          cards={results}
-          onSelect={onSelect}
-          onAdd={onAdd}
-          deckCounts={deckCounts}
-          copyAllowance={copyAllowance}
-        />
+        {density === 'list' ? (
+          <CardTable
+            cards={results}
+            sort={state.sort}
+            onSort={(sort) => setState({ ...state, sort })}
+            onSelect={onSelect}
+            onAdd={onAdd}
+            deckCounts={deckCounts}
+            copyAllowance={copyAllowance}
+          />
+        ) : (
+          <CardGrid
+            density={density}
+            cards={results}
+            onSelect={onSelect}
+            onAdd={onAdd}
+            deckCounts={deckCounts}
+            copyAllowance={copyAllowance}
+          />
+        )}
       </section>
     </div>
   )

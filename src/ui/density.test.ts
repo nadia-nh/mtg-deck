@@ -15,6 +15,8 @@ describe('density preference', () => {
     expect(loadDensity(s)).toBe('large')
     saveDensity('small', s)
     expect(loadDensity(s)).toBe('small')
+    saveDensity('list', s)
+    expect(loadDensity(s)).toBe('list')
   })
 
   test('ignores junk and survives blocked storage', () => {
