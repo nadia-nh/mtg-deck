@@ -4,7 +4,8 @@
 > (C2) will reuse `<SetIcon>`. Not done: the set filter is a native `<select>`, which can't
 > show icons, and deck rows are keyed by name, so they have no single set. C1 (filter chips,
 > with sort moved into the results toolbar) and C2 (Large / Small / List, with set symbols in
-> List) are done. Next: Phase D (C3 virtualization waits for 2,000+ cards).
+> List) are done. D1 (deck panel tabs, with the deck controls pinned on desktop) is done.
+> Next: D2 (C3 virtualization waits for 2,000+ cards).
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
