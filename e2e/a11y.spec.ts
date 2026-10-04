@@ -19,6 +19,14 @@ test('card detail dialog has no WCAG A/AA violations', async ({ page }) => {
   expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
 })
 
+test('forced dark theme has no violations', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'light' })
+  await page.goto('/')
+  await page.getByRole('group', { name: 'Theme' }).getByLabel('Dark').check()
+  const { violations } = await scan(page).analyze()
+  expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
+})
+
 test.describe('dark mode', () => {
   test.use({ colorScheme: 'dark' })
   test('no contrast violations', async ({ page }) => {
