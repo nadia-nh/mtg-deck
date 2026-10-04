@@ -1,8 +1,17 @@
 import { useLayoutEffect, useRef } from 'react'
 import type { SetEntry } from '../data/manifest'
 import { describeFilter } from '../domain/describeFilter'
+import type { SortKey } from '../domain/search'
 import type { BrowseState } from './filterParams'
 import { XIcon } from './icons'
+
+const SORT_LABELS: Record<SortKey, string> = {
+  number: 'Collector number',
+  name: 'Name',
+  cmc: 'Mana value',
+  price: 'Price (high → low)',
+  rarity: 'Rarity',
+}
 
 interface Props {
   state: BrowseState
@@ -11,7 +20,7 @@ interface Props {
   onChange: (next: BrowseState) => void
 }
 
-/** Result count plus one removable chip per active filter, and "Clear all". */
+/** Result count, one removable chip per active filter, "Clear all", and the sort order. */
 export function ResultsToolbar({ state, sets, count, onChange }: Props) {
   const chips = describeFilter(state.filter, (code) => sets.find((s) => s.code === code)?.name)
   const listRef = useRef<HTMLUListElement>(null)
@@ -71,6 +80,19 @@ export function ResultsToolbar({ state, sets, count, onChange }: Props) {
           </button>
         </>
       )}
+      <label className="toolbar-sort">
+        <span>Sort by</span>
+        <select
+          value={state.sort}
+          onChange={(e) => onChange({ ...state, sort: e.target.value as SortKey })}
+        >
+          {Object.entries(SORT_LABELS).map(([k, label]) => (
+            <option key={k} value={k}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </label>
     </div>
   )
 }

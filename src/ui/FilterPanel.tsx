@@ -8,18 +8,9 @@ import {
   type CardFilter,
   type CardType,
   type Guild,
-  type SortKey,
 } from '../domain/search'
 import { COLOR_NAMES } from '../domain/describeFilter'
 import type { BrowseState } from './filterParams'
-
-const SORT_LABELS: Record<SortKey, string> = {
-  number: 'Collector number',
-  name: 'Name',
-  cmc: 'Mana value',
-  price: 'Price (high → low)',
-  rarity: 'Rarity',
-}
 
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1)
 
@@ -204,20 +195,6 @@ export function FilterPanel({ state, sets, onChange }: Props) {
           onChange={(e) => setFilter({ allPrintings: e.target.checked || undefined })}
         />
         Show all printings
-      </label>
-
-      <label className="field">
-        <span>Sort by</span>
-        <select
-          value={state.sort}
-          onChange={(e) => onChange({ ...state, sort: e.target.value as SortKey })}
-        >
-          {Object.entries(SORT_LABELS).map(([k, label]) => (
-            <option key={k} value={k}>
-              {label}
-            </option>
-          ))}
-        </select>
       </label>
 
       <button

@@ -72,6 +72,20 @@ test('active filter chips: remove one, then clear all', async ({ page }) => {
   await expect(page).toHaveURL(/\/$/)
 })
 
+test('sort lives in the results toolbar and survives "Clear all"', async ({ page }) => {
+  await page.goto('/?r=mythic')
+  await page.getByRole('combobox', { name: 'Sort by' }).selectOption('name')
+  await expect(page).toHaveURL(/sort=name/)
+  const names = await page
+    .locator('.card-tile img')
+    .evaluateAll((els) => els.map((el) => el.getAttribute('alt')!))
+  expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b)))
+
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(page).toHaveURL(/\?sort=name$/)
+  await expect(page.getByRole('combobox', { name: 'Sort by' })).toHaveValue('name')
+})
+
 test('text search narrows results', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('searchbox').fill('trophy')
