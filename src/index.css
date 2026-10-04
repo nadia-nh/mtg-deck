@@ -255,3 +255,128 @@ footer {
 .empty {
   color: var(--muted);
 }
+
+/* ---- Card detail dialog ---- */
+
+.card-detail {
+  width: min(920px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--fg);
+}
+.card-detail::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+.detail-body {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+@media (max-width: 680px) {
+  .detail-body {
+    grid-template-columns: 1fr;
+  }
+}
+.detail-images {
+  display: grid;
+  gap: 12px;
+}
+.detail-images img {
+  width: 100%;
+  height: auto;
+  border-radius: 4.75% / 3.5%;
+}
+.detail-header {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.detail-header h2 {
+  margin: 0;
+}
+.detail-header .mana {
+  font-size: 0.6em;
+  font-weight: normal;
+  color: var(--muted);
+}
+.close {
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.face-text + .face-text {
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+  padding-top: 8px;
+}
+.face-text p:first-child {
+  margin-top: 0;
+}
+.face-text p {
+  margin: 4px 0;
+}
+.type-line,
+.meta,
+.muted {
+  color: var(--muted);
+}
+.oracle {
+  white-space: pre-line;
+}
+.mana {
+  font-family: ui-monospace, monospace;
+  font-size: 0.9em;
+}
+.rarity {
+  text-transform: capitalize;
+}
+.legalities {
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+.legalities caption {
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.legalities th,
+.legalities td {
+  text-align: left;
+  padding: 3px 16px 3px 0;
+  font-weight: normal;
+}
+.legality-legal {
+  color: #1f8a4c;
+}
+.legality-banned {
+  color: #c0392b;
+}
+.legality-not_legal {
+  color: var(--muted);
+}
+@media (prefers-color-scheme: dark) {
+  .legality-legal {
+    color: #5fd38d;
+  }
+  .legality-banned {
+    color: #ff7b6e;
+  }
+}
+.links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
