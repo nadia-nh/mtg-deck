@@ -1,6 +1,16 @@
 import { createContext, useContext } from 'react'
 import type { Deck, Zone } from '../../domain/deck'
 
+export interface CopyAllowance {
+  limit: number
+  left: number
+  formatName: string
+}
+
+/** Explains a disabled add button, e.g. "Pioneer allows 4 copies; the deck has them all." */
+export const limitReachedText = ({ limit, formatName }: CopyAllowance) =>
+  `${formatName} allows ${limit === 1 ? '1 copy' : `${limit} copies`}; the deck has them all.`
+
 export interface DeckActions {
   decks: Deck[]
   active: Deck
@@ -16,6 +26,12 @@ export interface DeckActions {
   duplicate(id: string): void
   rename(name: string): void
   setFormat(formatId: string): void
+  /**
+   * The active format's copy limit for a card name (main + sideboard) and how many more
+   * copies fit. Unknown cards can't be checked, so they report Infinity.
+   */
+  copyAllowance(name: string): CopyAllowance
+  /** Adds up to `n` copies, stopping at the format's copy limit. */
   addCard(zone: Zone, name: string, n?: number): void
   removeCard(zone: Zone, name: string, n?: number): void
   setCount(zone: Zone, name: string, qty: number): void

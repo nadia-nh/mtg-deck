@@ -3,6 +3,7 @@ import type { Card, CardFace, Legality } from '../domain/card'
 import type { Zone } from '../domain/deck'
 import { ManaCost, RulesText } from './mana/ManaCost'
 import { SetIcon } from './SetIcon'
+import { limitReachedText, type CopyAllowance } from './deck/deckContext'
 
 const FORMATS: [key: string, label: string][] = [
   ['standard', 'Standard'],
@@ -61,9 +62,12 @@ interface Props {
   /** Copies of this card currently in the active deck, per zone. */
   inDeck?: { main: number; side: number }
   onAdd?: (zone: Zone) => void
+  /** Copy limit for this card; the add buttons are disabled once the deck holds the maximum. */
+  allowance?: CopyAllowance
 }
 
-export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd }: Props) {
+export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd, allowance }: Props) {
+  const full = allowance?.left === 0
   const ref = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
@@ -116,12 +120,28 @@ export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd }: Props) 
 
             {onAdd && (
               <div className="detail-actions">
-                <button type="button" className="primary" onClick={() => onAdd('main')}>
+                <button
+                  type="button"
+                  className="primary"
+                  disabled={full}
+                  aria-describedby={full ? 'copy-limit-note' : undefined}
+                  onClick={() => onAdd('main')}
+                >
                   Add to main deck{inDeck?.main ? ` (${inDeck.main})` : ''}
                 </button>
-                <button type="button" onClick={() => onAdd('side')}>
+                <button
+                  type="button"
+                  disabled={full}
+                  aria-describedby={full ? 'copy-limit-note' : undefined}
+                  onClick={() => onAdd('side')}
+                >
                   Add to sideboard{inDeck?.side ? ` (${inDeck.side})` : ''}
                 </button>
+                {full && allowance && (
+                  <p id="copy-limit-note" className="limit-note">
+                    {limitReachedText(allowance)}
+                  </p>
+                )}
               </div>
             )}
 

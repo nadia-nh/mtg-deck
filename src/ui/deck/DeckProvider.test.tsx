@@ -1,7 +1,11 @@
 import { act, renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { describe, expect, test } from 'vitest'
+import { CardsContext, type CardsState } from '../../data/cardsContext'
+import { buildCardDb } from '../../data/loadCards'
+import type { Card } from '../../domain/card'
 import { createDeckStore } from '../../storage/decks'
+import grn from '../../../public/data/sets/grn.json'
 import { DeckProvider } from './DeckProvider'
 import { useDeck } from './deckContext'
 
@@ -12,9 +16,16 @@ class MemoryStorage {
   removeItem = (k: string) => void this.data.delete(k)
 }
 
-function setup(mem = new MemoryStorage()) {
+const withCards: CardsState = {
+  status: 'ready',
+  db: buildCardDb({ fetchedAt: '', sets: [] }, grn as Card[]),
+}
+
+function setup(mem = new MemoryStorage(), cards: CardsState = { status: 'loading' }) {
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <DeckProvider store={createDeckStore(mem)}>{children}</DeckProvider>
+    <CardsContext.Provider value={cards}>
+      <DeckProvider store={createDeckStore(mem)}>{children}</DeckProvider>
+    </CardsContext.Provider>
   )
   return { mem, ...renderHook(() => useDeck(), { wrapper }) }
 }
@@ -92,6 +103,49 @@ describe('DeckProvider', () => {
       formatId: 'modern',
       main: { 'Lava Coil': 4 },
       side: { Mountain: 1 },
+    })
+  })
+
+  describe('copy limits', () => {
+    const limited = () => setup(new MemoryStorage(), withCards).result
+
+    test('adding stops at 4 copies across main and sideboard', () => {
+      const result = limited()
+      act(() => result.current.addCard('main', 'Lava Coil', 3))
+      act(() => result.current.addCard('side', 'Lava Coil', 3))
+      expect(result.current.active.main).toEqual({ 'Lava Coil': 3 })
+      expect(result.current.active.side).toEqual({ 'Lava Coil': 1 })
+      expect(result.current.copyAllowance('Lava Coil')).toEqual({
+        limit: 4,
+        left: 0,
+        formatName: 'Pioneer',
+      })
+
+      act(() => result.current.addCard('main', 'Lava Coil'))
+      expect(result.current.active.main).toEqual({ 'Lava Coil': 3 })
+    })
+
+    test('setCount is clamped to the limit; moving and removing still work', () => {
+      const result = limited()
+      act(() => result.current.setCount('main', 'Lava Coil', 9))
+      expect(result.current.active.main).toEqual({ 'Lava Coil': 4 })
+      act(() => result.current.moveCard('main', 'side', 'Lava Coil'))
+      act(() => result.current.removeCard('main', 'Lava Coil'))
+      expect(result.current.copyAllowance('Lava Coil').left).toBe(1)
+    })
+
+    test('basic lands are unlimited', () => {
+      const result = limited()
+      act(() => result.current.addCard('main', 'Mountain', 30))
+      expect(result.current.active.main).toEqual({ Mountain: 30 })
+      expect(result.current.copyAllowance('Mountain').left).toBe(Infinity)
+    })
+
+    test('import is not clamped, so validation can report the problem', () => {
+      const result = limited()
+      act(() => result.current.replaceCards({ 'Lava Coil': 6 }, {}))
+      expect(result.current.active.main).toEqual({ 'Lava Coil': 6 })
+      expect(result.current.copyAllowance('Lava Coil').left).toBe(0)
     })
   })
 })

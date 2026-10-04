@@ -26,7 +26,7 @@ function DataStatus({ db }: { db: CardDb }) {
 }
 
 function Workspace({ db }: { db: CardDb }) {
-  const { active, addCard } = useDeck()
+  const { active, addCard, copyAllowance } = useDeck()
   const [selected, setSelected] = useState<Card | null>(null)
   const resolve = useCallback((name: string) => findByName(db, name), [db])
   const resolveForImport = useCallback((name: string) => resolveCardName(db, name), [db])
@@ -40,6 +40,7 @@ function Workspace({ db }: { db: CardDb }) {
           onSelect={setSelected}
           onAdd={(card) => addCard('main', card.name)}
           deckCounts={deckCounts}
+          copyAllowance={(card) => copyAllowance(card.name)}
         />
         <DeckPanel resolve={resolve} resolveForImport={resolveForImport} onSelect={setSelected} />
       </div>
@@ -53,6 +54,7 @@ function Workspace({ db }: { db: CardDb }) {
             : undefined
         }
         onAdd={(zone) => selected && addCard(zone, selected.name)}
+        allowance={selected ? copyAllowance(selected.name) : undefined}
       />
       <footer>
         <DataStatus db={db} />

@@ -76,7 +76,9 @@ button {
   cursor: pointer;
 }
 .btn:disabled,
-.manager-actions button:disabled {
+.manager-actions button:disabled,
+.detail-actions button:disabled,
+.qty-controls button:disabled {
   opacity: 0.5;
   cursor: default;
 }

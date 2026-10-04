@@ -136,14 +136,19 @@
   height: 18px;
   stroke-width: 2.5;
 }
-.tile-add:hover,
+.tile-add:not(:disabled):hover,
 .tile-add:focus-visible {
   background: var(--accent);
   border-color: transparent;
   color: var(--accent-fg);
   transform: scale(1.08);
 }
-.tile-add:active {
+.tile-add:disabled {
+  opacity: 0.5;
+  cursor: default;
+  box-shadow: none;
+}
+.tile-add:not(:disabled):active {
   transform: scale(0.96);
 }
 @media (prefers-reduced-motion: reduce) {

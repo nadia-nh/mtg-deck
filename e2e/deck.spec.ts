@@ -28,6 +28,30 @@ test('add cards from the grid and the detail dialog, edit counts, persist', asyn
   await expect(page.getByTestId('deck-counts')).toHaveText('2 main · 2 side')
 })
 
+test('a fifth copy cannot be added; removing one re-enables adding', async ({ page }) => {
+  await page.goto('/?q=lava coil')
+  const counts = page.getByTestId('deck-counts')
+  const add = page.getByRole('button', { name: 'Add Lava Coil to deck' })
+  for (let i = 0; i < 4; i++) await add.click()
+  await expect(counts).toHaveText('4 main · 0 side')
+  await expect(add).toBeDisabled()
+  await expect(add).toHaveAttribute('title', 'Pioneer allows 4 copies; the deck has them all.')
+
+  const panel = page.locator('.deck-panel')
+  await expect(panel.getByRole('button', { name: 'Add one Lava Coil' })).toBeDisabled()
+
+  await page.getByRole('button', { name: 'Lava Coil', exact: true }).first().click()
+  const dialog = page.getByRole('dialog')
+  const toSide = dialog.getByRole('button', { name: 'Add to sideboard' })
+  await expect(toSide).toBeDisabled()
+  await expect(toSide).toHaveAccessibleDescription(/Pioneer allows 4 copies/)
+  await page.keyboard.press('Escape')
+
+  await panel.getByRole('button', { name: 'Remove one Lava Coil' }).click()
+  await expect(add).toBeEnabled()
+  await expect(counts).toHaveText('3 main · 0 side')
+})
+
 test('basic land quick-add', async ({ page }) => {
   await page.goto('/')
   const basics = page.getByRole('group', { name: 'Add basic land' })

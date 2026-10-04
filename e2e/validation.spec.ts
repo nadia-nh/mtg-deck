@@ -33,10 +33,10 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
   await expect(stats).toContainText('26spells')
   await expect(page.getByTestId('deck-price')).toHaveText(/^\$\d+\.\d{2}$/)
 
-  // A 5th copy is an error.
-  await page.locator('.deck-panel').getByRole('button', { name: 'Add one Lava Coil' }).click()
+  // Dropping below 60 is an error. (A 5th copy can't be added at all; see deck.spec.)
+  await page.locator('.deck-panel').getByRole('button', { name: 'Remove one Mountain' }).click()
   await expect(validity).toHaveText('✗ 1 problem for Pioneer')
-  await expect(page.locator('.issues')).toContainText('5 copies of Lava Coil; maximum is 4.')
+  await expect(page.locator('.issues')).toContainText('Main deck has 59 cards; needs at least 60.')
 
   // Switching format re-validates: most GRN cards aren't Standard-legal.
   await page.getByRole('combobox', { name: /^Format/ }).selectOption('standard')
@@ -44,5 +44,5 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
 
   await page.reload()
   await expect(page.getByRole('combobox', { name: /^Format/ })).toHaveValue('standard')
-  await expect(page.getByTestId('deck-counts')).toHaveText('61 main · 0 side')
+  await expect(page.getByTestId('deck-counts')).toHaveText('59 main · 0 side')
 })

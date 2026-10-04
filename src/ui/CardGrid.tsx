@@ -1,4 +1,5 @@
 import type { Card } from '../domain/card'
+import { limitReachedText, type CopyAllowance } from './deck/deckContext'
 import { PlusIcon } from './icons'
 
 interface Props {
@@ -8,9 +9,11 @@ interface Props {
   onAdd?: (card: Card) => void
   /** Copies of each card name already in the deck (main + side). */
   deckCounts?: ReadonlyMap<string, number>
+  /** Copy limit per card; the + button is disabled once the deck holds the maximum. */
+  copyAllowance?: (card: Card) => CopyAllowance
 }
 
-export function CardGrid({ cards, onSelect, onAdd, deckCounts }: Props) {
+export function CardGrid({ cards, onSelect, onAdd, deckCounts, copyAllowance }: Props) {
   if (cards.length === 0) {
     return <p className="empty">No cards match these filters.</p>
   }
@@ -18,6 +21,7 @@ export function CardGrid({ cards, onSelect, onAdd, deckCounts }: Props) {
     <ul className="card-grid" aria-label="Cards">
       {cards.map((card) => {
         const inDeck = deckCounts?.get(card.name) ?? 0
+        const allowance = copyAllowance?.(card)
         return (
           <li key={card.id} className="card-cell">
             <button
@@ -51,7 +55,8 @@ export function CardGrid({ cards, onSelect, onAdd, deckCounts }: Props) {
                 type="button"
                 className="tile-add"
                 aria-label={`Add ${card.name} to deck`}
-                title="Add to main deck"
+                title={allowance?.left === 0 ? limitReachedText(allowance) : 'Add to main deck'}
+                disabled={allowance?.left === 0}
                 onClick={() => onAdd(card)}
               >
                 <PlusIcon />
