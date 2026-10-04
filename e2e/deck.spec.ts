@@ -52,6 +52,31 @@ test('a fifth copy cannot be added; removing one re-enables adding', async ({ pa
   await expect(counts).toHaveText('3 main · 0 side')
 })
 
+test('deck panel tabs switch with the keyboard and keep validity pinned', async ({ page }) => {
+  await page.goto('/')
+  const panel = page.locator('.deck-panel')
+  const tabs = panel.getByRole('tablist', { name: 'Deck sections' })
+  const cards = tabs.getByRole('tab', { name: 'Cards' })
+  await expect(cards).toHaveAttribute('aria-selected', 'true')
+  await expect(panel.getByRole('tabpanel', { name: 'Cards' })).toContainText('Main deck (0)')
+
+  await cards.focus()
+  await page.keyboard.press('ArrowRight')
+  const stats = tabs.getByRole('tab', { name: 'Stats' })
+  await expect(stats).toBeFocused()
+  await expect(stats).toHaveAttribute('aria-selected', 'true')
+  await expect(page.getByRole('region', { name: 'Deck statistics' })).toBeVisible()
+  await expect(panel.getByRole('tabpanel', { name: 'Cards' })).toBeHidden()
+
+  await page.keyboard.press('End')
+  await expect(tabs.getByRole('tab', { name: 'Import / export' })).toBeFocused()
+  await expect(panel.getByRole('region', { name: 'Import decklist' })).toBeVisible()
+
+  // The format and validity line stay outside the tabs, visible on every tab.
+  await expect(page.getByTestId('validity')).toBeVisible()
+  await expect(panel.getByRole('combobox', { name: /^Format/ })).toBeVisible()
+})
+
 test('basic land quick-add', async ({ page }) => {
   await page.goto('/')
   const basics = page.getByRole('group', { name: 'Add basic land' })

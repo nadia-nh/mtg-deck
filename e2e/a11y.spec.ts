@@ -30,6 +30,17 @@ for (const colorScheme of ['light', 'dark'] as const) {
   })
 }
 
+test('deck panel tabs have no violations on any tab', async ({ page }) => {
+  await page.goto('/?q=lava coil')
+  await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
+  const panel = page.locator('.deck-panel')
+  for (const name of ['Cards', 'Stats', 'Import / export']) {
+    await panel.getByRole('tab', { name }).click()
+    const { violations } = await scan(page).include('.deck-panel').analyze()
+    expect(violations.map((v) => `${name}: ${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
+  }
+})
+
 test('forced dark theme has no violations', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'light' })
   await page.goto('/')
