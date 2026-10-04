@@ -36,3 +36,35 @@ test('basic land quick-add', async ({ page }) => {
   await expect(page.getByTestId('deck-counts')).toHaveText('4 main · 0 side')
   await expect(page.locator('.deck-panel').getByRole('region', { name: 'Lands (4)' })).toBeVisible()
 })
+
+test('create, rename, duplicate, switch, and delete decks', async ({ page }) => {
+  await page.goto('/')
+  const panel = page.locator('.deck-panel')
+  const picker = panel.getByRole('combobox', { name: /^Deck/ })
+  const name = panel.getByRole('textbox', { name: 'Name' })
+
+  await name.fill('Izzet Spells')
+  await name.press('Enter')
+  await expect(picker.locator('option:checked')).toHaveText('Izzet Spells')
+  await panel.getByRole('button', { name: 'Add Island' }).click()
+
+  await panel.getByRole('button', { name: 'Duplicate' }).click()
+  await expect(name).toHaveValue('Izzet Spells (copy)')
+  await expect(page.getByTestId('deck-counts')).toHaveText('1 main · 0 side')
+
+  await panel.getByRole('button', { name: 'New deck' }).click()
+  await expect(name).toHaveValue('Untitled deck')
+  await expect(page.getByTestId('deck-counts')).toHaveText('0 main · 0 side')
+  await expect(picker.locator('option')).toHaveCount(3)
+
+  await panel.getByRole('button', { name: 'Delete…' }).click()
+  await panel.getByRole('button', { name: 'Yes, delete' }).click()
+  await expect(picker.locator('option')).toHaveCount(2)
+
+  await picker.selectOption({ label: 'Izzet Spells' })
+  await expect(name).toHaveValue('Izzet Spells')
+
+  await page.reload()
+  await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue('Izzet Spells')
+  await expect(panel.getByRole('combobox', { name: /^Deck/ }).locator('option')).toHaveCount(2)
+})

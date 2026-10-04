@@ -714,3 +714,29 @@ button {
   border-radius: 50%;
   border: 1px solid var(--border);
 }
+
+.deck-manager {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.manager-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+}
+.manager-actions button {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+}
+.manager-actions button.danger {
+  background: #c0392b;
+  border-color: #c0392b;
+  color: #fff;
+}
