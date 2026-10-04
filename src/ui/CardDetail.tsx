@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Card, CardFace, Legality } from '../domain/card'
+import type { Zone } from '../domain/deck'
 
 const FORMATS: [key: string, label: string][] = [
   ['standard', 'Standard'],
@@ -52,9 +53,12 @@ interface Props {
   card: Card | null
   pricesAsOf: string
   onClose: () => void
+  /** Copies of this card currently in the active deck, per zone. */
+  inDeck?: { main: number; side: number }
+  onAdd?: (zone: Zone) => void
 }
 
-export function CardDetail({ card, pricesAsOf, onClose }: Props) {
+export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd }: Props) {
   const ref = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
@@ -105,6 +109,17 @@ export function CardDetail({ card, pricesAsOf, onClose }: Props) {
               {card.setName} · #{card.collectorNumber} ·{' '}
               <span className="rarity">{card.rarity}</span>
             </p>
+
+            {onAdd && (
+              <div className="detail-actions">
+                <button type="button" className="primary" onClick={() => onAdd('main')}>
+                  Add to main deck{inDeck?.main ? ` (${inDeck.main})` : ''}
+                </button>
+                <button type="button" onClick={() => onAdd('side')}>
+                  Add to sideboard{inDeck?.side ? ` (${inDeck.side})` : ''}
+                </button>
+              </div>
+            )}
 
             <section aria-label="Price">
               <p>

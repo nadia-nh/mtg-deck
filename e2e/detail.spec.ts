@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('opens card details with text, legality, and links', async ({ page }) => {
   await page.goto('/?q=trophy')
-  await page.getByRole('button', { name: "Assassin's Trophy" }).click()
+  await page.getByRole('button', { name: "Assassin's Trophy", exact: true }).click()
 
   const dialog = page.getByRole('dialog', { name: "Assassin's Trophy" })
   await expect(dialog).toBeVisible()
@@ -24,7 +24,7 @@ test('opens card details with text, legality, and links', async ({ page }) => {
 
 test('close button closes the dialog', async ({ page }) => {
   await page.goto('/?q=doom whisperer')
-  await page.getByRole('button', { name: 'Doom Whisperer' }).click()
+  await page.getByRole('button', { name: 'Doom Whisperer', exact: true }).click()
   const dialog = page.getByRole('dialog', { name: 'Doom Whisperer' })
   await expect(dialog).toContainText('6/6')
   await dialog.getByRole('button', { name: 'Close' }).click()

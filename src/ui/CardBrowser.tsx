@@ -9,9 +9,11 @@ import { useBrowseState } from './useBrowseState'
 interface Props {
   db: CardDb
   onSelect?: (card: Card) => void
+  onAdd?: (card: Card) => void
+  deckCounts?: ReadonlyMap<string, number>
 }
 
-export function CardBrowser({ db, onSelect }: Props) {
+export function CardBrowser({ db, onSelect, onAdd, deckCounts }: Props) {
   const [state, setState] = useBrowseState()
   // Filters start collapsed on narrow screens so cards are visible first.
   const [filtersOpen, setFiltersOpen] = useState(
@@ -38,7 +40,7 @@ export function CardBrowser({ db, onSelect }: Props) {
         <h2 id="results-heading" className="result-count" aria-live="polite">
           {results.length} {results.length === 1 ? 'card' : 'cards'}
         </h2>
-        <CardGrid cards={results} onSelect={onSelect} />
+        <CardGrid cards={results} onSelect={onSelect} onAdd={onAdd} deckCounts={deckCounts} />
       </section>
     </div>
   )

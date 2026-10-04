@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import type { CardDb } from './data/loadCards'
+import { useCallback, useMemo, useState } from 'react'
+import { findByName, type CardDb } from './data/loadCards'
 import type { Card } from './domain/card'
+import { copiesByName } from './domain/deck'
 import { CardsProvider } from './data/CardsProvider'
 import { useCards } from './data/cardsContext'
+import type { DeckStore } from './storage/decks'
 import { CardBrowser } from './ui/CardBrowser'
 import { CardDetail } from './ui/CardDetail'
+import { DeckPanel } from './ui/deck/DeckPanel'
+import { DeckProvider } from './ui/deck/DeckProvider'
+import { useDeck } from './ui/deck/deckContext'
 
 function DataStatus({ db }: { db: CardDb }) {
   const { cards, manifest } = db
@@ -18,21 +23,36 @@ function DataStatus({ db }: { db: CardDb }) {
   )
 }
 
-function Main() {
-  const state = useCards()
+function Workspace({ db }: { db: CardDb }) {
+  const { active, addCard } = useDeck()
   const [selected, setSelected] = useState<Card | null>(null)
-  if (state.status === 'loading') return <p>Loading cards…</p>
-  if (state.status === 'error') return <p role="alert">Couldn’t load card data: {state.error}</p>
+  const resolve = useCallback((name: string) => findByName(db, name), [db])
+  const deckCounts = useMemo(() => copiesByName(active), [active])
+
   return (
     <>
-      <CardBrowser db={state.db} onSelect={setSelected} />
+      <div className="workspace">
+        <CardBrowser
+          db={db}
+          onSelect={setSelected}
+          onAdd={(card) => addCard('main', card.name)}
+          deckCounts={deckCounts}
+        />
+        <DeckPanel resolve={resolve} onSelect={setSelected} />
+      </div>
       <CardDetail
         card={selected}
-        pricesAsOf={state.db.manifest.fetchedAt}
+        pricesAsOf={db.manifest.fetchedAt}
         onClose={() => setSelected(null)}
+        inDeck={
+          selected
+            ? { main: active.main[selected.name] ?? 0, side: active.side[selected.name] ?? 0 }
+            : undefined
+        }
+        onAdd={(zone) => selected && addCard(zone, selected.name)}
       />
       <footer>
-        <DataStatus db={state.db} />
+        <DataStatus db={db} />
         <p>
           Card data and images from <a href="https://scryfall.com">Scryfall</a>. Magic: The
           Gathering is © Wizards of the Coast; this is unofficial fan content.
@@ -42,15 +62,30 @@ function Main() {
   )
 }
 
-export default function App({ load }: { load?: () => Promise<CardDb> }) {
+function Main() {
+  const state = useCards()
+  if (state.status === 'loading') return <p>Loading cards…</p>
+  if (state.status === 'error') return <p role="alert">Couldn’t load card data: {state.error}</p>
+  return <Workspace db={state.db} />
+}
+
+export default function App({
+  load,
+  deckStore,
+}: {
+  load?: () => Promise<CardDb>
+  deckStore?: DeckStore
+}) {
   return (
     <CardsProvider load={load}>
-      <header className="app-header">
-        <h1>MTG Deck Builder</h1>
-      </header>
-      <main>
-        <Main />
-      </main>
+      <DeckProvider store={deckStore}>
+        <header className="app-header">
+          <h1>MTG Deck Builder</h1>
+        </header>
+        <main>
+          <Main />
+        </main>
+      </DeckProvider>
     </CardsProvider>
   )
 }

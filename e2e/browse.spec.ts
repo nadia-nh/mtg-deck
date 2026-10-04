@@ -9,7 +9,7 @@ test('filters by guild and restores the full list', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('#results-heading')).toHaveText('273 cards')
 
-  await page.getByLabel('Guild').selectOption('izzet')
+  await page.getByRole('combobox', { name: /^Guild/ }).selectOption('izzet')
   await expect(page).toHaveURL(/g=izzet/)
   const n = await count(page)
   expect(n).toBeGreaterThan(10)
