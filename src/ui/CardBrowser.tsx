@@ -5,6 +5,7 @@ import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
 import type { CopyAllowance } from './deck/deckContext'
 import { FilterPanel } from './FilterPanel'
+import { ResultsToolbar } from './ResultsToolbar'
 import { useBrowseState } from './useBrowseState'
 
 interface Props {
@@ -41,9 +42,12 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
         </details>
       </aside>
       <section aria-labelledby="results-heading">
-        <h2 id="results-heading" className="result-count" aria-live="polite">
-          {results.length} {results.length === 1 ? 'card' : 'cards'}
-        </h2>
+        <ResultsToolbar
+          state={state}
+          sets={db.manifest.sets}
+          count={results.length}
+          onChange={setState}
+        />
         <CardGrid
           cards={results}
           onSelect={onSelect}

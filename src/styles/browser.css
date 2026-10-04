@@ -49,12 +49,76 @@
 
 /* ---- Results ---- */
 
+.results-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
 .result-count {
   font-size: var(--text-base);
   font-weight: 600;
-  margin: 0 0 var(--space-3);
+  margin: 0 var(--space-2) 0 0;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+}
+/* Chips flow inline with the count and "Clear all"; role="list" keeps list semantics. */
+.filter-chips {
+  display: contents;
+  list-style: none;
+}
+.chip,
+.chip-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 28px;
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-md);
+  cursor: pointer;
+}
+.chip {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg);
+}
+.chip svg {
+  width: 14px;
+  height: 14px;
+  color: var(--muted);
+}
+.chip:hover {
+  border-color: var(--accent);
+}
+.chip:hover svg {
+  color: var(--fg);
+}
+.toolbar-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-left: auto;
+  font-size: var(--text-md);
+  color: var(--muted);
+}
+.toolbar-sort select {
+  font: inherit;
+  min-height: 28px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--fg);
+}
+.chip-clear {
+  padding: 0 var(--space-2);
+  border: 0;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 .empty {
   color: var(--muted);

@@ -30,7 +30,7 @@ test('forced dark theme has no violations', async ({ page }) => {
 test.describe('dark mode', () => {
   test.use({ colorScheme: 'dark' })
   test('no contrast violations', async ({ page }) => {
-    await page.goto('/')
+    await page.goto('/?g=izzet&r=rare') // includes filter chips
     const { violations } = await scan(page).analyze()
     expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
   })
