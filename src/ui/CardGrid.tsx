@@ -25,6 +25,7 @@ export function CardGrid({ cards, onSelect, onAdd, deckCounts }: Props) {
               onClick={() => onSelect?.(card)}
               data-colors={card.colors.join('')}
               data-identity={card.colorIdentity.join('')}
+              data-set={card.set}
             >
               {card.images ? (
                 <img

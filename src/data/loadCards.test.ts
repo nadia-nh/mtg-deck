@@ -64,3 +64,16 @@ describe('loadCards', () => {
     await expect(loadCards('/d/', fetchFn)).rejects.toThrow(/manifest\.json.*500/)
   })
 })
+
+describe('with the real GRN + RNA snapshot', () => {
+  test('cards in both sets resolve to the newest printing', async () => {
+    const grn = (await import('../../public/data/sets/grn.json')).default as Card[]
+    const rna = (await import('../../public/data/sets/rna.json')).default as Card[]
+    const db = buildCardDb(manifest, [...grn, ...rna])
+    expect(db.cards).toHaveLength(grn.length + rna.length)
+    expect(findByName(db, 'Mountain')?.set).toBe('rna')
+    expect(findByName(db, 'Gateway Plaza')?.set).toBe('rna')
+    expect(findByName(db, 'Lava Coil')?.set).toBe('grn')
+    expect(db.byName.get('Mountain')?.map((c) => c.set)).toEqual(['rna', 'grn'])
+  })
+})
