@@ -1,7 +1,8 @@
 # mtg-deck
 
-A Magic: The Gathering card browser and deck builder for the web. It starts with
-**Guilds of Ravnica**, and more sets and format rules can be added without touching the UI.
+A Magic: The Gathering card browser and deck builder for the web. It currently includes
+**Guilds of Ravnica** and **Ravnica Allegiance**; more sets and format rules can be added
+without touching the UI.
 
 - Browse and filter cards by text, color, guild, type, rarity, mana value, and set.
   Searches are kept in the URL, so you can bookmark or share them.
@@ -21,14 +22,14 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-| Script               | What it does                                                |
-| -------------------- | ----------------------------------------------------------- |
-| `npm run dev`        | Start the dev server                                        |
-| `npm run build`      | Type-check and build to `dist/`                             |
-| `npm test`           | Unit tests (Vitest)                                         |
-| `npm run e2e`        | Browser tests (Playwright; builds and serves the app first) |
-| `npm run lint`       | Lint (oxlint)                                               |
-| `npm run fetch-data` | Re-download card data from Scryfall                         |
+| Script               | What it does                                                                        |
+| -------------------- | ----------------------------------------------------------------------------------- |
+| `npm run dev`        | Start the dev server                                                                |
+| `npm run build`      | Type-check and build to `dist/`                                                     |
+| `npm test`           | Unit tests (Vitest)                                                                 |
+| `npm run e2e`        | Browser and accessibility tests (Playwright + axe; builds and serves the app first) |
+| `npm run lint`       | Lint (oxlint)                                                                       |
+| `npm run fetch-data` | Re-download card data from Scryfall                                                 |
 
 The first time you run the browser tests, run `npx playwright install chromium`.
 
