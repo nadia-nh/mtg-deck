@@ -95,11 +95,16 @@
 .chip:hover svg {
   color: var(--fg);
 }
+.toolbar-end {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
 .toolbar-sort {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  margin-left: auto;
   font-size: var(--text-md);
   color: var(--muted);
 }
@@ -131,6 +136,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: var(--space-3);
+}
+.card-grid[data-density='small'] {
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: var(--space-2);
 }
 .card-cell {
   position: relative;
@@ -227,6 +236,21 @@
 }
 .tile-add:focus-visible {
   outline-color: var(--fg);
+}
+.card-grid[data-density='small'] .tile-add {
+  right: var(--space-1);
+  bottom: var(--space-1);
+  width: 28px;
+  height: 28px;
+}
+.card-grid[data-density='small'] .tile-add svg {
+  width: 15px;
+  height: 15px;
+}
+.card-grid[data-density='small'] .tile-count {
+  left: var(--space-1);
+  bottom: var(--space-1);
+  font-size: var(--text-xs);
 }
 .tile-count {
   position: absolute;

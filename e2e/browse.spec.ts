@@ -86,6 +86,23 @@ test('sort lives in the results toolbar and survives "Clear all"', async ({ page
   await expect(page.getByRole('combobox', { name: 'Sort by' })).toHaveValue('name')
 })
 
+test('density toggle switches to small tiles and is remembered', async ({ page }) => {
+  await page.goto('/?r=mythic')
+  const grid = page.getByRole('list', { name: 'Cards' })
+  const view = page.getByRole('group', { name: 'View' })
+  await expect(view.getByLabel('Large cards')).toBeChecked()
+  const largeWidth = (await grid.locator('.card-tile').first().boundingBox())!.width
+
+  await view.getByLabel('Small cards').check()
+  await expect(grid).toHaveAttribute('data-density', 'small')
+  const smallWidth = (await grid.locator('.card-tile').first().boundingBox())!.width
+  expect(smallWidth).toBeLessThan(largeWidth * 0.8)
+
+  await page.reload()
+  await expect(page.getByRole('group', { name: 'View' }).getByLabel('Small cards')).toBeChecked()
+  await expect(grid).toHaveAttribute('data-density', 'small')
+})
+
 test('text search narrows results', async ({ page }) => {
   await page.goto('/')
   await page.getByRole('searchbox').fill('trophy')
