@@ -21,12 +21,12 @@ export function BasicLandButtons({ resolve }: { resolve: ResolveCard }) {
         <button
           key={name}
           type="button"
-          className={`pip pip-${color}`}
+          className="symbol-toggle"
           aria-label={`Add ${name}`}
           title={name}
           onClick={() => addCard('main', name)}
         >
-          {color}
+          <i className={`ms ms-cost ms-${color.toLowerCase()}`} aria-hidden="true" />
         </button>
       ))}
     </div>

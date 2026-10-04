@@ -72,7 +72,7 @@ export function DeckStats({ resolve }: { resolve: ResolveCard }) {
         <span className="muted">Mana symbols:</span>
         {COLORS.filter((c) => s.pips[c] > 0).map((c) => (
           <span key={c} className="pip-count" title={`${COLOR_NAMES[c]} mana symbols`}>
-            <span className={`pip-dot pip-${c}`} aria-hidden="true" />
+            <i className={`ms ms-cost ms-${c.toLowerCase()}`} aria-hidden="true" />
             <span>
               {s.pips[c]} <span className="visually-hidden">{COLOR_NAMES[c]}</span>
             </span>

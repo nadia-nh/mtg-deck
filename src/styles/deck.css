@@ -131,11 +131,8 @@
   align-items: center;
   gap: var(--space-1);
 }
-.pip-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 1px solid var(--border);
+.pip-count .ms {
+  font-size: 0.9em;
 }
 
 /* ---- Deck list ---- */
@@ -150,11 +147,12 @@
 .basic-lands span {
   margin-right: var(--space-1);
 }
-.basic-lands .pip {
-  width: 26px;
-  height: 26px;
-  font-size: var(--text-sm);
+.basic-lands .symbol-toggle {
+  width: 28px;
+  height: 28px;
+  font-size: 1.1rem;
   opacity: 1;
+  filter: none;
 }
 .deck-empty {
   font-size: var(--text-md);

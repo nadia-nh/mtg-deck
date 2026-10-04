@@ -10,7 +10,11 @@ test('filters by guild and restores the full list', async ({ page }) => {
   await page.goto('/')
   await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
 
-  await page.getByRole('combobox', { name: /^Guild/ }).selectOption('izzet')
+  await page.getByRole('button', { name: 'Izzet (Blue-Red)' }).click()
+  await expect(page.getByRole('button', { name: 'Izzet (Blue-Red)' })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await expect(page).toHaveURL(/g=izzet/)
   const n = await count(page)
   expect(n).toBeGreaterThan(10)
@@ -30,7 +34,10 @@ test('filters by guild and restores the full list', async ({ page }) => {
 
 test('URL params are applied on load (shareable searches)', async ({ page }) => {
   await page.goto('/?c=B&r=mythic&sort=name')
-  await expect(page.getByRole('button', { name: 'Black' })).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.getByRole('button', { name: 'Black', exact: true })).toHaveAttribute(
+    'aria-pressed',
+    'true',
+  )
   await expect(page.getByLabel('Mythic')).toBeChecked()
   const names = await page
     .locator('.card-tile img')

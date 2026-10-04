@@ -67,24 +67,24 @@ export function FilterPanel({ state, sets, onChange }: Props) {
             <button
               key={c}
               type="button"
-              className={`pip pip-${c}`}
+              className="symbol-toggle"
               aria-pressed={!!f.colors?.includes(c)}
               aria-label={COLOR_NAMES[c]}
               title={COLOR_NAMES[c]}
               onClick={() => setFilter({ colors: toggle(f.colors, c) })}
             >
-              {c}
+              <i className={`ms ms-cost ms-${c.toLowerCase()}`} aria-hidden="true" />
             </button>
           ))}
           <button
             type="button"
-            className="pip pip-C"
+            className="symbol-toggle"
             aria-pressed={!!f.colorless}
             aria-label="Colorless"
             title="Colorless"
             onClick={() => setFilter({ colorless: f.colorless ? undefined : true })}
           >
-            C
+            <i className="ms ms-cost ms-c" aria-hidden="true" />
           </button>
         </div>
         <div className="row">
@@ -107,20 +107,27 @@ export function FilterPanel({ state, sets, onChange }: Props) {
         </div>
       </fieldset>
 
-      <label className="field">
-        <span>Guild</span>
-        <select
-          value={f.guild ?? ''}
-          onChange={(e) => setFilter({ guild: (e.target.value || undefined) as Guild | undefined })}
-        >
-          <option value="">Any</option>
-          {Object.entries(GUILDS).map(([g, pair]) => (
-            <option key={g} value={g}>
-              {capitalize(g)} ({pair.join('')})
-            </option>
-          ))}
-        </select>
-      </label>
+      <fieldset>
+        <legend>Guild</legend>
+        <div className="guild-toggles">
+          {(Object.entries(GUILDS) as [Guild, readonly Color[]][]).map(([g, pair]) => {
+            const label = `${capitalize(g)} (${pair.map((c) => COLOR_NAMES[c]).join('-')})`
+            return (
+              <button
+                key={g}
+                type="button"
+                className="symbol-toggle guild"
+                aria-pressed={f.guild === g}
+                aria-label={label}
+                title={label}
+                onClick={() => setFilter({ guild: f.guild === g ? undefined : g })}
+              >
+                <i className={`ms ms-guild-${g}`} aria-hidden="true" />
+              </button>
+            )
+          })}
+        </div>
+      </fieldset>
 
       <fieldset>
         <legend>Type</legend>

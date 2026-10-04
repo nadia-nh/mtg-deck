@@ -34,10 +34,14 @@
 .inline-check {
   font-size: var(--text-md);
 }
-.color-toggles {
+.color-toggles,
+.guild-toggles {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-1);
+}
+.symbol-toggle.guild {
+  font-size: 1.3rem;
 }
 .reset {
   padding: var(--space-2);

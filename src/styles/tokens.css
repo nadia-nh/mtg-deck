@@ -23,15 +23,6 @@
   --warn-bg: light-dark(#fff3cd, #3a3000);
   --warn-fg: light-dark(#5c4400, #ffe08a);
 
-  /* Mana colors (pips are light in both themes, so text stays dark) */
-  --pip-W: #f8f1d4;
-  --pip-U: #a9d3f0;
-  --pip-B: #b9b0ad;
-  --pip-R: #f2a68b;
-  --pip-G: #9bcfa3;
-  --pip-C: #d4d0cb;
-  --pip-fg: #1d1d1f;
-
   /* Spacing: 4px scale */
   --space-1: 4px;
   --space-2: 8px;
