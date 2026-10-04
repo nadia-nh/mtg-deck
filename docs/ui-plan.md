@@ -89,6 +89,22 @@ no extra package is needed.
 A → B → C1–C2 → D → E → F → C3 → G. Roughly 20 small commits. C3 (virtualization) can wait until
 the card pool grows past about 2,000 cards, since today's ~850 still renders smoothly.
 
+## Future ideas (not scheduled)
+
+Requests from Nadia, kept here so they aren't lost. Each needs a short design pass before it
+becomes a numbered step.
+
+- **Mark cards as owned.** A per-browser collection (card name → copies owned), stored in
+  localStorage like decks. Possible UI: an "Owned" toggle/count in the detail dialog, an
+  "Owned only" browse filter, and "missing N cards" (with price) in the deck panel. Open
+  question: track owned per name (simpler, matches decks) or per printing (needed for
+  foils/alt-arts)?
+- **Random deck names.** New decks start with a random name (e.g. adjective + noun, or
+  guild-flavored once colors are known) instead of "Untitled deck". After a few cards are
+  added, offer a name based on the deck's colors (e.g. "Boros Aggro"), but **only if the
+  user hasn't edited the name** — store a `nameEdited` flag on the deck.
+- Import/export already covers Arena and MTGO formats; no work needed there.
+
 ## Open questions
 
 - **Visual deck view on phones:** stacked columns are too wide for phones. The plan shows a
