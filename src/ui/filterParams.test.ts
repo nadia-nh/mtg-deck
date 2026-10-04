@@ -16,6 +16,7 @@ describe('filter <-> URL params', () => {
         cmcMin: 1,
         cmcMax: 3,
         sets: ['grn'],
+        allPrintings: true,
       },
       sort: 'price',
     }

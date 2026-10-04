@@ -197,6 +197,15 @@ export function FilterPanel({ state, sets, onChange }: Props) {
         </label>
       )}
 
+      <label className="inline-check">
+        <input
+          type="checkbox"
+          checked={!!f.allPrintings}
+          onChange={(e) => setFilter({ allPrintings: e.target.checked || undefined })}
+        />
+        Show all printings
+      </label>
+
       <label className="field">
         <span>Sort by</span>
         <select

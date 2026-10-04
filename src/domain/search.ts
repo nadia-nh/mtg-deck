@@ -56,6 +56,8 @@ export interface CardFilter {
   cmcMin?: number
   cmcMax?: number
   sets?: string[]
+  /** Show every printing (alternate arts, reprints in several sets) instead of one per name. */
+  allPrintings?: boolean
 }
 
 export type SortKey = 'number' | 'name' | 'cmc' | 'price' | 'rarity'
@@ -132,4 +134,17 @@ const COMPARATORS: Record<SortKey, (a: Card, b: Card) => number> = {
 
 export function searchCards(cards: Card[], filter: CardFilter, sort: SortKey = 'number'): Card[] {
   return cards.filter((c) => matchesFilter(c, filter)).sort(COMPARATORS[sort])
+}
+
+/**
+ * Keeps one printing per card name: the one with the lowest `rank`.
+ * Preserves the order of the input, so apply it after sorting.
+ */
+export function uniqueByName(cards: Card[], rank: (card: Card) => number): Card[] {
+  const best = new Map<string, Card>()
+  for (const c of cards) {
+    const cur = best.get(c.name)
+    if (!cur || rank(c) < rank(cur)) best.set(c.name, c)
+  }
+  return cards.filter((c) => best.get(c.name) === c)
 }

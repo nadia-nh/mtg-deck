@@ -57,6 +57,8 @@ export function stateFromParams(p: URLSearchParams): BrowseState {
   const sets = list(p.get('s'))
   if (sets.length) filter.sets = sets
 
+  if (p.get('p') === 'all') filter.allPrintings = true
+
   const sort = pick([p.get('sort') ?? ''], SORTS)[0] ?? 'number'
   return { filter, sort }
 }
@@ -74,6 +76,7 @@ export function stateToParams({ filter: f, sort }: BrowseState): URLSearchParams
   if (f.cmcMin != null) p.set('cmin', String(f.cmcMin))
   if (f.cmcMax != null) p.set('cmax', String(f.cmcMax))
   if (f.sets?.length) p.set('s', f.sets.join(','))
+  if (f.allPrintings) p.set('p', 'all')
   if (sort !== 'number') p.set('sort', sort)
   return p
 }

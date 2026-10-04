@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
-import { searchCards } from '../domain/search'
+import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
 import { FilterPanel } from './FilterPanel'
 import { useBrowseState } from './useBrowseState'
@@ -19,10 +19,12 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts }: Props) {
   const [filtersOpen, setFiltersOpen] = useState(
     () => !window.matchMedia?.('(max-width: 760px)').matches,
   )
-  const results = useMemo(
-    () => searchCards(db.cards, state.filter, state.sort),
-    [db.cards, state.filter, state.sort],
-  )
+  const results = useMemo(() => {
+    const found = searchCards(db.cards, state.filter, state.sort)
+    if (state.filter.allPrintings) return found
+    // One tile per card name, using the preferred printing among the matches.
+    return uniqueByName(found, (c) => db.byName.get(c.name)?.indexOf(c) ?? 0)
+  }, [db, state.filter, state.sort])
 
   return (
     <div className="browser">

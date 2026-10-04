@@ -776,3 +776,7 @@ button {
   opacity: 0.5;
   cursor: default;
 }
+
+.inline-check {
+  font-size: 0.9rem;
+}

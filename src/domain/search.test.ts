@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
-import { cardTypes, collectorNumberValue, matchesFilter, searchCards } from './search'
+import { cardTypes, collectorNumberValue, matchesFilter, searchCards, uniqueByName } from './search'
 import grnJson from '../../public/data/sets/grn.json'
 
 // The committed GRN snapshot doubles as a realistic fixture.
@@ -114,5 +114,16 @@ describe('sorting', () => {
   test('collectorNumberValue', () => {
     expect(collectorNumberValue('12a')).toBe(12)
     expect(collectorNumberValue('★')).toBe(Number.MAX_SAFE_INTEGER)
+  })
+})
+
+describe('uniqueByName', () => {
+  test('keeps the best-ranked printing per name and preserves order', () => {
+    const a1 = { ...byName('Lava Coil'), id: 'a1' }
+    const a2 = { ...byName('Lava Coil'), id: 'a2' }
+    const b = { ...byName('Forest'), id: 'b' }
+    const rank = (c: Card) => (c.id === 'a2' ? 0 : 1)
+    expect(uniqueByName([b, a1, a2], rank).map((c) => c.id)).toEqual(['b', 'a2'])
+    expect(uniqueByName([], rank)).toEqual([])
   })
 })

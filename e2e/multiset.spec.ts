@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { manifest } from './manifest'
+import { manifest, uniqueNamesInSet } from './manifest'
 
 test.skip(manifest.sets.length < 2, 'needs at least two sets')
 
@@ -8,6 +8,8 @@ test('set filter limits results to one set', async ({ page }) => {
   const set = manifest.sets[0]
   await page.getByRole('combobox', { name: /^Set/ }).selectOption(set.code)
   await expect(page).toHaveURL(new RegExp(`s=${set.code}`))
+  await expect(page.locator('#results-heading')).toHaveText(`${uniqueNamesInSet(set.code)} cards`)
+  await page.getByLabel('Show all printings').check()
   await expect(page.locator('#results-heading')).toHaveText(`${set.cardCount} cards`)
   const sets = await page
     .locator('.card-tile')
