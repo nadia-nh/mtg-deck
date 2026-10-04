@@ -167,7 +167,7 @@ footer {
   font-weight: 700;
   color: var(--pip-fg);
   cursor: pointer;
-  opacity: 0.45;
+  opacity: 0.55;
 }
 .pip[aria-pressed='true'] {
   opacity: 1;

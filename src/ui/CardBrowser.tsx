@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
 import { searchCards } from '../domain/search'
@@ -13,6 +13,10 @@ interface Props {
 
 export function CardBrowser({ db, onSelect }: Props) {
   const [state, setState] = useBrowseState()
+  // Filters start collapsed on narrow screens so cards are visible first.
+  const [filtersOpen, setFiltersOpen] = useState(
+    () => !window.matchMedia?.('(max-width: 760px)').matches,
+  )
   const results = useMemo(
     () => searchCards(db.cards, state.filter, state.sort),
     [db.cards, state.filter, state.sort],
@@ -21,7 +25,11 @@ export function CardBrowser({ db, onSelect }: Props) {
   return (
     <div className="browser">
       <aside>
-        <details className="filters-drawer" open>
+        <details
+          className="filters-drawer"
+          open={filtersOpen}
+          onToggle={(e) => setFiltersOpen(e.currentTarget.open)}
+        >
           <summary>Filters</summary>
           <FilterPanel state={state} sets={db.manifest.sets} onChange={setState} />
         </details>
