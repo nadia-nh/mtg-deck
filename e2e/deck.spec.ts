@@ -77,6 +77,46 @@ test('deck panel tabs switch with the keyboard and keep validity pinned', async 
   await expect(panel.getByRole('combobox', { name: /^Format/ })).toBeVisible()
 })
 
+test('on desktop the deck header and tabs stay pinned while the list scrolls', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 800 })
+  await page.addInitScript(() => {
+    const deck = {
+      id: 'big',
+      name: 'Big deck',
+      formatId: 'casual',
+      createdAt: '2026-10-04T00:00:00Z',
+      updatedAt: '2026-10-04T00:00:00Z',
+      main: {
+        'Boros Challenger': 4,
+        'Legion Warboss': 4,
+        'Skyknight Legionnaire': 4,
+        'Lava Coil': 4,
+        'Conclave Tribunal': 4,
+        'Sure Strike': 4,
+        'Sacred Foundry': 4,
+        'Boros Guildgate': 4,
+        Mountain: 14,
+        Plains: 14,
+      },
+      side: { 'Justice Strike': 2 },
+    }
+    localStorage.setItem('mtg-deck-builder:decks', JSON.stringify({ version: 1, decks: [deck] }))
+    localStorage.setItem('mtg-deck-builder:active-deck', deck.id)
+  })
+  await page.goto('/')
+  const panel = page.locator('.deck-panel')
+  await expect(panel.getByRole('button', { name: 'Justice Strike', exact: true })).toBeAttached()
+  await panel.evaluate((el) => (el.scrollTop = el.scrollHeight))
+
+  const panelTop = (await panel.boundingBox())!.y
+  for (const pinned of [page.getByTestId('validity'), panel.getByRole('tablist')]) {
+    const box = (await pinned.boundingBox())!
+    expect(box.y).toBeGreaterThanOrEqual(panelTop)
+    expect(box.y).toBeLessThan(panelTop + 400)
+  }
+  await expect(panel.getByRole('button', { name: 'Justice Strike', exact: true })).toBeInViewport()
+})
+
 test('basic land quick-add', async ({ page }) => {
   await page.goto('/')
   const basics = page.getByRole('group', { name: 'Add basic land' })

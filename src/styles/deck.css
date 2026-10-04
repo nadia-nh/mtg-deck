@@ -55,13 +55,25 @@
 
 /* ---- Tabs ---- */
 
-.deck-tabs {
-  margin-top: var(--space-3);
-}
 .tablist {
   display: flex;
   gap: var(--space-1);
+  margin-top: var(--space-3);
   border-bottom: 1px solid var(--border);
+}
+/* Desktop: the panel scrolls on its own, so pin the deck controls and tabs at its top.
+   The negative top cancels the panel's padding so scrolled rows don't peek out above. */
+@media (min-width: 1101px) {
+  .deck-tabs .tabs-head {
+    position: sticky;
+    top: calc(-1 * var(--space-3));
+    z-index: 1;
+    padding-top: var(--space-3);
+    background: var(--surface);
+  }
+  .deck-tabs .tabs-head > :first-child {
+    margin-top: 0;
+  }
 }
 .tablist [role='tab'] {
   padding: var(--space-2) var(--space-3);

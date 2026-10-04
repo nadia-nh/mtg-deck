@@ -33,19 +33,21 @@ export function DeckPanel({ resolve, resolveForImport, onSelect }: Props) {
         </span>
       </summary>
 
-      <div className="deck-pinned">
-        {!storageOk && (
-          <p role="alert" className="storage-warning">
-            Your browser didn’t allow saving. Changes will be lost when you close this tab.
-          </p>
-        )}
-        <DeckManager />
-        <DeckValidation resolve={resolve} />
-      </div>
-
       <Tabs
         label="Deck sections"
         className="deck-tabs"
+        header={
+          // Pinned with the tab list on desktop, so the deck, format and validity stay in view.
+          <>
+            {!storageOk && (
+              <p role="alert" className="storage-warning">
+                Your browser didn’t allow saving. Changes will be lost when you close this tab.
+              </p>
+            )}
+            <DeckManager />
+            <DeckValidation resolve={resolve} />
+          </>
+        }
         tabs={[
           {
             id: 'cards',

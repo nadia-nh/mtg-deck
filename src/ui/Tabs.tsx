@@ -16,10 +16,13 @@ export function Tabs({
   label,
   tabs,
   className,
+  header,
 }: {
   label: string
   tabs: Tab[]
   className?: string
+  /** Rendered above the tab list, in the same `.tabs-head` box (so both can be pinned together). */
+  header?: ReactNode
 }) {
   const [selected, setSelected] = useState(0)
   const baseId = useId()
@@ -39,24 +42,27 @@ export function Tabs({
 
   return (
     <div className={className}>
-      <div role="tablist" aria-label={label} className="tablist" onKeyDown={onKeyDown}>
-        {tabs.map((tab, i) => (
-          <button
-            key={tab.id}
-            ref={(el) => {
-              tabRefs.current[i] = el
-            }}
-            type="button"
-            role="tab"
-            id={tabId(i)}
-            aria-selected={i === current}
-            aria-controls={panelId(i)}
-            tabIndex={i === current ? 0 : -1}
-            onClick={() => setSelected(i)}
-          >
-            {tab.label}
-          </button>
-        ))}
+      <div className="tabs-head">
+        {header}
+        <div role="tablist" aria-label={label} className="tablist" onKeyDown={onKeyDown}>
+          {tabs.map((tab, i) => (
+            <button
+              key={tab.id}
+              ref={(el) => {
+                tabRefs.current[i] = el
+              }}
+              type="button"
+              role="tab"
+              id={tabId(i)}
+              aria-selected={i === current}
+              aria-controls={panelId(i)}
+              tabIndex={i === current ? 0 : -1}
+              onClick={() => setSelected(i)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
       {tabs.map((tab, i) => (
         <div
