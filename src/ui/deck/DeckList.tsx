@@ -2,6 +2,7 @@ import type { Card } from '../../domain/card'
 import { groupEntries, type ResolveCard, type Zone } from '../../domain/deck'
 import { ManaCost } from '../mana/ManaCost'
 import { limitReachedText, useDeck } from './deckContext'
+import { useCardPreview } from './useCardPreview'
 
 const GROUP_LABEL: Record<string, string> = {
   Creature: 'Creatures',
@@ -25,6 +26,7 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
   const { active, addCard, removeCard, moveCard, copyAllowance } = useDeck()
   const groups = groupEntries(active, zone, resolve)
   const other: Zone = zone === 'main' ? 'side' : 'main'
+  const { show, hide, preview } = useCardPreview()
 
   if (groups.length === 0) {
     return (
@@ -71,7 +73,17 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
                     <button
                       type="button"
                       className="deck-card-name"
-                      onClick={() => onSelect?.(card)}
+                      onMouseEnter={(e) => show(card, e.currentTarget)}
+                      onMouseLeave={hide}
+                      // Keyboard focus only: a mouse click (or returning from the dialog) shouldn't pop it up.
+                      onFocus={(e) =>
+                        e.currentTarget.matches(':focus-visible') && show(card, e.currentTarget)
+                      }
+                      onBlur={hide}
+                      onClick={() => {
+                        hide()
+                        onSelect?.(card)
+                      }}
                     >
                       {name}
                     </button>
@@ -94,6 +106,7 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
           </ul>
         </section>
       ))}
+      {preview}
     </div>
   )
 }
