@@ -1,8 +1,17 @@
+import { useState } from 'react'
 import type { Card } from '../../domain/card'
 import { groupEntries, zoneTotal, type ResolveCard, type Zone } from '../../domain/deck'
-import { stackByManaValue } from '../../domain/stacks'
+import { STACK_BY, stackDeck, type StackBy } from '../../domain/stacks'
+import { loadChoice, saveChoice } from '../preference'
 import { useMediaQuery } from '../useMediaQuery'
 import { limitReachedText, useDeck } from './deckContext'
+
+const GROUP_BY_KEY = 'mtg-deck:deck-group-by'
+const GROUP_BY_LABELS: Record<StackBy, string> = {
+  mv: 'Mana value',
+  type: 'Type',
+  color: 'Color',
+}
 
 interface Props {
   resolve: ResolveCard
@@ -12,7 +21,7 @@ interface Props {
 
 /**
  * Full-width view of the active deck as card images, main deck then sideboard: stacked
- * columns by mana value where there is room, a plain image grid on phones.
+ * columns (by mana value, type or color) where there is room, a plain image grid on phones.
  */
 export function DeckView({ resolve, onSelect, onBrowse }: Props) {
   const { active } = useDeck()
@@ -20,15 +29,37 @@ export function DeckView({ resolve, onSelect, onBrowse }: Props) {
   const main = zoneTotal(active, 'main')
   const side = zoneTotal(active, 'side')
   const ZoneLayout = wide ? ZoneStacks : ZoneImages
+  const [by, setBy] = useState<StackBy>(() => loadChoice(GROUP_BY_KEY, STACK_BY, 'mv'))
 
   return (
     <section className="deck-view" aria-labelledby="deck-view-heading">
-      <h2 id="deck-view-heading">
-        {active.name}{' '}
-        <span className="muted">
-          {main} main · {side} side
-        </span>
-      </h2>
+      <div className="deck-view-head">
+        <h2 id="deck-view-heading">
+          {active.name}{' '}
+          <span className="muted">
+            {main} main · {side} side
+          </span>
+        </h2>
+        {wide && main + side > 0 && (
+          <label className="toolbar-sort">
+            <span>Group by</span>
+            <select
+              value={by}
+              onChange={(e) => {
+                const next = e.target.value as StackBy
+                setBy(next)
+                saveChoice(GROUP_BY_KEY, next)
+              }}
+            >
+              {STACK_BY.map((b) => (
+                <option key={b} value={b}>
+                  {GROUP_BY_LABELS[b]}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+      </div>
       {main + side === 0 ? (
         <p className="empty">
           This deck is empty.{' '}
@@ -41,6 +72,7 @@ export function DeckView({ resolve, onSelect, onBrowse }: Props) {
         <>
           <ZoneLayout
             zone="main"
+            by={by}
             label={`Main deck (${main})`}
             resolve={resolve}
             onSelect={onSelect}
@@ -48,6 +80,7 @@ export function DeckView({ resolve, onSelect, onBrowse }: Props) {
           {side > 0 && (
             <ZoneLayout
               zone="side"
+              by={by}
               label={`Sideboard (${side})`}
               resolve={resolve}
               onSelect={onSelect}
@@ -61,6 +94,8 @@ export function DeckView({ resolve, onSelect, onBrowse }: Props) {
 
 interface ZoneProps {
   zone: Zone
+  /** How the stacked layout groups its columns (the phone grid ignores it). */
+  by: StackBy
   label: string
   resolve: ResolveCard
   onSelect?: (card: Card) => void
@@ -89,17 +124,16 @@ function ZoneImages({ zone, label, resolve, onSelect }: ZoneProps) {
   )
 }
 
-/** Wide screens: one column per mana value (then lands), cards overlapped to show titles. */
-function ZoneStacks({ zone, label, resolve, onSelect }: ZoneProps) {
+/** Wide screens: one column per group, cards overlapped to show their titles. */
+function ZoneStacks({ zone, by, label, resolve, onSelect }: ZoneProps) {
   const { active, addCard, removeCard, copyAllowance } = useDeck()
-  const stacks = stackByManaValue(active, zone, resolve)
+  const stacks = stackDeck(active, zone, resolve, by)
   return (
     <>
       <h3>{label}</h3>
       <div className="stacks">
         {stacks.map((stack) => {
-          const title =
-            stack.key === 'lands' || stack.key === 'unknown' ? stack.label : `MV ${stack.label}`
+          const title = stack.label
           return (
             <section
               key={stack.key}

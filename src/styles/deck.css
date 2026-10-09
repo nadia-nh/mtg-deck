@@ -478,3 +478,14 @@
   opacity: 0.5;
   cursor: default;
 }
+.deck-view-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+}
+.deck-view-head h2 {
+  margin: 0;
+}
