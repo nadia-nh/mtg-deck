@@ -311,3 +311,59 @@
   border-radius: var(--radius-card);
   background: var(--border);
 }
+
+/* ---- Undo toast ---- */
+
+.toast-region {
+  position: fixed;
+  left: 50%;
+  bottom: var(--space-6);
+  z-index: 30;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--space-4));
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--fg);
+  color: var(--bg);
+  box-shadow: var(--shadow-lift);
+  font-size: var(--text-md);
+}
+.toast > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.toast button {
+  flex: none;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.toast-undo {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.toast-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+  line-height: 1;
+}
+.toast button:hover {
+  background: color-mix(in srgb, var(--bg) 15%, transparent);
+}
+.toast button:focus-visible {
+  outline-color: var(--bg);
+}

@@ -148,4 +148,87 @@ describe('DeckProvider', () => {
       expect(result.current.copyAllowance('Lava Coil').left).toBe(0)
     })
   })
+
+  describe('undo', () => {
+    test('card add, remove and move each undo, newest first, with a message', () => {
+      const { result } = setup()
+      act(() => result.current.addCard('main', 'Lava Coil', 3))
+      expect(result.current.lastChange?.message).toBe('Added 3 × Lava Coil')
+      act(() => result.current.moveCard('main', 'side', 'Lava Coil'))
+      expect(result.current.lastChange?.message).toBe('Moved Lava Coil to sideboard')
+      act(() => result.current.removeCard('side', 'Lava Coil'))
+      expect(result.current.lastChange?.message).toBe('Removed Lava Coil from sideboard')
+
+      act(() => result.current.undo())
+      expect(result.current.active.side).toEqual({ 'Lava Coil': 1 })
+      expect(result.current.lastChange).toBeNull()
+      act(() => result.current.undo())
+      expect(result.current.active.main).toEqual({ 'Lava Coil': 3 })
+      act(() => result.current.undo())
+      expect(result.current.active.main).toEqual({})
+      act(() => result.current.undo()) // empty history: no-op
+      expect(result.current.active.main).toEqual({})
+    })
+
+    test('undoing a card change keeps a later rename', () => {
+      const { result } = setup()
+      act(() => result.current.addCard('main', 'Lava Coil'))
+      act(() => result.current.rename('Burn'))
+      act(() => result.current.undo())
+      expect(result.current.active).toMatchObject({ name: 'Burn', main: {} })
+    })
+
+    test('no-op edits are not recorded', () => {
+      const { result } = setup(new MemoryStorage(), withCards)
+      act(() => result.current.removeCard('main', 'Lava Coil'))
+      expect(result.current.lastChange).toBeNull()
+      act(() => result.current.addCard('main', 'Lava Coil', 4))
+      act(() => result.current.dismissChange())
+      act(() => result.current.addCard('main', 'Lava Coil')) // at the limit
+      expect(result.current.lastChange).toBeNull()
+    })
+
+    test('import into this deck restores the previous cards', () => {
+      const { result } = setup()
+      act(() => result.current.addCard('main', 'Mountain', 20))
+      act(() => result.current.replaceCards({ 'Lava Coil': 4 }, { Plains: 1 }))
+      expect(result.current.lastChange?.message).toBe('Imported 5 cards')
+      act(() => result.current.undo())
+      expect(result.current.active).toMatchObject({ main: { Mountain: 20 }, side: {} })
+    })
+
+    test('import as a new deck is removed again, and the old deck reselected', () => {
+      const { result } = setup()
+      const firstId = result.current.active.id
+      act(
+        () => void result.current.create('Burn', 'pioneer', { main: { 'Lava Coil': 4 }, side: {} }),
+      )
+      expect(result.current.lastChange?.message).toBe('Imported Burn')
+      act(() => result.current.undo())
+      expect(result.current.decks.map((d) => d.name)).toEqual(['Untitled deck'])
+      expect(result.current.active.id).toBe(firstId)
+    })
+
+    test('a blank new deck is not undoable', () => {
+      const { result } = setup()
+      act(() => void result.current.create('Second'))
+      expect(result.current.lastChange).toBeNull()
+    })
+
+    test('deleting a deck can be undone, even the last one', () => {
+      const { result, mem } = setup()
+      act(() => result.current.rename('Boros'))
+      act(() => result.current.addCard('main', 'Lava Coil', 2))
+      const id = result.current.active.id
+      act(() => result.current.deleteDeck(id))
+      expect(result.current.lastChange?.message).toBe('Deleted Boros')
+      expect(result.current.active.name).toBe('Untitled deck') // auto-created blank
+
+      act(() => result.current.undo())
+      expect(result.current.decks.map((d) => d.name)).toEqual(['Boros'])
+      expect(result.current.active).toMatchObject({ id, main: { 'Lava Coil': 2 } })
+      // Persisted, not just in memory.
+      expect(setup(mem).result.current.active.name).toBe('Boros')
+    })
+  })
 })

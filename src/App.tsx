@@ -10,6 +10,7 @@ import { CardDetail } from './ui/CardDetail'
 import { DeckPanel } from './ui/deck/DeckPanel'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
+import { UndoToast } from './ui/deck/UndoToast'
 import { Logo } from './ui/Logo'
 import { ThemeToggle } from './ui/ThemeToggle'
 
@@ -56,6 +57,7 @@ function Workspace({ db }: { db: CardDb }) {
         onAdd={(zone) => selected && addCard(zone, selected.name)}
         allowance={selected ? copyAllowance(selected.name) : undefined}
       />
+      <UndoToast />
       <footer>
         <DataStatus db={db} />
         <p>
