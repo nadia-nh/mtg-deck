@@ -587,3 +587,19 @@
   border-radius: 50%;
   font-size: var(--text-lg);
 }
+.deck-sheet-header {
+  position: relative;
+  padding-top: var(--space-3);
+  touch-action: none; /* the header drags the sheet instead of scrolling the page */
+  cursor: grab;
+}
+.sheet-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 40px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--border);
+  transform: translateX(-50%);
+}

@@ -46,6 +46,34 @@ test('the bar opens the deck as a sheet; Esc and the close button return focus',
   await expect(bar(page)).toBeFocused()
 })
 
+test('dragging the sheet header down closes it; a short drag springs back', async ({ page }) => {
+  await page.goto('/')
+  await bar(page).click()
+  const sheet = page.getByRole('dialog', { name: /Untitled deck/ })
+  await expect(sheet).toBeVisible()
+  await expect(sheet).toHaveCSS('transform', 'none') // slide-up animation finished
+  const title = (await sheet.getByRole('heading', { level: 2 }).boundingBox())!
+  const x = title.x + 20
+  const y = title.y + title.height / 2
+
+  // Short, slow drag: stays open and returns to place.
+  await page.mouse.move(x, y)
+  await page.mouse.down()
+  await page.mouse.move(x, y + 40, { steps: 10 })
+  await page.waitForTimeout(200)
+  await page.mouse.up()
+  await expect(sheet).toBeVisible()
+  await expect(sheet).toHaveCSS('transform', 'none')
+
+  // Long drag: closes, and focus goes back to the bar.
+  await page.mouse.move(x, y)
+  await page.mouse.down()
+  await page.mouse.move(x, y + 200, { steps: 10 })
+  await page.mouse.up()
+  await expect(sheet).toBeHidden()
+  await expect(bar(page)).toBeFocused()
+})
+
 test('choosing a card in the sheet closes it and opens the card details', async ({ page }) => {
   await page.goto('/?q=lava coil')
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
