@@ -489,3 +489,101 @@
 .deck-view-head h2 {
   margin: 0;
 }
+
+/* ---- Phones and tablets: bottom deck bar + sheet ---- */
+
+.deck-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 15;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--deck-bar-h);
+  padding: var(--space-2) var(--space-4) calc(var(--space-2) + env(safe-area-inset-bottom));
+  border: 0;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: 0 -4px 12px rgb(0 0 0 / 0.12);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.deck-bar-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.deck-bar-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+.deck-bar-validity.ok {
+  color: var(--ok);
+}
+.deck-bar-validity.bad {
+  color: var(--danger);
+}
+/* Keep the page end and the Undo toast clear of the bar. */
+:root:has(.deck-bar) main {
+  padding-bottom: calc(var(--deck-bar-h) + env(safe-area-inset-bottom));
+}
+:root:has(.deck-bar) .toast-region {
+  bottom: calc(var(--deck-bar-h) + env(safe-area-inset-bottom) + var(--space-3));
+}
+
+.deck-sheet {
+  width: 100%;
+  max-width: 720px;
+  max-height: 90dvh;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: var(--surface);
+  color: var(--fg);
+  box-shadow: var(--shadow-lift);
+}
+.deck-sheet::backdrop {
+  background: var(--backdrop);
+}
+.deck-sheet[open] {
+  animation: sheet-up 0.2s ease-out;
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deck-sheet[open] {
+    animation: none;
+  }
+}
+.deck-sheet .deck-panel {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+}
+.deck-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.deck-sheet-header h2 {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+.deck-sheet-header .close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+}

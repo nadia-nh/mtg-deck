@@ -205,8 +205,9 @@ test.describe('deck list hover preview', () => {
 
     test('no preview; tapping the name opens the details', async ({ page }) => {
       await addTwo(page)
-      const panel = page.locator('.deck-panel')
-      await panel.locator('summary').first().tap()
+      // On phones the deck panel is in the bottom sheet.
+      await page.getByRole('button', { name: /^Open deck:/ }).tap()
+      const panel = page.getByRole('dialog').locator('.deck-panel')
       await panel.getByRole('button', { name: 'Lava Coil', exact: true }).tap()
       await expect(page.getByRole('dialog', { name: 'Lava Coil' })).toBeVisible()
       await expect(page.locator('.card-preview')).toHaveCount(0)

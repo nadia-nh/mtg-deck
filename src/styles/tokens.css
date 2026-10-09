@@ -61,6 +61,7 @@
   /* Layout */
   --page-max: 1600px;
   --header-h: 60px;
+  --deck-bar-h: 56px;
   --filters-width: 260px;
   --deck-width: 340px;
 }
