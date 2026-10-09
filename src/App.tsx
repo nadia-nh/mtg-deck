@@ -8,6 +8,8 @@ import type { DeckStore } from './storage/decks'
 import { CardBrowser } from './ui/CardBrowser'
 import { CardDetail } from './ui/CardDetail'
 import { DeckPanel } from './ui/deck/DeckPanel'
+import { MobileDeck } from './ui/deck/MobileDeck'
+import { useMediaQuery } from './ui/useMediaQuery'
 import { DeckView } from './ui/deck/DeckView'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
@@ -35,6 +37,8 @@ function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view
   const resolve = useCallback((name: string) => findByName(db, name), [db])
   const resolveForImport = useCallback((name: string) => resolveCardName(db, name), [db])
   const deckCounts = useMemo(() => copiesByName(active), [active])
+  // Below this width the deck panel moves into a bottom bar + sheet (it used to sit on top).
+  const narrow = useMediaQuery('(max-width: 1100px)')
 
   return (
     <>
@@ -50,7 +54,15 @@ function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view
             copyAllowance={(card) => copyAllowance(card.name)}
           />
         )}
-        <DeckPanel resolve={resolve} resolveForImport={resolveForImport} onSelect={setSelected} />
+        {narrow ? (
+          <MobileDeck
+            resolve={resolve}
+            resolveForImport={resolveForImport}
+            onSelect={setSelected}
+          />
+        ) : (
+          <DeckPanel resolve={resolve} resolveForImport={resolveForImport} onSelect={setSelected} />
+        )}
       </div>
       <CardDetail
         card={selected}

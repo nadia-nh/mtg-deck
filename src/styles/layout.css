@@ -105,8 +105,8 @@ footer {
   .workspace {
     grid-template-columns: minmax(0, 1fr);
   }
+  /* The deck panel now lives in the bottom sheet (MobileDeck), where it scrolls itself. */
   .workspace .deck-panel {
-    order: -1;
     position: static;
     max-height: none;
   }
