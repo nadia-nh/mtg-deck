@@ -8,7 +8,8 @@
 > (hover/focus card preview) are done. D3 (toasts with Undo, plus Ctrl/Cmd+Z) is done, so
 > Phase D is complete. E1 (Browse / Deck switch) and E2 (stacked mana-value columns; phones
 > keep an image grid) and E3 (group by mana value, type or color) are done, so Phase E is
-> complete. Next: F1 (C3 virtualization waits for 2,000+ cards).
+> complete. F1 and F2 (bottom deck bar and a swipeable sheet below 1100px) are done, so
+> Phase F is complete. Next: G1 (C3 virtualization waits for 2,000+ cards).
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
