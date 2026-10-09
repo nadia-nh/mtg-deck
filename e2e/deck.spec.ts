@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 test('add cards from the grid and the detail dialog, edit counts, persist', async ({ page }) => {
   await page.goto('/?q=lava coil')
@@ -115,6 +115,103 @@ test('on desktop the deck header and tabs stay pinned while the list scrolls', a
     expect(box.y).toBeLessThan(panelTop + 400)
   }
   await expect(panel.getByRole('button', { name: 'Justice Strike', exact: true })).toBeInViewport()
+})
+
+test.describe('deck list hover preview', () => {
+  const addTwo = async (page: Page) => {
+    for (const name of ['Lava Coil', 'Legion Warboss']) {
+      await page.goto(`/?q=${encodeURIComponent(name)}`)
+      await page.getByRole('button', { name: `Add ${name} to deck` }).click()
+    }
+  }
+
+  test('hover and keyboard focus show the card image; leaving or Escape hides it', async ({
+    page,
+  }) => {
+    await addTwo(page)
+    const panel = page.locator('.deck-panel')
+    const preview = page.locator('.card-preview')
+
+    await panel.getByRole('button', { name: 'Lava Coil', exact: true }).hover()
+    await expect(preview.getByRole('img', { name: 'Lava Coil' })).toBeVisible()
+    // Beside the panel, not over the name it describes.
+    const previewBox = (await preview.boundingBox())!
+    const panelBox = (await panel.boundingBox())!
+    expect(previewBox.x + previewBox.width).toBeLessThanOrEqual(panelBox.x)
+
+    await page.mouse.move(5, 5)
+    await expect(preview).toHaveCount(0)
+
+    // Keyboard: Tab from the Lava Coil row's "+" lands on its name.
+    await panel.getByRole('button', { name: 'Add one Lava Coil' }).focus()
+    await page.keyboard.press('Tab')
+    await expect(preview.getByRole('img', { name: 'Lava Coil' })).toBeVisible()
+    await page.keyboard.press('Escape')
+    await expect(preview).toHaveCount(0)
+  })
+
+  test('a keyboard-focused preview follows its name when the list scrolls, then hides out of view', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 700 })
+    await page.addInitScript(() => {
+      const deck = {
+        id: 'long',
+        name: 'Long deck',
+        formatId: 'casual',
+        createdAt: '2026-10-04T00:00:00Z',
+        updatedAt: '2026-10-04T00:00:00Z',
+        main: {
+          'Boros Challenger': 4,
+          'Legion Warboss': 4,
+          'Skyknight Legionnaire': 4,
+          'Lava Coil': 4,
+          'Conclave Tribunal': 4,
+          'Sure Strike': 4,
+          'Sacred Foundry': 4,
+          'Boros Guildgate': 4,
+          Mountain: 14,
+          Plains: 14,
+        },
+        side: { 'Justice Strike': 2 },
+      }
+      localStorage.setItem('mtg-deck-builder:decks', JSON.stringify({ version: 1, decks: [deck] }))
+      localStorage.setItem('mtg-deck-builder:active-deck', deck.id)
+    })
+    await page.goto('/')
+    const panel = page.locator('.deck-panel')
+    const name = panel.getByRole('button', { name: 'Sure Strike', exact: true })
+    await name.scrollIntoViewIfNeeded()
+    // Keyboard focus (a hovered name would rightly hide once scrolling moves it from the pointer).
+    await panel.getByRole('button', { name: 'Remove one Sure Strike' }).focus() // its + is disabled (4 copies)
+    await page.keyboard.press('Tab')
+    await expect(name).toBeFocused()
+    const preview = page.locator('.card-preview')
+    await expect(preview.getByRole('img', { name: 'Sure Strike' })).toBeVisible()
+
+    // A small scroll (e.g. keyboard focus scrolling a row into view) keeps it, re-anchored.
+    await panel.evaluate((el) => el.scrollBy(0, 60))
+    await page.waitForTimeout(100) // let the scroll event fire
+    await expect(preview.getByRole('img', { name: 'Sure Strike' })).toBeVisible()
+
+    // Once the name is scrolled out of the panel, the preview goes away.
+    // Scrolling to the bottom moves the name up under the pinned header: the preview goes.
+    await panel.evaluate((el) => (el.scrollTop = el.scrollHeight))
+    await expect(preview).toHaveCount(0)
+  })
+
+  test.describe('on a touch device', () => {
+    test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } })
+
+    test('no preview; tapping the name opens the details', async ({ page }) => {
+      await addTwo(page)
+      const panel = page.locator('.deck-panel')
+      await panel.locator('summary').first().tap()
+      await panel.getByRole('button', { name: 'Lava Coil', exact: true }).tap()
+      await expect(page.getByRole('dialog', { name: 'Lava Coil' })).toBeVisible()
+      await expect(page.locator('.card-preview')).toHaveCount(0)
+    })
+  })
 })
 
 test('basic land quick-add', async ({ page }) => {

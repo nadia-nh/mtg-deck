@@ -294,3 +294,20 @@
 .import-result p {
   margin: 2px 0;
 }
+
+/* ---- Hover preview ---- */
+
+.card-preview {
+  position: fixed;
+  z-index: 20;
+  pointer-events: none;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lift);
+}
+.card-preview img {
+  display: block;
+  width: 244px;
+  height: auto;
+  border-radius: var(--radius-card);
+  background: var(--border);
+}
