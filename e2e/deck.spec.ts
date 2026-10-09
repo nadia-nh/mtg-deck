@@ -186,6 +186,11 @@ test.describe('deck list hover preview', () => {
     await panel.getByRole('button', { name: 'Remove one Sure Strike' }).focus() // its + is disabled (4 copies)
     await page.keyboard.press('Tab')
     await expect(name).toBeFocused()
+    // Focus not obscured (WCAG 2.4.11): the focused row is below the pinned header.
+    const tabsBottom = await panel
+      .getByRole('tablist')
+      .evaluate((el) => el.getBoundingClientRect().bottom)
+    expect((await name.boundingBox())!.y).toBeGreaterThanOrEqual(tabsBottom)
     const preview = page.locator('.card-preview')
     await expect(preview.getByRole('img', { name: 'Sure Strike' })).toBeVisible()
 
