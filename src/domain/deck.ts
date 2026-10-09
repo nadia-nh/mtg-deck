@@ -144,6 +144,10 @@ export function colorPips(manaCost: string): Record<Color, number> {
 export const CURVE_BUCKETS = ['0', '1', '2', '3', '4', '5', '6', '7+'] as const
 export type CurveBucket = (typeof CURVE_BUCKETS)[number]
 
+/** The mana curve bucket for a (non-land) card: its mana value, with 7 and up together. */
+export const curveBucket = (card: Pick<Card, 'cmc'>): CurveBucket =>
+  (card.cmc >= 7 ? '7+' : String(Math.floor(card.cmc))) as CurveBucket
+
 export interface DeckStats {
   mainCount: number
   sideCount: number
@@ -182,8 +186,7 @@ export function deckStats(deck: Deck, resolve: ResolveCard): DeckStats {
     if (g === 'Land') {
       lands += n
     } else {
-      const bucket = (card.cmc >= 7 ? '7+' : String(Math.floor(card.cmc))) as CurveBucket
-      curve[bucket] += n
+      curve[curveBucket(card)] += n
       cmcSum += card.cmc * n
       nonLand += n
     }

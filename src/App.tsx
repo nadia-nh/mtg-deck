@@ -8,11 +8,14 @@ import type { DeckStore } from './storage/decks'
 import { CardBrowser } from './ui/CardBrowser'
 import { CardDetail } from './ui/CardDetail'
 import { DeckPanel } from './ui/deck/DeckPanel'
+import { DeckView } from './ui/deck/DeckView'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
 import { UndoToast } from './ui/deck/UndoToast'
 import { Logo } from './ui/Logo'
 import { ThemeToggle } from './ui/ThemeToggle'
+import { useView, type View } from './ui/view'
+import { ViewSwitch } from './ui/ViewSwitch'
 
 function DataStatus({ db }: { db: CardDb }) {
   const { cards, manifest } = db
@@ -26,7 +29,7 @@ function DataStatus({ db }: { db: CardDb }) {
   )
 }
 
-function Workspace({ db }: { db: CardDb }) {
+function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view: View) => void }) {
   const { active, addCard, copyAllowance } = useDeck()
   const [selected, setSelected] = useState<Card | null>(null)
   const resolve = useCallback((name: string) => findByName(db, name), [db])
@@ -36,13 +39,17 @@ function Workspace({ db }: { db: CardDb }) {
   return (
     <>
       <div className="workspace">
-        <CardBrowser
-          db={db}
-          onSelect={setSelected}
-          onAdd={(card) => addCard('main', card.name)}
-          deckCounts={deckCounts}
-          copyAllowance={(card) => copyAllowance(card.name)}
-        />
+        {view === 'deck' ? (
+          <DeckView resolve={resolve} onSelect={setSelected} onBrowse={() => onView('browse')} />
+        ) : (
+          <CardBrowser
+            db={db}
+            onSelect={setSelected}
+            onAdd={(card) => addCard('main', card.name)}
+            deckCounts={deckCounts}
+            copyAllowance={(card) => copyAllowance(card.name)}
+          />
+        )}
         <DeckPanel resolve={resolve} resolveForImport={resolveForImport} onSelect={setSelected} />
       </div>
       <CardDetail
@@ -69,11 +76,11 @@ function Workspace({ db }: { db: CardDb }) {
   )
 }
 
-function Main() {
+function Main({ view, onView }: { view: View; onView: (view: View) => void }) {
   const state = useCards()
   if (state.status === 'loading') return <p>Loading cards…</p>
   if (state.status === 'error') return <p role="alert">Couldn’t load card data: {state.error}</p>
-  return <Workspace db={state.db} />
+  return <Workspace db={state.db} view={view} onView={onView} />
 }
 
 export default function App({
@@ -83,6 +90,7 @@ export default function App({
   load?: () => Promise<CardDb>
   deckStore?: DeckStore
 }) {
+  const [view, setView] = useView()
   return (
     <CardsProvider load={load}>
       <DeckProvider store={deckStore}>
@@ -91,10 +99,11 @@ export default function App({
             <Logo />
             <h1>MTG Deck Builder</h1>
           </div>
+          <ViewSwitch view={view} onChange={setView} />
           <ThemeToggle />
         </header>
         <main>
-          <Main />
+          <Main view={view} onView={setView} />
         </main>
       </DeckProvider>
     </CardsProvider>
