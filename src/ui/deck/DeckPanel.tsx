@@ -7,6 +7,7 @@ import { DeckManager } from './DeckManager'
 import { DeckStats } from './DeckStats'
 import { DeckValidation } from './DeckValidation'
 import { ImportExport } from './ImportExport'
+import { SampleHand } from './SampleHand'
 import type { NameResolver } from '../../domain/decklist'
 import { useDeck } from './deckContext'
 import { Tabs } from '../Tabs'
@@ -67,6 +68,9 @@ export function DeckPanelBody({ resolve, resolveForImport, onSelect }: Props) {
             <>
               <h3>Main deck ({main})</h3>
               <BasicLandButtons resolve={resolve} />
+              <div className="sample-hand-row">
+                <SampleHand resolve={resolve} />
+              </div>
               <DeckList zone="main" resolve={resolve} onSelect={onSelect} />
               <h3>Sideboard ({side})</h3>
               <DeckList zone="side" resolve={resolve} onSelect={onSelect} />

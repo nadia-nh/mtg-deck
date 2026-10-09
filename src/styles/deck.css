@@ -603,3 +603,76 @@
   background: var(--border);
   transform: translateX(-50%);
 }
+
+/* ---- Sample hand ---- */
+
+.sample-hand-row {
+  margin: var(--space-2) 0;
+  font-size: var(--text-md);
+}
+.sample-hand-open {
+  padding: var(--space-1) var(--space-3);
+}
+.sample-hand {
+  width: min(960px, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100dvh - 2 * var(--space-4));
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--fg);
+}
+/* The dialog scrolls; its action row stays pinned at the bottom (matters on phones). */
+.sample-hand {
+  overflow: auto;
+}
+.sample-hand .detail-actions {
+  position: sticky;
+  bottom: 0;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-3) 0 calc(var(--space-1) + env(safe-area-inset-bottom));
+  background: var(--surface);
+}
+.sample-hand::backdrop {
+  background: var(--backdrop);
+}
+.sample-hand-body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+.sample-hand-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.sample-hand-header h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+}
+.sample-hand-header .close {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: var(--text-lg);
+}
+.sample-hand-summary {
+  margin: var(--space-2) 0 var(--space-3);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.sample-hand-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.sample-hand-cards img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-card);
+  background: var(--border);
+}
