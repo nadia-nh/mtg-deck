@@ -4,13 +4,17 @@ A Magic: The Gathering card browser and deck builder for the web. It currently i
 the Ravnica trilogy (**Guilds of Ravnica**, **Ravnica Allegiance**, **War of the Spark**);
 more sets and format rules can be added without touching the UI.
 
-- Browse and filter cards by text, color, guild, type, rarity, mana value, and set.
-  Searches are kept in the URL, so you can bookmark or share them.
-- Build decks with a main deck and sideboard, and check them live against 60-card
-  constructed rules (Pioneer, Standard, Modern, Legacy, Vintage, Pauper, Casual).
-- See the mana curve, colored mana symbols, land/spell split, and an estimated price
-  from TCGplayer.
+- Browse and filter cards by text, color, guild, type, rarity, mana value, and set, as
+  large tiles, small tiles, or a sortable list. Active filters show as removable chips, and
+  searches are kept in the URL, so you can bookmark or share them.
+- Build decks with a main deck and sideboard, checked live against 60-card constructed
+  rules (Pioneer, Standard, Modern, Legacy, Vintage, Pauper, Casual). Copy limits are
+  enforced as you add cards, and every change can be undone (toast or Ctrl/Cmd+Z).
+- See the deck as card images stacked by mana value, type, or color, with the mana curve,
+  colored mana symbols, land/spell split, and an estimated price from TCGplayer.
+- Draw sample opening hands, with London mulligans, to check your land count.
 - Import and export decklists in MTG Arena or MTGO/plain-text format.
+- Works on phones: the deck lives in a bottom bar that opens as a swipeable sheet.
 - Decks are saved in your browser (localStorage). Nothing is sent to a server.
 
 ## Getting started
@@ -29,9 +33,11 @@ npm run dev        # http://localhost:5173
 | `npm test`           | Unit tests (Vitest)                                                                 |
 | `npm run e2e`        | Browser and accessibility tests (Playwright + axe; builds and serves the app first) |
 | `npm run lint`       | Lint (oxlint)                                                                       |
+| `npm run format`     | Format with Prettier                                                                |
 | `npm run fetch-data` | Re-download card data from Scryfall                                                 |
 
-The first time you run the browser tests, run `npx playwright install chromium`.
+The first time you run the browser tests, run `npx playwright install chromium`. CI runs
+lint, type check, formatting, and both test suites on every pull request.
 
 ## Card data
 
@@ -54,7 +60,7 @@ src/domain/         Pure logic, no React: card model, search, deck, decklist, fo
 src/domain/formats/ Format rules; register new formats in registry.ts
 src/data/           Loads the card snapshot into an indexed CardDb
 src/storage/        Versioned localStorage deck store
-src/ui/             React components (browser, card detail, deck panel)
+src/ui/             React components (browser, card detail, deck panel and views)
 e2e/                Playwright tests
 ```
 
