@@ -190,7 +190,8 @@ button {
   border-radius: var(--radius-pill);
   background: var(--bg);
 }
-.segmented label {
+.segmented label,
+.segmented a {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -208,10 +209,20 @@ button {
   margin: 0;
   cursor: pointer;
 }
-.segmented label:has(input:checked) {
+.segmented a {
+  text-decoration: none;
+}
+.segmented a:hover {
+  color: var(--fg);
+}
+.segmented label:has(input:checked),
+.segmented a[aria-current='page'] {
   background: var(--surface);
   color: var(--fg);
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.15);
+}
+.segmented a:focus-visible {
+  outline-offset: 1px;
 }
 .segmented label:has(input:focus-visible) {
   outline: var(--focus-ring);

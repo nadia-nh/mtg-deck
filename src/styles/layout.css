@@ -23,6 +23,21 @@
   font-size: var(--text-xl);
   font-weight: 700;
 }
+/* Phones: the view and theme switches need the room; the logo stays as the brand and the
+   title remains for screen readers. */
+@media (max-width: 520px) {
+  .app-header {
+    gap: var(--space-2);
+  }
+  .app-header h1 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
 .logo .logo-back {
   fill: color-mix(in srgb, var(--accent) 35%, var(--surface));
 }

@@ -63,3 +63,10 @@ export const ListIcon = () => (
     <path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
   </svg>
 )
+
+export const DeckIcon = () => (
+  <svg {...base}>
+    <rect x="7" y="3" width="12" height="16" rx="2" />
+    <path d="M4 7v12a2 2 0 0 0 2 2h9" />
+  </svg>
+)
