@@ -64,6 +64,9 @@
 /* Desktop: the panel scrolls on its own, so pin the deck controls and tabs at its top.
    The negative top cancels the panel's padding so scrolled rows don't peek out above. */
 @media (min-width: 1101px) {
+  .deck-panel {
+    scroll-padding-top: calc(var(--pinned-h, 0px) + var(--space-2));
+  }
   .deck-tabs .tabs-head {
     position: sticky;
     top: calc(-1 * var(--space-3));

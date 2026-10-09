@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { Card } from '../../domain/card'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import { BasicLandButtons } from './BasicLandButtons'
@@ -25,8 +25,27 @@ export function DeckPanel({ resolve, resolveForImport, onSelect }: Props) {
   const main = zoneTotal(active, 'main')
   const side = zoneTotal(active, 'side')
 
+  // The pinned header covers the top of the panel's scroll area. Tell the browser how tall it
+  // is (scroll-padding), so keyboard focus never scrolls a row in underneath it.
+  const panel = useRef<HTMLDetailsElement>(null)
+  useEffect(() => {
+    const el = panel.current
+    const head = el?.querySelector('.tabs-head')
+    if (!el || !head || typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(() =>
+      el.style.setProperty('--pinned-h', `${head.getBoundingClientRect().height}px`),
+    )
+    observer.observe(head)
+    return () => observer.disconnect()
+  }, [])
+
   return (
-    <details className="deck-panel" open={open} onToggle={(e) => setOpen(e.currentTarget.open)}>
+    <details
+      ref={panel}
+      className="deck-panel"
+      open={open}
+      onToggle={(e) => setOpen(e.currentTarget.open)}
+    >
       <summary>
         <span className="deck-title">{active.name}</span>{' '}
         <span className="muted" data-testid="deck-counts">
