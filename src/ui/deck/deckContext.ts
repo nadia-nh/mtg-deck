@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react'
 import type { Deck, Zone } from '../../domain/deck'
+import type { Change } from '../../domain/history'
 
 export interface CopyAllowance {
   limit: number
@@ -16,6 +17,12 @@ export interface DeckActions {
   active: Deck
   /** False when the browser refused the last save (blocked or full storage). */
   storageOk: boolean
+  /** The newest undoable change, for the toast; null once undone or dismissed. */
+  lastChange: Change | null
+  /** Reverts the newest recorded change: card edits, imports and deck deletes. */
+  undo(): void
+  /** Hides the toast without undoing. */
+  dismissChange(): void
   select(id: string): void
   create(
     name?: string,
