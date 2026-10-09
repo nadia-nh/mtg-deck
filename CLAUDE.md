@@ -29,6 +29,7 @@ Chromium instead, set `PW_CHROMIUM_PATH=/path/to/chrome`.
 ## Definition of done (every change)
 
 1. `npm test`, `npm run lint`, `npx tsc -b`, the prettier check, and `npm run e2e` all pass.
+   CI (`.github/workflows/ci.yml`) runs the same checks on every pull request.
 2. UI changes: take screenshots at **1440×900 and 390×844, light and dark**, and look at them
    (layout, overflow, contrast). The axe tests must stay at zero violations.
 3. **Small commits**: one visible change per commit, with tests in the same commit. The commit
