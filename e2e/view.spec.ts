@@ -136,6 +136,29 @@ test.describe('stacked columns', () => {
     await expect(page.getByTestId('deck-counts')).toHaveText('60 main · 2 side')
   })
 
+  test('group by type or color, and the choice is remembered', async ({ page }) => {
+    await page.goto('/?view=deck')
+    const groupBy = page.getByRole('combobox', { name: 'Group by' })
+    await expect(groupBy).toHaveValue('mv')
+    await expect(page.getByRole('region', { name: 'Main deck (60): MV 2, 12 cards' })).toBeVisible()
+
+    await groupBy.selectOption('type')
+    await expect(
+      page.getByRole('region', { name: 'Main deck (60): Creatures, 14 cards' }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole('region', { name: 'Main deck (60): Lands, 34 cards' }),
+    ).toBeVisible()
+
+    await groupBy.selectOption('color')
+    const multi = page.getByRole('region', { name: /^Main deck \(60\): Multicolor,/ })
+    await expect(multi.getByRole('img', { name: 'Boros Challenger' })).toBeVisible()
+
+    await page.reload()
+    await expect(page.getByRole('combobox', { name: 'Group by' })).toHaveValue('color')
+    await expect(multi).toBeVisible()
+  })
+
   test('phones get the image grid instead of columns', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto('/?view=deck')
