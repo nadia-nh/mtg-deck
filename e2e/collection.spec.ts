@@ -42,6 +42,32 @@ test('"Owned only" shows just the cards you own, as a chip and in the URL', asyn
   await expect(page.locator('#results-heading')).not.toHaveText('1 card')
 })
 
+test('the Stats tab lists what the deck still needs; basics never count', async ({ page }) => {
+  await page.goto('/?q=lava coil')
+  const add = page.getByRole('button', { name: 'Add Lava Coil to deck' })
+  for (let i = 0; i < 3; i++) await add.click()
+  await page.locator('.deck-panel').getByRole('button', { name: 'Add Mountain' }).click()
+
+  const panel = page.locator('.deck-panel')
+  await panel.getByRole('tab', { name: 'Stats' }).click()
+  const missing = panel.getByRole('region', { name: 'Missing from your collection' })
+  await expect(missing.getByTestId('missing-summary')).toHaveText(/^3 cards · about \$\d+\.\d{2}$/)
+  await expect(missing.getByRole('listitem')).toHaveText([/^3 ×\s*Lava Coil/])
+
+  // Own two: one left to get. Own the third: nothing missing.
+  await page.getByRole('button', { name: 'Lava Coil', exact: true }).first().click()
+  const owned = page.getByRole('dialog').getByRole('group', { name: 'Copies you own' })
+  await owned.getByRole('button', { name: 'One more owned' }).click()
+  await owned.getByRole('button', { name: 'One more owned' }).click()
+  await page.keyboard.press('Escape')
+  await expect(missing.getByTestId('missing-summary')).toHaveText(/^1 card · /)
+
+  await page.getByRole('button', { name: 'Lava Coil', exact: true }).first().click()
+  await owned.getByRole('button', { name: 'One more owned' }).click()
+  await page.keyboard.press('Escape')
+  await expect(missing).toContainText('You own every card in this deck.')
+})
+
 for (const colorScheme of ['light', 'dark'] as const) {
   test(`owned controls have no accessibility violations (${colorScheme})`, async ({ page }) => {
     await page.emulateMedia({ colorScheme })
