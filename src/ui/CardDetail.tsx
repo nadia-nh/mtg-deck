@@ -63,9 +63,11 @@ interface Props {
   onAdd?: (zone: Zone) => void
   /** Copy limit for this card; the add buttons are disabled once the deck holds the maximum. */
   allowance?: CopyAllowance
+  /** Copies of this card in the collection, with a way to change it. */
+  owned?: { count: number; onChange: (n: number) => void }
 }
 
-export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd, allowance }: Props) {
+export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd, allowance, owned }: Props) {
   const full = allowance?.left === 0
   const ref = useRef<HTMLDialogElement>(null)
 
@@ -141,6 +143,32 @@ export function CardDetail({ card, pricesAsOf, onClose, inDeck, onAdd, allowance
                     {limitReachedText(allowance)}
                   </p>
                 )}
+              </div>
+            )}
+
+            {owned && (
+              <div className="owned-row" role="group" aria-label="Copies you own">
+                <span className="muted">You own</span>
+                <span className="qty-controls">
+                  <button
+                    type="button"
+                    aria-label="One fewer owned"
+                    disabled={owned.count === 0}
+                    onClick={() => owned.onChange(owned.count - 1)}
+                  >
+                    −
+                  </button>
+                  <span className="qty" aria-live="polite" data-testid="owned-count">
+                    {owned.count}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="One more owned"
+                    onClick={() => owned.onChange(owned.count + 1)}
+                  >
+                    +
+                  </button>
+                </span>
               </div>
             )}
 
