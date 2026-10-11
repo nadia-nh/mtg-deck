@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react'
 import { useCards } from '../../data/cardsContext'
 import { findByName } from '../../data/loadCards'
 import * as D from '../../domain/deck'
+import { isAutoNamed, randomDeckName, suggestDeckName } from '../../domain/deckNames'
 import { DEFAULT_FORMAT_ID, getFormat } from '../../domain/formats/registry'
 import { copiesLeft } from '../../domain/formats/types'
 import {
@@ -16,13 +17,17 @@ import {
 import { createDeckStore, type DeckStore } from '../../storage/decks'
 import { DeckContext, type CopyAllowance, type DeckActions } from './deckContext'
 
-const DEFAULT_NAME = 'Untitled deck'
+/** A new deck the app names itself (until the user types a name). */
+const autoNamedDeck = (name: string, formatId: string): D.Deck => ({
+  ...D.createDeck(name, formatId),
+  nameEdited: false,
+})
 
 /** Ensures there is always at least one deck and a valid active id. */
-function initialize(store: DeckStore): string {
+function initialize(store: DeckStore, newName: () => string): string {
   let decks = store.list()
   if (decks.length === 0) {
-    store.save(D.createDeck(DEFAULT_NAME, DEFAULT_FORMAT_ID))
+    store.save(autoNamedDeck(newName(), DEFAULT_FORMAT_ID))
     decks = store.list()
   }
   const saved = store.getActiveId()
@@ -34,12 +39,15 @@ function initialize(store: DeckStore): string {
 export function DeckProvider({
   children,
   store: storeProp,
+  newDeckName = randomDeckName,
 }: {
   children: ReactNode
   store?: DeckStore
+  /** Names for new decks; tests pass a fixed one. */
+  newDeckName?: () => string
 }) {
   const [store] = useState(() => storeProp ?? createDeckStore())
-  const [activeId, setActiveId] = useState(() => initialize(store))
+  const [activeId, setActiveId] = useState(() => initialize(store, newDeckName))
   const [decks, setDecks] = useState(() => store.list())
   const [storageOk, setStorageOk] = useState(true)
   const [history, setHistory] = useState<Change[]>([])
@@ -68,6 +76,18 @@ export function DeckProvider({
     [cards],
   )
 
+  /** An auto-named deck takes its descriptive name ("Boros Aggro") once it has enough cards. */
+  const withAutoName = useCallback(
+    (deck: D.Deck): D.Deck => {
+      if (!isAutoNamed(deck) || cards.status !== 'ready') return deck
+      const suggested = suggestDeckName(deck, (n) => findByName(cards.db, n))
+      return suggested && suggested !== deck.name
+        ? { ...deck, name: suggested, nameEdited: false }
+        : deck
+    },
+    [cards],
+  )
+
   const refresh = useCallback(() => {
     setDecks(store.list())
     setStorageOk(store.lastWriteOk)
@@ -88,14 +108,15 @@ export function DeckProvider({
     (fn: (deck: D.Deck) => D.Deck, message?: string) => {
       const current = store.get(activeId)
       if (!current) return
-      const next = fn(current)
+      const changed = fn(current)
+      const next = changed === current ? current : withAutoName(changed)
       if (next !== current) {
         const saved = store.save(next)
         if (message) record({ message, before: current, after: saved, activeBefore: activeId })
         refresh()
       }
     },
-    [store, activeId, refresh, record],
+    [store, activeId, refresh, record, withAutoName],
   )
 
   /** Reverts the newest recorded change (see `Change` for the three kinds). */
@@ -109,14 +130,14 @@ export function DeckProvider({
       if (change.alsoCreated) store.remove(change.alsoCreated)
     } else if (change.before) {
       const current = store.get(change.before.id)
-      if (current) store.save(restoreCards(current, change.before))
+      if (current) store.save(withAutoName(restoreCards(current, change.before)))
     }
     const back = change.activeBefore && store.get(change.activeBefore)
     activate(back ? back.id : store.list()[0].id)
     setHistory(rest)
     setLastChange(null)
     refresh()
-  }, [history, store, activate, refresh])
+  }, [history, store, activate, refresh, withAutoName])
 
   const value = useMemo<DeckActions>(
     () => ({
@@ -127,10 +148,15 @@ export function DeckProvider({
       undo,
       dismissChange: () => setLastChange(null),
       select: activate,
-      create(name = DEFAULT_NAME, formatId = active?.formatId ?? DEFAULT_FORMAT_ID, cards) {
-        const blank = D.createDeck(name, formatId)
+      create(name, formatId = active?.formatId ?? DEFAULT_FORMAT_ID, cards) {
+        // A name passed in (e.g. from an imported list) is the user's; otherwise the app names it.
+        const blank = name
+          ? { ...D.createDeck(name, formatId), nameEdited: true }
+          : autoNamedDeck(newDeckName(), formatId)
         const deck = store.save(
-          cards ? { ...blank, main: { ...cards.main }, side: { ...cards.side } } : blank,
+          withAutoName(
+            cards ? { ...blank, main: { ...cards.main }, side: { ...cards.side } } : blank,
+          ),
         )
         // A deck created with cards is an import, which can be undone; a blank one can't.
         if (cards) {
@@ -150,7 +176,7 @@ export function DeckProvider({
         store.remove(id)
         let blankId: string | undefined
         if (store.list().length === 0) {
-          blankId = store.save(D.createDeck(DEFAULT_NAME, DEFAULT_FORMAT_ID)).id
+          blankId = store.save(autoNamedDeck(newDeckName(), DEFAULT_FORMAT_ID)).id
         }
         if (deleted) {
           record({
@@ -169,7 +195,13 @@ export function DeckProvider({
         refresh()
         if (copy) activate(copy.id)
       },
-      rename: (name) => edit((d) => ({ ...d, name: name.trim() || DEFAULT_NAME })),
+      // Typing a name keeps it for good; clearing the field hands naming back to the app.
+      rename: (name) =>
+        edit((d) =>
+          name.trim()
+            ? { ...d, name: name.trim(), nameEdited: true }
+            : { ...d, name: newDeckName(), nameEdited: false },
+        ),
       setFormat: (formatId) => edit((d) => ({ ...d, formatId })),
       copyAllowance: (name) => allowance(active, name),
       addCard(zone, name, n = 1) {
@@ -215,6 +247,8 @@ export function DeckProvider({
       edit,
       allowance,
       record,
+      newDeckName,
+      withAutoName,
     ],
   )
 

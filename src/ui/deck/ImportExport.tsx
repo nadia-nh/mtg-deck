@@ -44,7 +44,8 @@ export function ImportExport({ resolve, resolveForImport }: Props) {
     const count = total(parsed.main) + total(parsed.side)
     if (count === 0) return
     if (mode === 'replace') replaceCards(parsed.main, parsed.side)
-    else create(parsed.name ?? 'Imported deck', active.formatId, parsed)
+    // An unnamed list gets an app-chosen name, like any new deck.
+    else create(parsed.name, active.formatId, parsed)
     setInput('')
   }
 

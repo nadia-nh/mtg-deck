@@ -28,7 +28,10 @@ test('deleting a deck can be undone from the toast', async ({ page }) => {
 
   await panel.getByRole('button', { name: 'Delete…' }).click()
   await panel.getByRole('button', { name: 'Yes, delete' }).click()
-  await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue('Untitled deck')
+  // Deleting the last deck leaves a fresh, randomly named one.
+  await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue(
+    /^[A-Z][a-z]+ [A-Z][a-z]+$/,
+  )
 
   await page.getByRole('button', { name: 'Undo: Deleted Burn' }).click()
   await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue('Burn')
