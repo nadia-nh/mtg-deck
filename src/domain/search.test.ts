@@ -127,3 +127,14 @@ describe('uniqueByName', () => {
     expect(uniqueByName([], rank)).toEqual([])
   })
 })
+
+describe('owned filter', () => {
+  test('keeps only owned names, and ignores the filter when it is off', () => {
+    const isOwned = (name: string) => name === 'Lava Coil'
+    const owned = searchCards(grn, { owned: true }, 'number', isOwned)
+    expect(new Set(owned.map((c) => c.name))).toEqual(new Set(['Lava Coil']))
+    expect(searchCards(grn, {}, 'number', isOwned)).toHaveLength(grn.length)
+    // No collection given: nothing counts as owned.
+    expect(searchCards(grn, { owned: true })).toEqual([])
+  })
+})

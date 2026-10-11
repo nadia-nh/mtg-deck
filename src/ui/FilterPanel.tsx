@@ -197,6 +197,15 @@ export function FilterPanel({ state, sets, onChange }: Props) {
         Show all printings
       </label>
 
+      <label className="inline-check">
+        <input
+          type="checkbox"
+          checked={!!f.owned}
+          onChange={(e) => setFilter({ owned: e.target.checked || undefined })}
+        />
+        Owned only
+      </label>
+
       <button
         type="button"
         className="reset"
