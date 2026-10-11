@@ -26,6 +26,22 @@ test('mark copies as owned from the card details; it is remembered', async ({ pa
   await expect(dialog.getByTestId('owned-count')).toHaveText('2')
 })
 
+test('"Owned only" shows just the cards you own, as a chip and in the URL', async ({ page }) => {
+  const dialog = await openDetails(page, 'Lava Coil')
+  await dialog.getByRole('button', { name: 'One more owned' }).click()
+  await page.keyboard.press('Escape')
+
+  await page.goto('/')
+  await page.getByLabel('Owned only').check()
+  await expect(page).toHaveURL(/o=1/)
+  await expect(page.locator('#results-heading')).toHaveText('1 card')
+  await expect(page.getByRole('img', { name: 'Lava Coil' })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Remove filter: Owned' }).click()
+  await expect(page).not.toHaveURL(/o=1/)
+  await expect(page.locator('#results-heading')).not.toHaveText('1 card')
+})
+
 for (const colorScheme of ['light', 'dark'] as const) {
   test(`owned controls have no accessibility violations (${colorScheme})`, async ({ page }) => {
     await page.emulateMedia({ colorScheme })

@@ -58,7 +58,12 @@ export interface CardFilter {
   sets?: string[]
   /** Show every printing (alternate arts, reprints in several sets) instead of one per name. */
   allPrintings?: boolean
+  /** Only cards in the collection (checked through the `isOwned` passed to the search). */
+  owned?: boolean
 }
+
+/** Whether at least one copy of a card name is owned. */
+export type IsOwned = (name: string) => boolean
 
 export type SortKey = 'number' | 'name' | 'cmc' | 'price' | 'rarity'
 
@@ -92,7 +97,8 @@ function matchesColors(card: Card, f: CardFilter): boolean {
     : card.colors.some((c) => selected.includes(c))
 }
 
-export function matchesFilter(card: Card, f: CardFilter): boolean {
+export function matchesFilter(card: Card, f: CardFilter, isOwned?: IsOwned): boolean {
+  if (f.owned && !isOwned?.(card.name)) return false
   if (f.text && !matchesText(card, f.text)) return false
   if (!matchesColors(card, f)) return false
   if (f.multicolor && card.colors.length < 2) return false
@@ -132,8 +138,13 @@ const COMPARATORS: Record<SortKey, (a: Card, b: Card) => number> = {
   rarity: (a, b) => (RARITY_RANK[b.rarity] ?? -1) - (RARITY_RANK[a.rarity] ?? -1) || byName(a, b),
 }
 
-export function searchCards(cards: Card[], filter: CardFilter, sort: SortKey = 'number'): Card[] {
-  return cards.filter((c) => matchesFilter(c, filter)).sort(COMPARATORS[sort])
+export function searchCards(
+  cards: Card[],
+  filter: CardFilter,
+  sort: SortKey = 'number',
+  isOwned?: IsOwned,
+): Card[] {
+  return cards.filter((c) => matchesFilter(c, filter, isOwned)).sort(COMPARATORS[sort])
 }
 
 /**

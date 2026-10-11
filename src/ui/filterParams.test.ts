@@ -45,3 +45,9 @@ describe('filter <-> URL params', () => {
     ).toEqual({ cmcMax: 0 })
   })
 })
+
+test('the owned-only filter round-trips as o=1', () => {
+  const params = stateToParams({ filter: { owned: true }, sort: 'number' })
+  expect(params.toString()).toBe('o=1')
+  expect(stateFromParams(params).filter).toEqual({ owned: true })
+})
