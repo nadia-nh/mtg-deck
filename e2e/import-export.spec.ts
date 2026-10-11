@@ -31,6 +31,8 @@ test('import replaces the deck and reports problems; export copies and downloads
   await expect(status).toContainText('Not found (skipped): 3 Lava Coyl')
   await expect(status).toContainText('line 9 (“banana”)')
   await expect(page.getByTestId('deck-counts')).toHaveText('28 main · 2 side')
+  // The deck was still auto-named, so the import gives it a descriptive name.
+  await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue('Boros Aggro')
 
   const exported = panel.getByRole('textbox', { name: 'Exported decklist' })
   await expect(exported).toHaveValue(/^Deck\n4 Boros Challenger \(GRN\) 156\n/)
@@ -47,7 +49,7 @@ test('import replaces the deck and reports problems; export copies and downloads
     page.waitForEvent('download'),
     panel.getByRole('button', { name: 'Download .txt' }).click(),
   ])
-  expect(download.suggestedFilename()).toBe('Untitled-deck.txt')
+  expect(download.suggestedFilename()).toBe('Boros-Aggro.txt')
 })
 
 test('import as new deck uses the list name', async ({ page }) => {
