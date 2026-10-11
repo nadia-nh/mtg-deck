@@ -108,10 +108,9 @@ becomes a numbered step.
   "Owned only" browse filter, and "missing N cards" (with price) in the deck panel. Open
   question: track owned per name (simpler, matches decks) or per printing (needed for
   foils/alt-arts)?
-- **Random deck names.** New decks start with a random name (e.g. adjective + noun, or
-  guild-flavored once colors are known) instead of "Untitled deck". After a few cards are
-  added, offer a name based on the deck's colors (e.g. "Boros Aggro"), but **only if the
-  user hasn't edited the name** — store a `nameEdited` flag on the deck.
+- ~~**Random deck names.**~~ Done: new decks get a random name ("Brazen Gambit"), then a
+  descriptive one from their colors ("Boros Aggro") until the user types a name
+  (`Deck.nameEdited`).
 - Import/export already covers Arena and MTGO formats; no work needed there.
 
 ## Open questions
