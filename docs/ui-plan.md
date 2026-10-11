@@ -103,11 +103,9 @@ the card pool grows past about 2,000 cards, since today's ~850 still renders smo
 Requests from Nadia, kept here so they aren't lost. Each needs a short design pass before it
 becomes a numbered step.
 
-- **Mark cards as owned.** A per-browser collection (card name → copies owned), stored in
-  localStorage like decks. Possible UI: an "Owned" toggle/count in the detail dialog, an
-  "Owned only" browse filter, and "missing N cards" (with price) in the deck panel. Open
-  question: track owned per name (simpler, matches decks) or per printing (needed for
-  foils/alt-arts)?
+- ~~**Mark cards as owned.**~~ Done, tracked per card name: a "You own" stepper in the
+  card details, an "Owned only" browse filter, and "Missing from your collection" (with
+  cost) in the Stats tab.
 - **Random deck names.** New decks start with a random name (e.g. adjective + noun, or
   guild-flavored once colors are known) instead of "Untitled deck". After a few cards are
   added, offer a name based on the deck's colors (e.g. "Boros Aggro"), but **only if the
