@@ -4,6 +4,7 @@ import { describe, expect, test } from 'vitest'
 import { CardsContext, type CardsState } from '../../data/cardsContext'
 import { buildCardDb } from '../../data/loadCards'
 import type { Card } from '../../domain/card'
+import { createDeck } from '../../domain/deck'
 import { createDeckStore } from '../../storage/decks'
 import grn from '../../../public/data/sets/grn.json'
 import { DeckProvider } from './DeckProvider'
@@ -24,7 +25,9 @@ const withCards: CardsState = {
 function setup(mem = new MemoryStorage(), cards: CardsState = { status: 'loading' }) {
   const wrapper = ({ children }: { children: ReactNode }) => (
     <CardsContext.Provider value={cards}>
-      <DeckProvider store={createDeckStore(mem)}>{children}</DeckProvider>
+      <DeckProvider store={createDeckStore(mem)} newDeckName={() => 'Untitled deck'}>
+        {children}
+      </DeckProvider>
     </CardsContext.Provider>
   )
   return { mem, ...renderHook(() => useDeck(), { wrapper }) }
@@ -229,6 +232,62 @@ describe('DeckProvider', () => {
       expect(result.current.active).toMatchObject({ id, main: { 'Lava Coil': 2 } })
       // Persisted, not just in memory.
       expect(setup(mem).result.current.active.name).toBe('Boros')
+    })
+  })
+
+  describe('deck names', () => {
+    const BOROS = {
+      'Boros Challenger': 4,
+      'Legion Warboss': 4,
+      'Skyknight Legionnaire': 4,
+      'Lava Coil': 4,
+    }
+    const addAll = (result: { current: ReturnType<typeof useDeck> }) => {
+      for (const [name, n] of Object.entries(BOROS)) {
+        act(() => result.current.addCard('main', name, n))
+      }
+    }
+
+    test('a new deck is auto-named and takes a descriptive name once it has cards', () => {
+      const { result } = setup(new MemoryStorage(), withCards)
+      expect(result.current.active).toMatchObject({ name: 'Untitled deck', nameEdited: false })
+      act(() => result.current.addCard('main', 'Lava Coil', 4))
+      expect(result.current.active.name).toBe('Untitled deck') // not enough cards yet
+      addAll(result)
+      expect(result.current.active).toMatchObject({ name: 'Boros Aggro', nameEdited: false })
+    })
+
+    test('a name the user types is never changed by the app', () => {
+      const { result } = setup(new MemoryStorage(), withCards)
+      act(() => result.current.rename('Sunday Night'))
+      addAll(result)
+      expect(result.current.active).toMatchObject({ name: 'Sunday Night', nameEdited: true })
+    })
+
+    test('clearing the name hands naming back to the app', () => {
+      const { result } = setup(new MemoryStorage(), withCards)
+      act(() => result.current.rename('Sunday Night'))
+      addAll(result)
+      act(() => result.current.rename('   '))
+      expect(result.current.active).toMatchObject({ name: 'Boros Aggro', nameEdited: false })
+    })
+
+    test('decks saved before auto-naming keep their names', () => {
+      const mem = new MemoryStorage()
+      const store = createDeckStore(mem)
+      const old = store.save({ ...createDeck('My Boros', 'pioneer'), main: {} })
+      store.setActiveId(old.id)
+      const { result } = setup(mem, withCards)
+      addAll(result)
+      expect(result.current.active.name).toBe('My Boros')
+    })
+
+    test('an imported list keeps its name; an unnamed one is auto-named', () => {
+      const { result } = setup(new MemoryStorage(), withCards)
+      act(() => void result.current.create('Burn', 'pioneer', { main: BOROS, side: {} }))
+      expect(result.current.active).toMatchObject({ name: 'Burn', nameEdited: true })
+      act(() => void result.current.create(undefined, 'pioneer', { main: BOROS, side: {} }))
+      expect(result.current.active).toMatchObject({ name: 'Boros Aggro', nameEdited: false })
     })
   })
 })

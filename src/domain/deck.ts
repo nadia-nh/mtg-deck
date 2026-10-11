@@ -16,6 +16,12 @@ export interface Deck {
   side: Record<string, number>
   createdAt: string
   updatedAt: string
+  /**
+   * True once the user has typed a name. Until then the app names the deck itself and
+   * renames it from its colors as cards are added (see deckNames.ts). Missing on decks
+   * saved before this existed.
+   */
+  nameEdited?: boolean
 }
 
 export type ResolveCard = (name: string) => Card | undefined

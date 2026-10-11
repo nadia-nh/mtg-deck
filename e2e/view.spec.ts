@@ -11,7 +11,7 @@ test('switch to the deck view and back; Back returns; filters survive', async ({
   await expect(page).toHaveURL(/view=deck/)
   await expect(page).toHaveURL(/q=lava/)
   await expect(nav.getByRole('link', { name: 'Deck' })).toHaveAttribute('aria-current', 'page')
-  const deckView = page.getByRole('region', { name: /Untitled deck/ })
+  const deckView = page.locator('.deck-view')
   await expect(deckView.getByRole('heading', { name: 'Main deck (1)' })).toBeVisible()
   await expect(deckView.getByRole('img', { name: 'Lava Coil' })).toBeVisible()
   await expect(page.getByRole('searchbox')).toHaveCount(0) // the browser is gone
@@ -28,7 +28,7 @@ test('deep link opens the deck view; clicking a card opens its details', async (
   await page.goto('/?q=lava coil')
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
   await page.goto('/?view=deck')
-  await expect(page.getByRole('heading', { name: /Untitled deck/ })).toBeVisible()
+  await expect(page.locator('.deck-view').getByRole('heading', { level: 2 })).toBeVisible()
   await page.locator('.deck-view').getByRole('button', { name: 'Lava Coil', exact: true }).click()
   await expect(page.getByRole('dialog', { name: 'Lava Coil' })).toBeVisible()
 })

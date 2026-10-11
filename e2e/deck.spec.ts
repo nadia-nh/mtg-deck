@@ -245,7 +245,7 @@ test('create, rename, duplicate, switch, and delete decks', async ({ page }) => 
   await expect(page.getByTestId('deck-counts')).toHaveText('1 main · 0 side')
 
   await panel.getByRole('button', { name: 'New deck' }).click()
-  await expect(name).toHaveValue('Untitled deck')
+  await expect(name).toHaveValue(/^[A-Z][a-z]+ [A-Z][a-z]+$/) // a random name, e.g. "Brazen Gambit"
   await expect(page.getByTestId('deck-counts')).toHaveText('0 main · 0 side')
   await expect(picker.locator('option')).toHaveCount(3)
 
@@ -259,4 +259,29 @@ test('create, rename, duplicate, switch, and delete decks', async ({ page }) => 
   await page.reload()
   await expect(panel.getByRole('textbox', { name: 'Name' })).toHaveValue('Izzet Spells')
   await expect(panel.getByRole('combobox', { name: /^Deck/ }).locator('option')).toHaveCount(2)
+})
+
+test('a new deck gets a random name, then a descriptive one; a typed name is kept', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const name = page.locator('.deck-panel').getByRole('textbox', { name: 'Name' })
+  await expect(name).toHaveValue(/^[A-Z][a-z]+ [A-Z][a-z]+$/)
+
+  for (const card of ['Legion Warboss', 'Boros Challenger']) {
+    await page.goto(`/?q=${encodeURIComponent(card)}`)
+    const add = page.getByRole('button', { name: `Add ${card} to deck`, exact: true })
+    for (let i = 0; i < 4; i++) await add.click()
+  }
+  await expect(name).toHaveValue('Boros Aggro')
+
+  await name.fill('Friday Night')
+  await name.press('Enter')
+  await page.goto('/?q=lava coil')
+  await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
+  await expect(name).toHaveValue('Friday Night')
+  await page.reload()
+  await expect(page.locator('.deck-panel').getByRole('textbox', { name: 'Name' })).toHaveValue(
+    'Friday Night',
+  )
 })

@@ -11,7 +11,7 @@ test('a bottom deck bar replaces the top panel and updates as cards are added', 
 }) => {
   await page.goto('/?q=lava coil')
   await expect(bar(page)).toBeVisible()
-  await expect(bar(page)).toHaveAccessibleName('Open deck: Untitled deck, 0 of 60 cards, 1 problem')
+  await expect(bar(page)).toHaveAccessibleName(/^Open deck: [\w ]+, 0 of 60 cards, 1 problem$/)
   await expect(page.locator('.workspace > .deck-panel')).toHaveCount(0)
 
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
@@ -29,7 +29,7 @@ test('the bar opens the deck as a sheet; Esc and the close button return focus',
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
 
   await bar(page).click()
-  const sheet = page.getByRole('dialog', { name: /Untitled deck/ })
+  const sheet = page.locator('dialog.deck-sheet')
   await expect(sheet).toBeVisible()
   await expect(sheet.getByRole('tab', { name: 'Cards' })).toBeVisible()
   await sheet.getByRole('button', { name: 'Add one Lava Coil' }).click()
@@ -49,7 +49,7 @@ test('the bar opens the deck as a sheet; Esc and the close button return focus',
 test('dragging the sheet header down closes it; a short drag springs back', async ({ page }) => {
   await page.goto('/')
   await bar(page).click()
-  const sheet = page.getByRole('dialog', { name: /Untitled deck/ })
+  const sheet = page.locator('dialog.deck-sheet')
   await expect(sheet).toBeVisible()
   await expect(sheet).toHaveCSS('transform', 'none') // slide-up animation finished
   const title = (await sheet.getByRole('heading', { level: 2 }).boundingBox())!
@@ -78,7 +78,7 @@ test('choosing a card in the sheet closes it and opens the card details', async 
   await page.goto('/?q=lava coil')
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
   await bar(page).click()
-  const sheet = page.getByRole('dialog', { name: /Untitled deck/ })
+  const sheet = page.locator('dialog.deck-sheet')
   await sheet.getByRole('button', { name: 'Lava Coil', exact: true }).click()
   await expect(sheet).toBeHidden()
   await expect(page.getByRole('dialog', { name: 'Lava Coil' })).toBeVisible()
