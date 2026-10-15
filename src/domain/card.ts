@@ -67,6 +67,8 @@ interface ScryfallImageUris {
 
 interface ScryfallFace {
   name: string
+  oracle_id?: string
+  cmc?: number
   mana_cost?: string
   type_line?: string
   oracle_text?: string
@@ -138,7 +140,11 @@ function normalizeFace(f: ScryfallFace): CardFace {
 }
 
 export function normalizeCard(raw: ScryfallCard): Card {
-  const faces = raw.card_faces?.map(normalizeFace)
+  // A reversible card is one card printed with two arts ("Steam Vents // Steam Vents"):
+  // treat it as its front face, or it would be a separate name from the regular printing.
+  const reversible = raw.layout === 'reversible_card'
+  const rawFaces = reversible ? raw.card_faces?.slice(0, 1) : raw.card_faces
+  const faces = rawFaces?.map(normalizeFace)
   const front = faces?.[0]
 
   // Multi-face cards keep some fields only on faces; fall back to them.
@@ -147,15 +153,15 @@ export function normalizeCard(raw: ScryfallCard): Card {
 
   return {
     id: raw.id,
-    oracleId: raw.oracle_id ?? raw.id,
-    name: raw.name,
+    oracleId: raw.oracle_id ?? rawFaces?.[0]?.oracle_id ?? raw.id,
+    name: reversible && front ? front.name : raw.name,
     set: raw.set,
     setName: raw.set_name,
     collectorNumber: raw.collector_number,
     releasedAt: raw.released_at,
     layout: raw.layout,
     manaCost: raw.mana_cost ?? front?.manaCost ?? '',
-    cmc: raw.cmc ?? 0,
+    cmc: raw.cmc ?? rawFaces?.[0]?.cmc ?? 0,
     colors: toColors(colors),
     colorIdentity: toColors(raw.color_identity),
     typeLine: raw.type_line ?? front?.typeLine ?? '',

@@ -3,8 +3,19 @@ import { isBasicLand, isLand, normalizeCard, type ScryfallCard } from './card'
 import doomWhisperer from './__fixtures__/doom-whisperer.json'
 import assassinsTrophy from './__fixtures__/assassins-trophy.json'
 import delver from './__fixtures__/delver-dfc.json'
+import steamVents from './__fixtures__/steam-vents-reversible.json'
 
 describe('normalizeCard', () => {
+  test('reversible card (two arts of Steam Vents) is the plain card, not "X // X"', () => {
+    const c = normalizeCard(steamVents as ScryfallCard)
+    expect(c.name).toBe('Steam Vents')
+    expect(c.oracleId).toBe('17039058-822d-409f-938c-b727a366ba63')
+    expect(c.typeLine).toBe('Land — Island Mountain')
+    expect(c.oracleText).not.toContain('//')
+    expect(c.faces).toBeUndefined()
+    expect(c.images?.normal).toMatch(/^https:\/\/cards\.scryfall\.io\//)
+  })
+
   test('creature (Doom Whisperer)', () => {
     const c = normalizeCard(doomWhisperer as ScryfallCard)
     expect(c.name).toBe('Doom Whisperer')
