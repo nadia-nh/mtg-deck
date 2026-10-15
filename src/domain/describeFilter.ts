@@ -85,6 +85,7 @@ export function describeFilter(
       remove: without('sets', s),
     })
   }
+  if (f.owned) chips.push({ key: 'owned', label: 'Owned', remove: clear('owned') })
   if (f.allPrintings) {
     chips.push({ key: 'printings', label: 'All printings', remove: clear('allPrintings') })
   }

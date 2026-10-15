@@ -3,6 +3,7 @@ import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
 import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
+import { useCollection } from './collection/collectionContext'
 import { CardTable } from './CardTable'
 import { loadDensity, saveDensity, type Density } from './density'
 import type { CopyAllowance } from './deck/deckContext'
@@ -29,12 +30,13 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
     setDensity(d)
     saveDensity(d)
   }
+  const { owned } = useCollection()
   const results = useMemo(() => {
-    const found = searchCards(db.cards, state.filter, state.sort)
+    const found = searchCards(db.cards, state.filter, state.sort, (name) => (owned[name] ?? 0) > 0)
     if (state.filter.allPrintings) return found
     // One tile per card name, using the preferred printing among the matches.
     return uniqueByName(found, (c) => db.byName.get(c.name)?.indexOf(c) ?? 0)
-  }, [db, state.filter, state.sort])
+  }, [db, state.filter, state.sort, owned])
 
   return (
     <div className="browser">

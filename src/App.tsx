@@ -11,6 +11,8 @@ import { DeckPanel } from './ui/deck/DeckPanel'
 import { MobileDeck } from './ui/deck/MobileDeck'
 import { useMediaQuery } from './ui/useMediaQuery'
 import { DeckView } from './ui/deck/DeckView'
+import { CollectionProvider } from './ui/collection/CollectionProvider'
+import { useCollection } from './ui/collection/collectionContext'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
 import { UndoToast } from './ui/deck/UndoToast'
@@ -33,6 +35,7 @@ function DataStatus({ db }: { db: CardDb }) {
 
 function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view: View) => void }) {
   const { active, addCard, copyAllowance } = useDeck()
+  const { ownedCount, setOwnedCount } = useCollection()
   const [selected, setSelected] = useState<Card | null>(null)
   const resolve = useCallback((name: string) => findByName(db, name), [db])
   const resolveForImport = useCallback((name: string) => resolveCardName(db, name), [db])
@@ -75,6 +78,14 @@ function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view
         }
         onAdd={(zone) => selected && addCard(zone, selected.name)}
         allowance={selected ? copyAllowance(selected.name) : undefined}
+        owned={
+          selected
+            ? {
+                count: ownedCount(selected.name),
+                onChange: (n) => setOwnedCount(selected.name, n),
+              }
+            : undefined
+        }
       />
       <UndoToast />
       <footer>
@@ -105,19 +116,21 @@ export default function App({
   const [view, setView] = useView()
   return (
     <CardsProvider load={load}>
-      <DeckProvider store={deckStore}>
-        <header className="app-header">
-          <div className="brand">
-            <Logo />
-            <h1>MTG Deck Builder</h1>
-          </div>
-          <ViewSwitch view={view} onChange={setView} />
-          <ThemeToggle />
-        </header>
-        <main>
-          <Main view={view} onView={setView} />
-        </main>
-      </DeckProvider>
+      <CollectionProvider>
+        <DeckProvider store={deckStore}>
+          <header className="app-header">
+            <div className="brand">
+              <Logo />
+              <h1>MTG Deck Builder</h1>
+            </div>
+            <ViewSwitch view={view} onChange={setView} />
+            <ThemeToggle />
+          </header>
+          <main>
+            <Main view={view} onView={setView} />
+          </main>
+        </DeckProvider>
+      </CollectionProvider>
     </CardsProvider>
   )
 }

@@ -76,3 +76,9 @@ describe('describeFilter', () => {
     expect(new Set(keys).size).toBe(keys.length)
   })
 })
+
+test('owned-only shows as an "Owned" chip that removes just that', () => {
+  const [chip] = describeFilter({ owned: true })
+  expect(chip.label).toBe('Owned')
+  expect(chip.remove({ owned: true, colors: ['R'] })).toEqual({ colors: ['R'] })
+})

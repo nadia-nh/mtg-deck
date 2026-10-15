@@ -7,6 +7,7 @@ import { DeckManager } from './DeckManager'
 import { DeckStats } from './DeckStats'
 import { DeckValidation } from './DeckValidation'
 import { ImportExport } from './ImportExport'
+import { MissingCards } from './MissingCards'
 import { SampleHand } from './SampleHand'
 import type { NameResolver } from '../../domain/decklist'
 import { useDeck } from './deckContext'
@@ -96,7 +97,16 @@ export function DeckPanelBody({ resolve, resolveForImport, onSelect }: Props) {
             </>
           ),
         },
-        { id: 'stats', label: 'Stats', content: <DeckStats resolve={resolve} /> },
+        {
+          id: 'stats',
+          label: 'Stats',
+          content: (
+            <>
+              <DeckStats resolve={resolve} />
+              <MissingCards resolve={resolve} />
+            </>
+          ),
+        },
         {
           id: 'io',
           label: 'Import / export',
