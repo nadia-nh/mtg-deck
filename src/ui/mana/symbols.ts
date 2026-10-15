@@ -27,6 +27,8 @@ const SPECIAL: Record<string, { className: string; label: string }> = {
   Z: { className: 'ms-z', label: 'Z' },
   '½': { className: 'ms-1-2', label: 'one half' },
   '∞': { className: 'ms-infinity', label: 'infinity' },
+  // Bloomburrow's "Season" cards price their modes in paw prints: "{P}{P} — …".
+  P: { className: 'ms-paw', label: 'paw print' },
 }
 
 /** Mana font class + spoken label for one symbol's inner text, e.g. "W/U". */

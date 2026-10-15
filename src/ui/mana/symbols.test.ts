@@ -17,6 +17,7 @@ describe('describeSymbol', () => {
     ['2/W', 'ms-2w', '2 generic or white'],
     ['W/P', 'ms-wp', 'phyrexian white'],
     ['G/U/P', 'ms-gup', 'phyrexian green or blue'],
+    ['P', 'ms-paw', 'paw print'], // Bloomburrow "Season" mode costs
   ])('{%s} → %s (%s)', (inner, className, label) => {
     expect(describeSymbol(inner)).toEqual({ className, label })
   })
