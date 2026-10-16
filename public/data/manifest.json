@@ -1,12 +1,192 @@
 {
-  "fetchedAt": "2026-10-04T02:59:59.281Z",
+  "fetchedAt": "2026-10-16T01:41:42.762Z",
   "sets": [
+    {
+      "code": "fra",
+      "name": "Reality Fracture",
+      "releasedAt": "2026-10-02",
+      "cardCount": 461,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fra.svg?1791777600",
+      "file": "sets/fra.json",
+      "icon": "sets/fra.svg"
+    },
+    {
+      "code": "hob",
+      "name": "The Hobbit",
+      "releasedAt": "2026-08-14",
+      "cardCount": 321,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/hob.svg?1791777600",
+      "file": "sets/hob.json",
+      "icon": "sets/hob.svg"
+    },
+    {
+      "code": "msh",
+      "name": "Marvel Super Heroes",
+      "releasedAt": "2026-06-26",
+      "cardCount": 453,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/msh.svg?1791777600",
+      "file": "sets/msh.json",
+      "icon": "sets/msh.svg"
+    },
+    {
+      "code": "sos",
+      "name": "Secrets of Strixhaven",
+      "releasedAt": "2026-04-24",
+      "cardCount": 368,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/sos.svg?1791777600",
+      "file": "sets/sos.json",
+      "icon": "sets/sos.svg"
+    },
+    {
+      "code": "tmt",
+      "name": "Teenage Mutant Ninja Turtles",
+      "releasedAt": "2026-03-06",
+      "cardCount": 320,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tmt.svg?1791777600",
+      "file": "sets/tmt.json",
+      "icon": "sets/tmt.svg"
+    },
+    {
+      "code": "ecl",
+      "name": "Lorwyn Eclipsed",
+      "releasedAt": "2026-01-23",
+      "cardCount": 408,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ecl.svg?1791777600",
+      "file": "sets/ecl.json",
+      "icon": "sets/ecl.svg"
+    },
+    {
+      "code": "tla",
+      "name": "Avatar: The Last Airbender",
+      "releasedAt": "2025-11-21",
+      "cardCount": 394,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tla.svg?1791777600",
+      "file": "sets/tla.json",
+      "icon": "sets/tla.svg"
+    },
+    {
+      "code": "spm",
+      "name": "Marvel's Spider-Man",
+      "releasedAt": "2025-09-26",
+      "cardCount": 286,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/spm.svg?1791777600",
+      "file": "sets/spm.json",
+      "icon": "sets/spm.svg"
+    },
+    {
+      "code": "eoe",
+      "name": "Edge of Eternities",
+      "releasedAt": "2025-08-01",
+      "cardCount": 399,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/eoe.svg?1791777600",
+      "file": "sets/eoe.json",
+      "icon": "sets/eoe.svg"
+    },
+    {
+      "code": "fin",
+      "name": "Final Fantasy",
+      "releasedAt": "2025-06-13",
+      "cardCount": 594,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fin.svg?1791777600",
+      "file": "sets/fin.json",
+      "icon": "sets/fin.svg"
+    },
+    {
+      "code": "tdm",
+      "name": "Tarkir: Dragonstorm",
+      "releasedAt": "2025-04-11",
+      "cardCount": 426,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tdm.svg?1791777600",
+      "file": "sets/tdm.json",
+      "icon": "sets/tdm.svg"
+    },
+    {
+      "code": "dft",
+      "name": "Aetherdrift",
+      "releasedAt": "2025-02-14",
+      "cardCount": 553,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dft.svg?1791777600",
+      "file": "sets/dft.json",
+      "icon": "sets/dft.svg"
+    },
+    {
+      "code": "fdn",
+      "name": "Foundations",
+      "releasedAt": "2024-11-15",
+      "cardCount": 771,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fdn.svg?1791777600",
+      "file": "sets/fdn.json",
+      "icon": "sets/fdn.svg"
+    },
+    {
+      "code": "dsk",
+      "name": "Duskmourn: House of Horror",
+      "releasedAt": "2024-09-27",
+      "cardCount": 417,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dsk.svg?1791777600",
+      "file": "sets/dsk.json",
+      "icon": "sets/dsk.svg"
+    },
+    {
+      "code": "blb",
+      "name": "Bloomburrow",
+      "releasedAt": "2024-08-02",
+      "cardCount": 397,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/blb.svg?1791777600",
+      "file": "sets/blb.json",
+      "icon": "sets/blb.svg"
+    },
+    {
+      "code": "otj",
+      "name": "Outlaws of Thunder Junction",
+      "releasedAt": "2024-04-19",
+      "cardCount": 374,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/otj.svg?1791777600",
+      "file": "sets/otj.json",
+      "icon": "sets/otj.svg"
+    },
+    {
+      "code": "big",
+      "name": "The Big Score",
+      "releasedAt": "2024-04-19",
+      "cardCount": 95,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/big.svg?1791777600",
+      "file": "sets/big.json",
+      "icon": "sets/big.svg"
+    },
+    {
+      "code": "mkm",
+      "name": "Murders at Karlov Manor",
+      "releasedAt": "2024-02-09",
+      "cardCount": 440,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/mkm.svg?1791777600",
+      "file": "sets/mkm.json",
+      "icon": "sets/mkm.svg"
+    },
+    {
+      "code": "lci",
+      "name": "The Lost Caverns of Ixalan",
+      "releasedAt": "2023-11-17",
+      "cardCount": 415,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/lci.svg?1791777600",
+      "file": "sets/lci.json",
+      "icon": "sets/lci.svg"
+    },
+    {
+      "code": "woe",
+      "name": "Wilds of Eldraine",
+      "releasedAt": "2023-09-08",
+      "cardCount": 381,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/woe.svg?1791777600",
+      "file": "sets/woe.json",
+      "icon": "sets/woe.svg"
+    },
     {
       "code": "war",
       "name": "War of the Spark",
       "releasedAt": "2019-05-03",
       "cardCount": 311,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1790568000",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1791777600",
       "file": "sets/war.json",
       "icon": "sets/war.svg"
     },
@@ -15,7 +195,7 @@
       "name": "Ravnica Allegiance",
       "releasedAt": "2019-01-25",
       "cardCount": 273,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1790568000",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1791777600",
       "file": "sets/rna.json",
       "icon": "sets/rna.svg"
     },
@@ -24,7 +204,7 @@
       "name": "Guilds of Ravnica",
       "releasedAt": "2018-10-05",
       "cardCount": 273,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1790568000",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1791777600",
       "file": "sets/grn.json",
       "icon": "sets/grn.svg"
     }
