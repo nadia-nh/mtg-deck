@@ -10,8 +10,9 @@
 > keep an image grid) and E3 (group by mana value, type or color) are done, so Phase E is
 > complete. F1 and F2 (bottom deck bar and a swipeable sheet below 1100px) are done, so
 > Phase F is complete. G1 (pure sample-hand module) and G2 (sample hand dialog) are done.
-> Every step is done except C3 (virtualization), which waits until the pool passes about
-> 2,000 cards. Next: the "Future ideas" below.
+> C3 (virtualized grid and list) landed with the Standard sets, which grew the pool to about
+> 5,900 cards: 36,000 → 500 DOM elements, and a filter went from 17 s to 0.3 s. **Every step
+> in this plan is done.**
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art

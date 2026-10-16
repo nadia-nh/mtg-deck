@@ -8,11 +8,25 @@ export type Color = 'W' | 'U' | 'B' | 'R' | 'G'
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'mythic' | 'special' | 'bonus'
 export type Legality = 'legal' | 'not_legal' | 'banned' | 'restricted'
 
+/** Only the size the app shows is kept (Scryfall's 488×680 "normal"). */
 export interface CardImages {
-  small: string
   normal: string
-  large: string
 }
+
+/**
+ * The formats whose legality the snapshot keeps (the deck formats plus Commander, shown in
+ * the card details). Others are dropped, and so are "not_legal" entries: a missing key
+ * means not legal. Together that keeps the shipped data about a quarter smaller.
+ */
+export const LEGALITY_FORMATS = [
+  'standard',
+  'pioneer',
+  'modern',
+  'legacy',
+  'vintage',
+  'pauper',
+  'commander',
+] as const
 
 export interface CardFace {
   name: string
@@ -46,7 +60,8 @@ export interface Card {
   loyalty?: string
   rarity: Rarity
   keywords: string[]
-  legalities: Record<string, Legality>
+  /** Only LEGALITY_FORMATS, and only where not "not_legal"; read missing keys as not legal. */
+  legalities: Partial<Record<string, Legality>>
   /** Front-face images (or the single face for normal cards). */
   images?: CardImages
   /** Present only for multi-face cards (transform, MDFC, split, adventure...). */
@@ -54,7 +69,6 @@ export interface Card {
   prices: { usd: number | null; usdFoil: number | null }
   tcgplayerId?: number
   scryfallUri: string
-  tcgplayerUri?: string
 }
 
 /* ---- Raw Scryfall shapes (only the fields we read) ---- */
@@ -67,6 +81,8 @@ interface ScryfallImageUris {
 
 interface ScryfallFace {
   name: string
+  oracle_id?: string
+  cmc?: number
   mana_cost?: string
   type_line?: string
   oracle_text?: string
@@ -114,7 +130,16 @@ function toColors(raw: string[] | undefined): Color[] {
 }
 
 function toImages(raw?: ScryfallImageUris): CardImages | undefined {
-  return raw ? { small: raw.small, normal: raw.normal, large: raw.large } : undefined
+  return raw ? { normal: raw.normal } : undefined
+}
+
+function toLegalities(raw: Record<string, string>): Card['legalities'] {
+  const kept: Card['legalities'] = {}
+  for (const format of LEGALITY_FORMATS) {
+    const status = raw[format] as Legality | undefined
+    if (status && status !== 'not_legal') kept[format] = status
+  }
+  return kept
 }
 
 function toPrice(raw: string | null | undefined): number | null {
@@ -138,7 +163,11 @@ function normalizeFace(f: ScryfallFace): CardFace {
 }
 
 export function normalizeCard(raw: ScryfallCard): Card {
-  const faces = raw.card_faces?.map(normalizeFace)
+  // A reversible card is one card printed with two arts ("Steam Vents // Steam Vents"):
+  // treat it as its front face, or it would be a separate name from the regular printing.
+  const reversible = raw.layout === 'reversible_card'
+  const rawFaces = reversible ? raw.card_faces?.slice(0, 1) : raw.card_faces
+  const faces = rawFaces?.map(normalizeFace)
   const front = faces?.[0]
 
   // Multi-face cards keep some fields only on faces; fall back to them.
@@ -147,15 +176,15 @@ export function normalizeCard(raw: ScryfallCard): Card {
 
   return {
     id: raw.id,
-    oracleId: raw.oracle_id ?? raw.id,
-    name: raw.name,
+    oracleId: raw.oracle_id ?? rawFaces?.[0]?.oracle_id ?? raw.id,
+    name: reversible && front ? front.name : raw.name,
     set: raw.set,
     setName: raw.set_name,
     collectorNumber: raw.collector_number,
     releasedAt: raw.released_at,
     layout: raw.layout,
     manaCost: raw.mana_cost ?? front?.manaCost ?? '',
-    cmc: raw.cmc ?? 0,
+    cmc: raw.cmc ?? rawFaces?.[0]?.cmc ?? 0,
     colors: toColors(colors),
     colorIdentity: toColors(raw.color_identity),
     typeLine: raw.type_line ?? front?.typeLine ?? '',
@@ -165,13 +194,12 @@ export function normalizeCard(raw: ScryfallCard): Card {
     loyalty: raw.loyalty ?? front?.loyalty,
     rarity: raw.rarity as Rarity,
     keywords: raw.keywords ?? [],
-    legalities: raw.legalities as Record<string, Legality>,
+    legalities: toLegalities(raw.legalities),
     images: toImages(raw.image_uris) ?? front?.images,
     faces: faces && faces.length > 1 ? faces : undefined,
     prices: { usd: toPrice(raw.prices?.usd), usdFoil: toPrice(raw.prices?.usd_foil) },
     tcgplayerId: raw.tcgplayer_id,
     scryfallUri: raw.scryfall_uri,
-    tcgplayerUri: raw.purchase_uris?.tcgplayer,
   }
 }
 

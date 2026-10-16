@@ -1,8 +1,9 @@
 # mtg-deck
 
-A Magic: The Gathering card browser and deck builder for the web. It currently includes
-the Ravnica trilogy (**Guilds of Ravnica**, **Ravnica Allegiance**, **War of the Spark**);
-more sets and format rules can be added without touching the UI.
+A Magic: The Gathering card browser and deck builder for the web. It includes **every set
+in current Standard** (Wilds of Eldraine through Reality Fracture) plus the Ravnica trilogy
+(Guilds of Ravnica, Ravnica Allegiance, War of the Spark): about 5,900 cards. More sets
+and format rules can be added without touching the UI (see `sets.config.json`).
 
 - Browse and filter cards by text, color, guild, type, rarity, mana value, and set, as
   large tiles, small tiles, or a sortable list. Active filters show as removable chips, and

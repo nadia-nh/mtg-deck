@@ -1,3 +1,5 @@
+import { useWindowVirtualizer } from '@tanstack/react-virtual'
+import { useRef } from 'react'
 import type { Card } from '../domain/card'
 import type { SortKey } from '../domain/search'
 import { limitReachedText, type CopyAllowance } from './deck/deckContext'
@@ -5,6 +7,7 @@ import { usd } from './format'
 import { PlusIcon } from './icons'
 import { ManaCost } from './mana/ManaCost'
 import { SetIcon } from './SetIcon'
+import { useDocumentTop } from './useDocumentTop'
 
 interface Props {
   cards: Card[]
@@ -28,7 +31,7 @@ const COLUMNS: {
   { label: 'Cost', sort: 'cmc', direction: 'ascending' },
   { label: 'Type', optional: true },
   { label: 'Rarity', sort: 'rarity', direction: 'descending', optional: true },
-  { label: 'Set', sort: 'number', direction: 'ascending' },
+  { label: 'Set', sort: 'number', direction: 'descending' }, // newest set first
   { label: 'Price', sort: 'price', direction: 'descending' },
 ]
 
@@ -44,15 +47,34 @@ export function CardTable({
   deckCounts,
   copyAllowance,
 }: Props) {
+  // Virtualized (C3): only rows near the viewport are rendered, between spacer rows. Rows
+  // vary in height (long type lines wrap), so each rendered row is measured.
+  const body = useRef<HTMLTableSectionElement>(null)
+  const top = useDocumentTop(body)
+  // Its results are only read during this render, never passed to memoized children.
+  // oxlint-disable-next-line react/incompatible-library
+  const virtualizer = useWindowVirtualizer({
+    count: cards.length,
+    estimateSize: () => 48,
+    overscan: 10,
+    scrollMargin: top,
+  })
+  const rows = virtualizer.getVirtualItems()
+  const spacerTop = rows.length ? rows[0].start - top : 0
+  const spacerBottom = rows.length
+    ? Math.max(0, virtualizer.getTotalSize() - (rows[rows.length - 1].end - top))
+    : 0
+  const columnCount = COLUMNS.length + (onAdd ? 1 : 0)
+
   if (cards.length === 0) {
     return <p className="empty">No cards match these filters.</p>
   }
   return (
     <div className="card-table-wrap">
-      <table className="card-table">
+      <table className="card-table" aria-rowcount={cards.length + 1}>
         <caption className="visually-hidden">Cards</caption>
         <thead>
-          <tr>
+          <tr aria-rowindex={1}>
             {COLUMNS.map((col) => (
               <th
                 key={col.label}
@@ -79,12 +101,23 @@ export function CardTable({
             )}
           </tr>
         </thead>
-        <tbody>
-          {cards.map((card) => {
+        <tbody ref={body}>
+          {spacerTop > 0 && (
+            <tr className="spacer" aria-hidden="true">
+              <td colSpan={columnCount} style={{ height: spacerTop }} />
+            </tr>
+          )}
+          {rows.map(({ index }) => {
+            const card = cards[index]
             const inDeck = deckCounts?.get(card.name) ?? 0
             const allowance = copyAllowance?.(card)
             return (
-              <tr key={card.id}>
+              <tr
+                key={card.id}
+                data-index={index}
+                ref={virtualizer.measureElement}
+                aria-rowindex={index + 2}
+              >
                 <th scope="row">
                   <button type="button" className="row-name" onClick={() => onSelect?.(card)}>
                     {card.name}
@@ -126,6 +159,11 @@ export function CardTable({
               </tr>
             )
           })}
+          {spacerBottom > 0 && (
+            <tr className="spacer" aria-hidden="true">
+              <td colSpan={columnCount} style={{ height: spacerBottom }} />
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

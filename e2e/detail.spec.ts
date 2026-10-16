@@ -1,7 +1,8 @@
 import { expect, test } from '@playwright/test'
 
 test('opens card details with text, legality, and links', async ({ page }) => {
-  await page.goto('/?q=trophy')
+  // GRN's printing: newer sets reprinted it, and the newest printing is shown by default.
+  await page.goto('/?q=trophy&s=grn')
   await page.getByRole('button', { name: "Assassin's Trophy", exact: true }).click()
 
   const dialog = page.getByRole('dialog', { name: "Assassin's Trophy" })

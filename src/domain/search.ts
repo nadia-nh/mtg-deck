@@ -126,11 +126,26 @@ export const collectorNumberValue = (n: string) => {
 
 const byName = (a: Card, b: Card) => a.name.localeCompare(b.name)
 
-const COMPARATORS: Record<SortKey, (a: Card, b: Card) => number> = {
-  number: (a, b) =>
+const byNumber = (a: Card, b: Card) =>
+  collectorNumberValue(a.collectorNumber) - collectorNumberValue(b.collectorNumber) ||
+  a.collectorNumber.localeCompare(b.collectorNumber)
+
+/**
+ * Newest set first, each set kept together in collector number order. A set's date is the
+ * latest release date among its cards, so a stray promo date can't split the set.
+ */
+function bySetNewestFirst(cards: Card[]): (a: Card, b: Card) => number {
+  const setDate = new Map<string, string>()
+  for (const c of cards) {
+    if (c.releasedAt > (setDate.get(c.set) ?? '')) setDate.set(c.set, c.releasedAt)
+  }
+  return (a, b) =>
+    (setDate.get(b.set) ?? '').localeCompare(setDate.get(a.set) ?? '') ||
     a.set.localeCompare(b.set) ||
-    collectorNumberValue(a.collectorNumber) - collectorNumberValue(b.collectorNumber) ||
-    a.collectorNumber.localeCompare(b.collectorNumber),
+    byNumber(a, b)
+}
+
+const COMPARATORS: Record<Exclude<SortKey, 'number'>, (a: Card, b: Card) => number> = {
   name: byName,
   cmc: (a, b) => a.cmc - b.cmc || byName(a, b),
   // Highest price first; unpriced cards last.
@@ -144,7 +159,8 @@ export function searchCards(
   sort: SortKey = 'number',
   isOwned?: IsOwned,
 ): Card[] {
-  return cards.filter((c) => matchesFilter(c, filter, isOwned)).sort(COMPARATORS[sort])
+  const found = cards.filter((c) => matchesFilter(c, filter, isOwned))
+  return found.sort(sort === 'number' ? bySetNewestFirst(found) : COMPARATORS[sort])
 }
 
 /**
