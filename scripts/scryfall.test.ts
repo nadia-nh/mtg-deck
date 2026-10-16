@@ -57,3 +57,26 @@ test('getSetIcon rejects responses that are not SVG', async () => {
   const fetchFn: FetchLike = async () => response('<html>blocked</html>')
   await expect(createClient(fetchFn, 0).getSetIcon(war)).rejects.toThrow(/Not an SVG/)
 })
+
+test('waits and retries when Scryfall rate-limits (429) or is briefly down (5xx)', async () => {
+  const statuses = [429, 503, 200]
+  const fetchFn = vi.fn<FetchLike>(async () => {
+    const status = statuses.shift()!
+    return {
+      ...response({ code: 'war' }, status),
+      headers: { get: (h: string) => (h === 'Retry-After' && status === 429 ? '0' : null) },
+    }
+  })
+  await expect(createClient(fetchFn, 0, 1).getSet('war')).resolves.toEqual({ code: 'war' })
+  expect(fetchFn).toHaveBeenCalledTimes(3)
+})
+
+test('gives up after a few retries, and does not retry other errors', async () => {
+  const always429 = vi.fn<FetchLike>(async () => response({}, 429))
+  await expect(createClient(always429, 0, 1).getSet('war')).rejects.toThrow(/429/)
+  expect(always429).toHaveBeenCalledTimes(5) // first try + 4 retries
+
+  const notFound = vi.fn<FetchLike>(async () => response({}, 404))
+  await expect(createClient(notFound, 0, 1).getSet('nope')).rejects.toThrow(/404/)
+  expect(notFound).toHaveBeenCalledTimes(1)
+})
