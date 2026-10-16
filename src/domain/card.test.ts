@@ -1,11 +1,30 @@
 import { describe, expect, test } from 'vitest'
-import { isBasicLand, isLand, normalizeCard, type ScryfallCard } from './card'
+import { LEGALITY_FORMATS, isBasicLand, isLand, normalizeCard, type ScryfallCard } from './card'
 import doomWhisperer from './__fixtures__/doom-whisperer.json'
 import assassinsTrophy from './__fixtures__/assassins-trophy.json'
 import delver from './__fixtures__/delver-dfc.json'
 import steamVents from './__fixtures__/steam-vents-reversible.json'
 
 describe('normalizeCard', () => {
+  test('keeps only the legalities the app uses, and only where not "not_legal"', () => {
+    const raw = assassinsTrophy as ScryfallCard
+    const c = normalizeCard(raw)
+    expect(
+      Object.keys(c.legalities).every((k) => (LEGALITY_FORMATS as readonly string[]).includes(k)),
+    ).toBe(true)
+    expect(Object.values(c.legalities)).not.toContain('not_legal')
+    for (const format of LEGALITY_FORMATS) {
+      const original = raw.legalities[format]
+      expect(c.legalities[format] ?? 'not_legal').toBe(original ?? 'not_legal')
+    }
+  })
+
+  test('keeps one image size (the one the app shows)', () => {
+    expect(Object.keys(normalizeCard(doomWhisperer as ScryfallCard).images ?? {})).toEqual([
+      'normal',
+    ])
+  })
+
   test('reversible card (two arts of Steam Vents) is the plain card, not "X // X"', () => {
     const c = normalizeCard(steamVents as ScryfallCard)
     expect(c.name).toBe('Steam Vents')

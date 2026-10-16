@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import type { Card } from '../card'
+import { LEGALITY_FORMATS, type Card } from '../card'
 import { addCard, createDeck, type Deck } from '../deck'
 import { copyLimitOverride } from './constructed'
 import { FORMATS, getFormat } from './registry'
@@ -162,4 +162,10 @@ describe('registry', () => {
     // Surveil reminder text says "any number of them" — must NOT be exempt.
     expect(copyLimitOverride(byName.get('Dimir Informant')!)).toBeUndefined()
   })
+})
+
+test('the data snapshot keeps the legality of every registered format', () => {
+  for (const format of FORMATS.filter((f) => f.id !== 'casual')) {
+    expect(LEGALITY_FORMATS as readonly string[]).toContain(format.id)
+  }
 })
