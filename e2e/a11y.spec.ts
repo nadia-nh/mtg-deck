@@ -5,7 +5,7 @@ const scan = (page: Parameters<typeof AxeBuilder>[0]['page']) =>
   new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
 
 test('main page has no WCAG A/AA violations', async ({ page }) => {
-  await page.goto('/?g=izzet')
+  await page.goto('/?g=izzet&q=niv-mizzet')
   await page.getByRole('button', { name: 'Add Niv-Mizzet, Parun to deck' }).click()
   const { violations } = await scan(page).analyze()
   expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])

@@ -20,12 +20,15 @@ test('filters by guild and restores the full list', async ({ page }) => {
   expect(n).toBeGreaterThan(10)
   expect(n).toBeLessThan(totalUniqueNames)
 
+  // The grid is virtualized: only rows near the viewport are in the page, but each tile
+  // knows the full result size.
   const identities = await page
     .locator('.card-tile')
     .evaluateAll((els) => els.map((el) => (el as HTMLElement).dataset.identity))
-  expect(identities).toHaveLength(n)
+  expect(identities.length).toBeGreaterThan(0)
+  expect(identities.length).toBeLessThanOrEqual(n)
   expect(new Set(identities)).toEqual(new Set(['UR']))
-  await expect(page.getByRole('img', { name: 'Niv-Mizzet, Parun' })).toBeVisible()
+  await expect(page.locator('.card-cell').first()).toHaveAttribute('aria-setsize', String(n))
 
   // Back button undoes the filter.
   await page.goBack()
@@ -33,7 +36,8 @@ test('filters by guild and restores the full list', async ({ page }) => {
 })
 
 test('URL params are applied on load (shareable searches)', async ({ page }) => {
-  await page.goto('/?c=B&r=mythic&sort=name')
+  // Limited to one set so the expected card is among the first rows rendered.
+  await page.goto('/?c=B&r=mythic&sort=name&s=grn')
   await expect(page.getByRole('button', { name: 'Black', exact: true })).toHaveAttribute(
     'aria-pressed',
     'true',
@@ -104,11 +108,12 @@ test('density toggle switches to small tiles and is remembered', async ({ page }
 })
 
 test('list view: one row per card, sortable headers, add and open details', async ({ page }) => {
-  await page.goto('/?g=izzet&r=rare')
+  await page.goto('/?g=izzet&r=rare&s=grn') // few enough rows that all are rendered
   const n = await count(page)
   await page.getByRole('group', { name: 'View' }).getByLabel('List').check()
   const table = page.getByRole('table', { name: 'Cards', exact: true })
   await expect(table.getByRole('row')).toHaveCount(n + 1) // + header row
+  await expect(table).toHaveAttribute('aria-rowcount', String(n + 1))
 
   // Clicking a header sorts by that column, through the same URL state as the dropdown.
   await table.getByRole('button', { name: 'Price' }).click()
@@ -160,4 +165,45 @@ test('one tile per card by default; "Show all printings" shows every printing', 
   await page.goto('/')
   await page.getByLabel('Show all printings').check()
   await expect(page.locator('#results-heading')).toHaveText(`${totalCards} cards`)
+})
+
+test.describe('virtualized results (C3)', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  test('only rows near the viewport are in the page; the last card is reachable', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+    const cells = page.locator('.card-cell')
+    expect(await cells.count()).toBeLessThan(100)
+
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+    await expect(page.locator(`.card-cell[aria-posinset="${totalUniqueNames}"]`)).toBeVisible()
+    expect(await cells.count()).toBeLessThan(100)
+  })
+
+  test('tabbing through tiles keeps rendering the next rows', async ({ page }) => {
+    await page.goto('/')
+    const firstTile = page.locator('.card-cell[aria-posinset="1"] .card-tile')
+    await firstTile.focus()
+    // Each tile has its image button and its + button; 120 Tabs ≈ 60 tiles, past the first screen.
+    for (let i = 0; i < 120; i++) await page.keyboard.press('Tab')
+    const pos = await page.evaluate(
+      () => document.activeElement?.closest('.card-cell')?.getAttribute('aria-posinset') ?? null,
+    )
+    expect(Number(pos)).toBeGreaterThan(50)
+  })
+
+  test('list view virtualizes too, with the real row count for screen readers', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await page.getByRole('group', { name: 'View' }).getByLabel('List').check()
+    const table = page.getByRole('table', { name: 'Cards', exact: true })
+    await expect(table).toHaveAttribute('aria-rowcount', String(totalUniqueNames + 1))
+    expect(await table.locator('tbody tr:not(.spacer)').count()).toBeLessThan(150)
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+    await expect(table.locator(`tr[aria-rowindex="${totalUniqueNames + 1}"]`)).toBeVisible()
+  })
 })

@@ -1,7 +1,9 @@
+import { useRef } from 'react'
 import type { Card } from '../domain/card'
 import { limitReachedText, type CopyAllowance } from './deck/deckContext'
 import type { Density } from './density'
 import { PlusIcon } from './icons'
+import { useVirtualGrid } from './useVirtualGrid'
 
 interface Props {
   cards: Card[]
@@ -23,16 +25,31 @@ export function CardGrid({
   copyAllowance,
   density = 'large',
 }: Props) {
+  const ref = useRef<HTMLUListElement>(null)
+  // Only the rows near the viewport are in the DOM; padding stands in for the rest.
+  const { start, end, paddingTop, paddingBottom } = useVirtualGrid(ref, cards.length)
+
   if (cards.length === 0) {
     return <p className="empty">No cards match these filters.</p>
   }
   return (
-    <ul className="card-grid" data-density={density} aria-label="Cards">
-      {cards.map((card) => {
+    <ul
+      ref={ref}
+      className="card-grid"
+      data-density={density}
+      aria-label="Cards"
+      style={{ paddingTop, paddingBottom }}
+    >
+      {cards.slice(start, end).map((card, i) => {
         const inDeck = deckCounts?.get(card.name) ?? 0
         const allowance = copyAllowance?.(card)
         return (
-          <li key={card.id} className="card-cell">
+          <li
+            key={card.id}
+            className="card-cell"
+            aria-setsize={cards.length}
+            aria-posinset={start + i + 1}
+          >
             <button
               type="button"
               className="card-tile"

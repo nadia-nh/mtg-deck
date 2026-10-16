@@ -399,3 +399,8 @@
     padding: var(--space-2);
   }
 }
+/* Stand-ins for the virtualized rows above and below the rendered ones. */
+.card-table tr.spacer td {
+  padding: 0;
+  border: 0;
+}

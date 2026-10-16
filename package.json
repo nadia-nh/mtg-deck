@@ -16,6 +16,7 @@
     "vendor:mana": "tsx scripts/vendor-mana-css.ts"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "^3.14.20",
     "mana-font": "^1.18.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
