@@ -31,7 +31,7 @@ const COLUMNS: {
   { label: 'Cost', sort: 'cmc', direction: 'ascending' },
   { label: 'Type', optional: true },
   { label: 'Rarity', sort: 'rarity', direction: 'descending', optional: true },
-  { label: 'Set', sort: 'number', direction: 'ascending' },
+  { label: 'Set', sort: 'number', direction: 'descending' }, // newest set first
   { label: 'Price', sort: 'price', direction: 'descending' },
 ]
 

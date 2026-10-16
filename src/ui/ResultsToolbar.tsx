@@ -8,7 +8,7 @@ import type { BrowseState } from './filterParams'
 import { XIcon } from './icons'
 
 const SORT_LABELS: Record<SortKey, string> = {
-  number: 'Collector number',
+  number: 'Set (newest first)',
   name: 'Name',
   cmc: 'Mana value',
   price: 'Price (high → low)',

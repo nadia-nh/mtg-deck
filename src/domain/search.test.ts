@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
 import { cardTypes, collectorNumberValue, matchesFilter, searchCards, uniqueByName } from './search'
 import grnJson from '../../public/data/sets/grn.json'
+import warJson from '../../public/data/sets/war.json'
 
 // The committed GRN snapshot doubles as a realistic fixture.
 const grn = grnJson as Card[]
@@ -87,7 +88,16 @@ describe('type, rarity, cmc, set filters', () => {
 })
 
 describe('sorting', () => {
-  test('default sorts by collector number numerically', () => {
+  test('default: newest set first, each set together in collector number order', () => {
+    const mixed = [...grn, ...(warJson as Card[])]
+    const res = searchCards(mixed, {})
+    expect(res[0].set).toBe('war') // War of the Spark (2019) is newer than Guilds (2018)
+    const firstGrn = res.findIndex((c) => c.set === 'grn')
+    expect(res.slice(firstGrn).every((c) => c.set === 'grn')).toBe(true)
+    const warNums = res.slice(0, firstGrn).map((c) => collectorNumberValue(c.collectorNumber))
+    expect(warNums).toEqual([...warNums].sort((a, b) => a - b))
+  })
+  test('default sorts by collector number numerically within a set', () => {
     const nums = searchCards(grn, {}).map((c) => collectorNumberValue(c.collectorNumber))
     expect(nums).toEqual([...nums].sort((a, b) => a - b))
     expect(nums[0]).toBe(1)
