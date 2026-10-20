@@ -135,6 +135,27 @@ test.describe('filter rail (H2)', () => {
   })
 })
 
+test('set picker groups sets by year and shows the chosen set; rarities get gems', async ({
+  page,
+}) => {
+  await page.goto('/')
+  const picker = page.getByRole('combobox', { name: 'Set' })
+  await expect(picker.locator('optgroup[label="2019"] option')).toContainText(['War of the Spark'])
+  const years = await picker.locator('optgroup').evaluateAll((gs) => gs.map((g) => g.label))
+  expect(years).toEqual([...years].sort().reverse())
+  expect(years.length).toBeGreaterThan(1)
+
+  const filters = page.getByRole('search')
+  await expect(filters.locator('.set-select .set-icon')).toHaveCount(0)
+  await picker.selectOption('war')
+  await expect(page).toHaveURL(/s=war/)
+  await expect(filters.locator('.set-select .set-icon')).toBeVisible()
+
+  // Gems are decorative: the checkbox names stay plain.
+  await expect(filters.locator('.rarity-gem')).toHaveCount(4)
+  await expect(filters.getByRole('checkbox', { name: 'Mythic', exact: true })).toBeVisible()
+})
+
 test('list view: one row per card, sortable headers, add and open details', async ({ page }) => {
   await page.goto('/?g=izzet&r=rare&s=grn') // few enough rows that all are rendered
   const n = await count(page)

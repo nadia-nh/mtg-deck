@@ -46,6 +46,21 @@
 .rarity-gem.mythic {
   background: var(--rarity-mythic);
 }
+/* The chosen set's symbol sits inside the select's left edge. */
+.set-select {
+  position: relative;
+  display: block;
+}
+.set-select .set-icon {
+  position: absolute;
+  left: var(--space-2);
+  top: 50%;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+.set-select:has(.set-icon) select {
+  padding-left: calc(var(--space-2) + 1.1em + var(--space-2));
+}
 .inline-check {
   font-size: var(--text-md);
 }

@@ -36,6 +36,7 @@ export function FilterPanel({ state, sets, onChange }: Props) {
   const setGroups = groupSetsByYear(sets)
   // Rarity gems use the newest set's symbol, the way printed cards show rarity.
   const gemSet = setGroups[0]?.sets[0]
+  const selectedSet = sets.find((s) => s.code === f.sets?.[0])
 
   return (
     <form className="filters" role="search" onSubmit={(e) => e.preventDefault()}>
@@ -180,19 +181,26 @@ export function FilterPanel({ state, sets, onChange }: Props) {
       </fieldset>
 
       {sets.length > 1 && (
-        <label className="field">
+        <label className="field set-field">
           <span>Set</span>
-          <select
-            value={f.sets?.[0] ?? ''}
-            onChange={(e) => setFilter({ sets: e.target.value ? [e.target.value] : undefined })}
-          >
-            <option value="">All sets</option>
-            {sets.map((s) => (
-              <option key={s.code} value={s.code}>
-                {s.name}
-              </option>
-            ))}
-          </select>
+          <span className="set-select">
+            {selectedSet && <SetIcon code={selectedSet.code} name={selectedSet.name} decorative />}
+            <select
+              value={f.sets?.[0] ?? ''}
+              onChange={(e) => setFilter({ sets: e.target.value ? [e.target.value] : undefined })}
+            >
+              <option value="">All sets</option>
+              {setGroups.map((g) => (
+                <optgroup key={g.year} label={g.year}>
+                  {g.sets.map((s) => (
+                    <option key={s.code} value={s.code}>
+                      {s.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </span>
         </label>
       )}
 
