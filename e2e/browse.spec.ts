@@ -107,6 +107,34 @@ test('density toggle switches to small tiles and is remembered', async ({ page }
   await expect(grid).toHaveAttribute('data-density', 'small')
 })
 
+test.describe('filter rail (H2)', () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+
+  test('closing the filters folds them into a rail, widens the grid, and is remembered', async ({
+    page,
+  }) => {
+    await page.goto('/?r=mythic')
+    const grid = page.getByRole('list', { name: 'Cards' })
+    const columns = () =>
+      grid.evaluate((el) => getComputedStyle(el).gridTemplateColumns.split(' ').length)
+    const toggle = page.locator('.filters-drawer summary')
+    await expect(page.getByRole('searchbox')).toBeVisible()
+    const before = await columns()
+
+    await toggle.click()
+    await expect(page.getByRole('searchbox')).toBeHidden()
+    expect((await toggle.boundingBox())!.width).toBeLessThan(64)
+    await expect.poll(columns).toBeGreaterThan(before)
+
+    await page.reload()
+    await expect(page.getByRole('searchbox')).toBeHidden()
+    await toggle.click()
+    await expect(page.getByRole('searchbox')).toBeVisible()
+    await page.reload()
+    await expect(page.getByRole('searchbox')).toBeVisible()
+  })
+})
+
 test('list view: one row per card, sortable headers, add and open details', async ({ page }) => {
   await page.goto('/?g=izzet&r=rare&s=grn') // few enough rows that all are rendered
   const n = await count(page)
