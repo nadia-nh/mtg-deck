@@ -49,12 +49,26 @@ export function DeckStats({ resolve }: { resolve: ResolveCard }) {
                 title={`Mana value ${b}: ${n} ${n === 1 ? 'card' : 'cards'}`}
               >
                 <div className="curve-track">
-                  {n > 0 && <div className="curve-bar" style={{ height: `${(n / max) * 100}%` }} />}
+                  {n > 0 && (
+                    <>
+                      <span className="curve-value" data-testid={`curve-value-${b}`}>
+                        {n}
+                      </span>
+                      <div
+                        className="curve-bar"
+                        // Leaves room above the tallest bar for its count.
+                        style={{ height: `calc((100% - 1.25em) * ${n / max})` }}
+                      />
+                    </>
+                  )}
                 </div>
                 <span className="curve-tick">{b}</span>
               </div>
             )
           })}
+        </div>
+        <div className="curve-axis" aria-hidden="true">
+          Mana value
         </div>
         <table className="visually-hidden">
           <caption>Cards per mana value</caption>

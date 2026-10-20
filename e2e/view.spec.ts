@@ -112,6 +112,10 @@ test.describe('stacked columns', () => {
       )
     for (const [bucket, n] of curveRows) {
       expect(fromColumns[bucket as string] ?? 0, `MV ${bucket}`).toBe(n)
+      // The chart labels each non-empty bar with the same count.
+      const value = page.getByTestId(`curve-value-${bucket}`)
+      if (n) await expect(value).toHaveText(String(n))
+      else await expect(value).toHaveCount(0)
     }
     expect(fromColumns.lands).toBe(34)
     await expect(page.getByRole('region', { name: 'Sideboard (2): MV 2, 2 cards' })).toBeVisible()
