@@ -219,6 +219,55 @@
   padding: var(--space-2);
 }
 
+/* ---- Loading skeleton ---- */
+
+.skeleton-card,
+.skeleton-line {
+  background: color-mix(in srgb, var(--border) 70%, var(--bg));
+  animation: skeleton-pulse 1.4s ease-in-out infinite;
+}
+.skeleton-card {
+  aspect-ratio: 488 / 680;
+  border-radius: var(--radius-card);
+}
+.skeleton-line {
+  display: block;
+  height: 0.9em;
+  margin: var(--space-2) 0;
+  border-radius: var(--radius-sm);
+}
+.skeleton-line.short {
+  width: 60%;
+}
+.skeleton-line.toolbar {
+  width: 8em;
+  height: 1.2em;
+  margin: 0 0 var(--space-3);
+}
+.skeleton-panel {
+  min-height: 8em;
+}
+/* Phones show filters collapsed: one short bar. */
+@media (max-width: 760px) {
+  .skeleton-filters {
+    min-height: 0;
+  }
+  .skeleton-filters .short {
+    display: none;
+  }
+}
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-card,
+  .skeleton-line {
+    animation: none;
+  }
+}
+
 .tile-add {
   position: absolute;
   right: var(--space-2);
