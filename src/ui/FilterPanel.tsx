@@ -11,6 +11,8 @@ import {
 } from '../domain/search'
 import { COLOR_NAMES } from '../domain/describeFilter'
 import type { BrowseState } from './filterParams'
+import { groupSetsByYear } from './setGroups'
+import { SetIcon } from './SetIcon'
 
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1)
 
@@ -31,6 +33,9 @@ export function FilterPanel({ state, sets, onChange }: Props) {
   const setFilter = (patch: Partial<CardFilter>, opts?: { replace?: boolean }) =>
     onChange({ ...state, filter: { ...f, ...patch } }, opts)
   const parseCmc = (v: string) => (v === '' ? undefined : Number(v))
+  const setGroups = groupSetsByYear(sets)
+  // Rarity gems use the newest set's symbol, the way printed cards show rarity.
+  const gemSet = setGroups[0]?.sets[0]
 
   return (
     <form className="filters" role="search" onSubmit={(e) => e.preventDefault()}>
@@ -139,6 +144,9 @@ export function FilterPanel({ state, sets, onChange }: Props) {
                 checked={!!f.rarities?.includes(r)}
                 onChange={() => setFilter({ rarities: toggle<Rarity>(f.rarities, r) })}
               />
+              {gemSet && (
+                <SetIcon code={gemSet.code} name="" decorative className={`rarity-gem ${r}`} />
+              )}
               {capitalize(r)}
             </label>
           ))}

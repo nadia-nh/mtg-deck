@@ -42,3 +42,15 @@ test('renders nothing for unknown sets or before data loads', () => {
   expect(renderIcon(ready, 'xyz').container).toBeEmptyDOMElement()
   expect(renderIcon({ status: 'loading' }, 'war').container).toBeEmptyDOMElement()
 })
+
+test('a decorative icon is hidden from screen readers and keeps its class', () => {
+  const { container } = render(
+    <CardsContext.Provider value={ready}>
+      <SetIcon code="war" name="War of the Spark" decorative className="rarity-gem" />
+    </CardsContext.Provider>,
+  )
+  expect(screen.queryByRole('img')).toBeNull()
+  const icon = container.querySelector('.set-icon.rarity-gem')!
+  expect(icon.getAttribute('aria-hidden')).toBe('true')
+  expect(icon.getAttribute('title')).toBeNull()
+})

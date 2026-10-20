@@ -23,6 +23,12 @@
   --warn-bg: light-dark(#fff3cd, #3a3000);
   --warn-fg: light-dark(#5c4400, #ffe08a);
 
+  /* Rarity colors for set symbols (non-text; all ≥ 3:1 on surface) */
+  --rarity-common: var(--fg);
+  --rarity-uncommon: light-dark(#5e6b7a, #aab6c4);
+  --rarity-rare: light-dark(#8f6d0f, #e0b84a);
+  --rarity-mythic: light-dark(#c2410c, #ff7a3d);
+
   /* Spacing: 4px scale */
   --space-1: 4px;
   --space-2: 8px;
