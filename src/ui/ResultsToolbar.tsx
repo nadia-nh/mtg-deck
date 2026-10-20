@@ -6,6 +6,7 @@ import type { Density } from './density'
 import { DensityToggle } from './DensityToggle'
 import type { BrowseState } from './filterParams'
 import { XIcon } from './icons'
+import { cards } from './format'
 
 const SORT_LABELS: Record<SortKey, string> = {
   number: 'Set (newest first)',
@@ -50,7 +51,7 @@ export function ResultsToolbar({ state, sets, count, onChange, density, onDensit
         className="result-count"
         aria-live="polite"
       >
-        {count} {count === 1 ? 'card' : 'cards'}
+        {cards(count)}
       </h2>
       {chips.length > 0 && (
         <>

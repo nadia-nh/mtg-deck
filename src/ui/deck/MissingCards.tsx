@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { missingCards } from '../../domain/collection'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import { useCollection } from '../collection/collectionContext'
-import { usd } from '../format'
+import { cards, usd } from '../format'
 import { useDeck } from './deckContext'
 
 /** What the deck needs that the collection doesn't have, and roughly what it costs. */
@@ -20,7 +20,7 @@ export function MissingCards({ resolve }: { resolve: ResolveCard }) {
       ) : (
         <>
           <p data-testid="missing-summary">
-            {missing.count} {missing.count === 1 ? 'card' : 'cards'} · about {usd(missing.price)}
+            {cards(missing.count)} · about {usd(missing.price)}
             {missing.unpriced > 0 && <span className="muted"> (+{missing.unpriced} unpriced)</span>}
           </p>
           {Object.keys(owned).length === 0 && (

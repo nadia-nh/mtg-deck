@@ -35,7 +35,7 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
   const stats = page.getByRole('region', { name: 'Deck statistics' })
   await expect(stats).toContainText('34lands')
   await expect(stats).toContainText('26spells')
-  await expect(page.getByTestId('deck-price')).toHaveText(/^\$\d+\.\d{2}$/)
+  await expect(page.getByTestId('deck-price')).toHaveText(/^\$[\d,]+\.\d{2}$/)
 
   // Dropping below 60 is an error. (A 5th copy can't be added at all; see deck.spec.)
   await panel.getByRole('tab', { name: 'Cards' }).click()

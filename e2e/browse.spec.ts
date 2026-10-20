@@ -8,7 +8,9 @@ const count = async (page: Page) => {
 
 test('filters by guild and restores the full list', async ({ page }) => {
   await page.goto('/')
-  await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${totalUniqueNames.toLocaleString('en-US')} cards`,
+  )
 
   await page.getByRole('button', { name: 'Izzet (Blue-Red)' }).click()
   await expect(page.getByRole('button', { name: 'Izzet (Blue-Red)' })).toHaveAttribute(
@@ -32,7 +34,9 @@ test('filters by guild and restores the full list', async ({ page }) => {
 
   // Back button undoes the filter.
   await page.goBack()
-  await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${totalUniqueNames.toLocaleString('en-US')} cards`,
+  )
 })
 
 test('URL params are applied on load (shareable searches)', async ({ page }) => {
@@ -71,7 +75,9 @@ test('active filter chips: remove one, then clear all', async ({ page }) => {
 
   await page.getByRole('button', { name: 'Clear all' }).click()
   await expect(chips).toBeHidden()
-  await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${totalUniqueNames.toLocaleString('en-US')} cards`,
+  )
   await expect(page.locator('#results-heading')).toBeFocused()
   await expect(page).toHaveURL(/\/$/)
 })
@@ -213,7 +219,9 @@ test('one tile per card by default; "Show all printings" shows every printing', 
 
   await page.goto('/')
   await page.getByLabel('Show all printings').check()
-  await expect(page.locator('#results-heading')).toHaveText(`${totalCards} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${totalCards.toLocaleString('en-US')} cards`,
+  )
 })
 
 test.describe('virtualized results (C3)', () => {
@@ -223,7 +231,9 @@ test.describe('virtualized results (C3)', () => {
     page,
   }) => {
     await page.goto('/')
-    await expect(page.locator('#results-heading')).toHaveText(`${totalUniqueNames} cards`)
+    await expect(page.locator('#results-heading')).toHaveText(
+      `${totalUniqueNames.toLocaleString('en-US')} cards`,
+    )
     const cells = page.locator('.card-cell')
     expect(await cells.count()).toBeLessThan(100)
 
