@@ -38,6 +38,54 @@
     white-space: nowrap;
   }
 }
+/* Theme: inline segmented control; on phones, a button that opens it as a popover. */
+.theme-menu-button {
+  display: none;
+}
+@media (min-width: 521px) {
+  /* Always shown in the header, so not a popover in practice. */
+  .theme-popover,
+  .theme-popover:not(:popover-open) {
+    display: block;
+    position: static;
+    inset: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    overflow: visible;
+  }
+}
+@media (max-width: 520px) {
+  .theme-menu-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    color: var(--fg);
+    cursor: pointer;
+  }
+  .theme-popover {
+    position: fixed;
+    inset: calc(var(--header-h) + var(--space-1)) var(--space-4) auto auto;
+    margin: 0;
+    padding: var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--fg);
+    box-shadow: var(--shadow-panel);
+  }
+  /* There's room for the words inside the popover. */
+  .theme-popover .segmented-label {
+    position: static;
+    width: auto;
+    height: auto;
+    clip: auto;
+  }
+}
 .logo .logo-back {
   fill: color-mix(in srgb, var(--accent) 35%, var(--surface));
 }
