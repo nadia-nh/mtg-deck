@@ -129,6 +129,7 @@ export function FilterPanel({ state, sets, onChange }: Props) {
                 checked={!!f.types?.includes(t)}
                 onChange={() => setFilter({ types: toggle<CardType>(f.types, t) })}
               />
+              <i className={`ms ms-${t.toLowerCase()} type-icon`} aria-hidden="true" />
               {t}
             </label>
           ))}

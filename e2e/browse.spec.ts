@@ -141,7 +141,7 @@ test.describe('filter rail (H2)', () => {
   })
 })
 
-test('set picker groups sets by year and shows the chosen set; rarities get gems', async ({
+test('set picker groups sets by year and shows the chosen set; rarities and types get icons', async ({
   page,
 }) => {
   await page.goto('/')
@@ -160,6 +160,10 @@ test('set picker groups sets by year and shows the chosen set; rarities get gems
   // Gems are decorative: the checkbox names stay plain.
   await expect(filters.locator('.rarity-gem')).toHaveCount(4)
   await expect(filters.getByRole('checkbox', { name: 'Mythic', exact: true })).toBeVisible()
+
+  // Type symbols are decorative too.
+  await expect(filters.locator('.type-icon[aria-hidden="true"]')).toHaveCount(7)
+  await expect(filters.getByRole('checkbox', { name: 'Creature', exact: true })).toBeVisible()
 })
 
 test('list view: one row per card, sortable headers, add and open details', async ({ page }) => {
