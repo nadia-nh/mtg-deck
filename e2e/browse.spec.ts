@@ -113,6 +113,31 @@ test('density toggle switches to small tiles and is remembered', async ({ page }
   await expect(grid).toHaveAttribute('data-density', 'small')
 })
 
+test('the + on a tile shows on hover or keyboard focus, not while just browsing', async ({
+  page,
+}) => {
+  await page.goto('/?q=lava coil')
+  const add = page.getByRole('button', { name: 'Add Lava Coil to deck' })
+  const opacity = () => add.evaluate((el) => getComputedStyle(el).opacity)
+  await page.mouse.move(0, 0)
+  await expect.poll(opacity).toBe('0')
+  await page.getByRole('button', { name: 'Lava Coil', exact: true }).hover()
+  await expect.poll(opacity).toBe('1')
+  await page.mouse.move(0, 0)
+  await expect.poll(opacity).toBe('0')
+  await add.focus()
+  await expect.poll(opacity).toBe('1')
+})
+
+test.describe('touch screens', () => {
+  test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } })
+  test('keep the + visible on tiles', async ({ page }) => {
+    await page.goto('/?q=lava coil')
+    const add = page.getByRole('button', { name: 'Add Lava Coil to deck' })
+    await expect.poll(() => add.evaluate((el) => getComputedStyle(el).opacity)).toBe('1')
+  })
+})
+
 test('the Filters toggle counts active filters, also when collapsed', async ({ page }) => {
   await page.goto('/?g=izzet&r=rare')
   const toggle = page.locator('.filters-drawer summary')
