@@ -31,8 +31,14 @@
 .checks label {
   white-space: nowrap;
 }
-.rarity-gem {
+.rarity-gem,
+.type-icon {
   margin-right: var(--space-1);
+}
+.type-icon {
+  width: 1.1em;
+  text-align: center;
+  color: var(--muted);
 }
 .rarity-gem.common {
   background: var(--rarity-common);
