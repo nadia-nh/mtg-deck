@@ -51,7 +51,9 @@ test('the Stats tab lists what the deck still needs; basics never count', async 
   const panel = page.locator('.deck-panel')
   await panel.getByRole('tab', { name: 'Stats' }).click()
   const missing = panel.getByRole('region', { name: 'Missing from your collection' })
-  await expect(missing.getByTestId('missing-summary')).toHaveText(/^3 cards · about \$\d+\.\d{2}$/)
+  await expect(missing.getByTestId('missing-summary')).toHaveText(
+    /^3 cards · about \$[\d,]+\.\d{2}$/,
+  )
   await expect(missing.getByRole('listitem')).toHaveText([/^3 ×\s*Lava Coil/])
 
   // Own two: one left to get. Own the third: nothing missing.

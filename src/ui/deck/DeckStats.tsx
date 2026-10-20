@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { CURVE_BUCKETS, deckStats, type ResolveCard } from '../../domain/deck'
 import { COLORS } from '../../domain/search'
 import { useDeck } from './deckContext'
+import { usd } from '../format'
 
 const COLOR_NAMES = { W: 'White', U: 'Blue', B: 'Black', R: 'Red', G: 'Green' } as const
 
@@ -28,7 +29,7 @@ export function DeckStats({ resolve }: { resolve: ResolveCard }) {
         </div>
         <div className="stat">
           <span className="stat-value" data-testid="deck-price">
-            ${s.price.toFixed(2)}
+            {usd(s.price)}
           </span>
           <span className="stat-label">
             est. price{s.unpricedCount ? ` (${s.unpricedCount} unpriced)` : ''}

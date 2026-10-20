@@ -8,9 +8,13 @@ test('set filter limits results to one set', async ({ page }) => {
   const set = manifest.sets[0]
   await page.getByRole('combobox', { name: /^Set/ }).selectOption(set.code)
   await expect(page).toHaveURL(new RegExp(`s=${set.code}`))
-  await expect(page.locator('#results-heading')).toHaveText(`${uniqueNamesInSet(set.code)} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${uniqueNamesInSet(set.code).toLocaleString('en-US')} cards`,
+  )
   await page.getByLabel('Show all printings').check()
-  await expect(page.locator('#results-heading')).toHaveText(`${set.cardCount} cards`)
+  await expect(page.locator('#results-heading')).toHaveText(
+    `${set.cardCount.toLocaleString('en-US')} cards`,
+  )
   const sets = await page
     .locator('.card-tile')
     .evaluateAll((els) => [...new Set(els.map((el) => (el as HTMLElement).dataset.set))])
