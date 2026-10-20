@@ -3,7 +3,7 @@ import { LEGALITY_FORMATS, type Card } from '../card'
 import { addCard, createDeck, type Deck } from '../deck'
 import { copyLimitOverride } from './constructed'
 import { FORMATS, getFormat } from './registry'
-import { copiesLeft, hasErrors } from './types'
+import { copiesLeft, deckStatus, hasErrors } from './types'
 import grnJson from '../../../public/data/sets/grn.json'
 
 const grn = grnJson as Card[]
@@ -122,6 +122,20 @@ describe('constructed validation', () => {
 
   test('Casual skips legality entirely', () => {
     expect(codes('casual', deckOf({ ...BOROS, 'Banned Thing': 1 }))).toEqual([])
+  })
+})
+
+describe('deckStatus', () => {
+  const status = (deck: Deck) => deckStatus(deck, getFormat('pioneer').validate(deck, resolve))
+
+  test('a deck with no cards is empty, not invalid', () => {
+    expect(status(deckOf({}))).toBe('empty')
+  })
+
+  test('any card makes it valid or invalid; a sideboard card alone counts', () => {
+    expect(status(deckOf(BOROS))).toBe('valid')
+    expect(status(deckOf({ 'Lava Coil': 1 }))).toBe('invalid')
+    expect(status(deckOf({}, { 'Lava Coil': 1 }))).toBe('invalid')
   })
 })
 

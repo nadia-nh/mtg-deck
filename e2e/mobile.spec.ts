@@ -11,11 +11,15 @@ test('a bottom deck bar replaces the top panel and updates as cards are added', 
 }) => {
   await page.goto('/?q=lava coil')
   await expect(bar(page)).toBeVisible()
-  await expect(bar(page)).toHaveAccessibleName(/^Open deck: [\w ]+, 0 of 60 cards, 1 problem$/)
+  // An empty deck is neutral: no ✗ until there's a card to judge.
+  await expect(bar(page)).toHaveAccessibleName(/^Open deck: [\w ]+, 0 of 60 cards, empty$/)
+  await expect(bar(page)).not.toContainText('✗')
   await expect(page.locator('.workspace > .deck-panel')).toHaveCount(0)
 
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
   await expect(page.getByTestId('deck-bar-count')).toHaveText('1/60')
+  await expect(bar(page)).toHaveAccessibleName(/, 1 of 60 cards, 1 problem$/)
+  await expect(bar(page)).toContainText('✗')
 
   // Pinned to the bottom of the screen.
   const box = (await bar(page).boundingBox())!

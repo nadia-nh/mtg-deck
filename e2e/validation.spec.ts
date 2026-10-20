@@ -9,7 +9,9 @@ async function addFromSearch(page: Page, name: string, n: number) {
 test('build a 60-card Boros deck, validate it, break it, persist it', async ({ page }) => {
   await page.goto('/')
   const validity = page.getByTestId('validity')
-  await expect(validity).toHaveText('✗ 1 problem for Pioneer')
+  // A new deck isn't "wrong" yet: a neutral prompt, and no problem list.
+  await expect(validity).toHaveText('Add cards to build a Pioneer deck')
+  await expect(page.locator('.issues')).toHaveCount(0)
 
   await addFromSearch(page, 'Boros Challenger', 4)
   await addFromSearch(page, 'Legion Warboss', 4)

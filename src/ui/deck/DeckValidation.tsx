@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import type { ResolveCard } from '../../domain/deck'
 import { FORMATS, getFormat } from '../../domain/formats/registry'
-import { hasErrors } from '../../domain/formats/types'
+import { deckStatus } from '../../domain/formats/types'
 import { useDeck } from './deckContext'
 
 export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
@@ -14,7 +14,7 @@ export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
       a.severity === b.severity ? 0 : a.severity === 'error' ? -1 : 1,
     )
   }, [format, active, resolve])
-  const valid = !hasErrors(issues)
+  const status = deckStatus(active, issues)
   const errorCount = issues.filter((i) => i.severity === 'error').length
 
   return (
@@ -29,12 +29,14 @@ export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
           ))}
         </select>
       </label>
-      <p className={`validity ${valid ? 'ok' : 'bad'}`} role="status" data-testid="validity">
-        {valid
-          ? `✓ Valid for ${format.name}`
-          : `✗ ${errorCount} ${errorCount === 1 ? 'problem' : 'problems'} for ${format.name}`}
+      <p className={`validity ${status}`} role="status" data-testid="validity">
+        {status === 'empty'
+          ? `Add cards to build a ${format.name} deck`
+          : status === 'valid'
+            ? `✓ Valid for ${format.name}`
+            : `✗ ${errorCount} ${errorCount === 1 ? 'problem' : 'problems'} for ${format.name}`}
       </p>
-      {issues.length > 0 && (
+      {status !== 'empty' && issues.length > 0 && (
         // Capped height and scrollable, so focusable for keyboard scrolling.
         <ul className="issues" tabIndex={0} aria-label="Deck problems">
           {issues.map((issue) => (

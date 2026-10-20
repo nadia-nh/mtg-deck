@@ -3,6 +3,7 @@ import type { Card } from '../../domain/card'
 import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import type { NameResolver } from '../../domain/decklist'
 import { getFormat } from '../../domain/formats/registry'
+import { deckStatus } from '../../domain/formats/types'
 import { shouldCloseSheet } from '../sheetGesture'
 import { DeckPanelBody } from './DeckPanel'
 import { useDeck } from './deckContext'
@@ -25,11 +26,15 @@ export function MobileDeck({ resolve, resolveForImport, onSelect }: Props) {
   const format = getFormat(active.formatId)
   const main = zoneTotal(active, 'main')
   const side = zoneTotal(active, 'side')
-  const errors = useMemo(
-    () => format.validate(active, resolve).filter((i) => i.severity === 'error').length,
-    [format, active, resolve],
-  )
-  const valid = errors === 0
+  const issues = useMemo(() => format.validate(active, resolve), [format, active, resolve])
+  const status = deckStatus(active, issues)
+  const errors = issues.filter((i) => i.severity === 'error').length
+  const statusLabel =
+    status === 'empty'
+      ? 'empty'
+      : status === 'valid'
+        ? `valid for ${format.name}`
+        : `${errors} ${errors === 1 ? 'problem' : 'problems'}`
 
   const close = () => dialog.current?.close()
 
@@ -74,16 +79,18 @@ export function MobileDeck({ resolve, resolveForImport, onSelect }: Props) {
         aria-haspopup="dialog"
         aria-label={`Open deck: ${active.name}, ${main} of ${format.minMainDeck} cards${
           side ? ` and ${side} in the sideboard` : ''
-        }, ${valid ? `valid for ${format.name}` : `${errors} ${errors === 1 ? 'problem' : 'problems'}`}`}
+        }, ${statusLabel}`}
         onClick={() => dialog.current?.showModal()}
       >
         <span className="deck-bar-name">{active.name}</span>
         <span className="deck-bar-count" data-testid="deck-bar-count">
           {main}/{format.minMainDeck}
         </span>
-        <span className={`deck-bar-validity ${valid ? 'ok' : 'bad'}`} aria-hidden="true">
-          {valid ? '✓' : '✗'}
-        </span>
+        {status !== 'empty' && (
+          <span className={`deck-bar-validity ${status}`} aria-hidden="true">
+            {status === 'valid' ? '✓' : '✗'}
+          </span>
+        )}
       </button>
 
       <dialog

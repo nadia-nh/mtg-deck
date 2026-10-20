@@ -39,11 +39,15 @@
   margin: var(--space-2) 0 var(--space-1);
   font-weight: 600;
 }
-.validity.ok {
+.validity.valid {
   color: var(--ok);
 }
-.validity.bad {
+.validity.invalid {
   color: var(--danger);
+}
+.validity.empty {
+  color: var(--muted);
+  font-weight: 400;
 }
 .issues {
   max-height: 6.5em;
@@ -525,10 +529,10 @@
   font-variant-numeric: tabular-nums;
   color: var(--muted);
 }
-.deck-bar-validity.ok {
+.deck-bar-validity.valid {
   color: var(--ok);
 }
-.deck-bar-validity.bad {
+.deck-bar-validity.invalid {
   color: var(--danger);
 }
 /* Keep the page end and the Undo toast clear of the bar. */
