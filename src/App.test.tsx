@@ -32,3 +32,17 @@ test('shows an error when data fails to load', async () => {
   render(<App load={() => Promise.reject(new Error('boom'))} />)
   expect(await screen.findByRole('alert')).toHaveTextContent('boom')
 })
+
+test('shows a card-shaped skeleton while the data loads, then the cards', async () => {
+  const db = buildCardDb(manifest, (grn as Card[]).slice(0, 2))
+  let finish: (db: ReturnType<typeof buildCardDb>) => void = () => {}
+  render(<App load={() => new Promise((resolve) => (finish = resolve))} />)
+  const status = screen.getByRole('status')
+  expect(status).toHaveTextContent('Loading cards…')
+  expect(status).toHaveAttribute('aria-busy', 'true')
+  expect(screen.getByTestId('skeleton-grid').children.length).toBeGreaterThan(0)
+
+  finish(db)
+  expect(await screen.findByRole('heading', { name: '2 cards' })).toBeInTheDocument()
+  expect(screen.queryByTestId('skeleton-grid')).toBeNull()
+})

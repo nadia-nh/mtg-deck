@@ -16,6 +16,7 @@ import { useCollection } from './ui/collection/collectionContext'
 import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
 import { UndoToast } from './ui/deck/UndoToast'
+import { LoadingSkeleton } from './ui/LoadingSkeleton'
 import { Logo } from './ui/Logo'
 import { ThemeToggle } from './ui/ThemeToggle'
 import { useView, type View } from './ui/view'
@@ -101,7 +102,7 @@ function Workspace({ db, view, onView }: { db: CardDb; view: View; onView: (view
 
 function Main({ view, onView }: { view: View; onView: (view: View) => void }) {
   const state = useCards()
-  if (state.status === 'loading') return <p>Loading cards…</p>
+  if (state.status === 'loading') return <LoadingSkeleton />
   if (state.status === 'error') return <p role="alert">Couldn’t load card data: {state.error}</p>
   return <Workspace db={state.db} view={view} onView={onView} />
 }
