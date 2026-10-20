@@ -41,6 +41,8 @@ test.describe('phones', () => {
     const button = page.getByRole('button', { name: 'Theme: System' })
     const theme = page.getByRole('group', { name: 'Theme' })
     await expect(theme).toBeHidden()
+    // The view switch keeps its words now there's room.
+    await expect(page.getByRole('navigation', { name: 'Main view' })).toContainText('Browse')
 
     await button.click()
     await theme.getByLabel('Dark').check()

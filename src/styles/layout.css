@@ -78,8 +78,9 @@
     color: var(--fg);
     box-shadow: var(--shadow-panel);
   }
-  /* There's room for the words inside the popover. */
-  .theme-popover .segmented-label {
+  /* There's room for the words inside the popover, and now beside the view icons too. */
+  .theme-popover .segmented-label,
+  .view-switch .segmented-label {
     position: static;
     width: auto;
     height: auto;
