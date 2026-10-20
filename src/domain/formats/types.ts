@@ -1,5 +1,5 @@
 import type { Card } from '../card'
-import { copiesByName, type Deck, type ResolveCard } from '../deck'
+import { copiesByName, zoneTotal, type Deck, type ResolveCard } from '../deck'
 
 export type Severity = 'error' | 'warning'
 
@@ -27,6 +27,17 @@ export interface FormatRules {
 }
 
 export const hasErrors = (issues: Issue[]) => issues.some((i) => i.severity === 'error')
+
+export type DeckStatus = 'empty' | 'valid' | 'invalid'
+
+/**
+ * A deck with no cards is "empty", not "invalid": its only problem is that the user hasn't
+ * started yet, so the UI shows a neutral prompt instead of an error.
+ */
+export function deckStatus(deck: Deck, issues: Issue[]): DeckStatus {
+  if (zoneTotal(deck, 'main') + zoneTotal(deck, 'side') === 0) return 'empty'
+  return hasErrors(issues) ? 'invalid' : 'valid'
+}
 
 /** How many more copies of `card` the deck may take before breaking the copy limit. */
 export function copiesLeft(deck: Deck, format: FormatRules, card: Card): number {
