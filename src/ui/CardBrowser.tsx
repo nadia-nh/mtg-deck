@@ -8,6 +8,7 @@ import { CardTable } from './CardTable'
 import { loadDensity, saveDensity, type Density } from './density'
 import type { CopyAllowance } from './deck/deckContext'
 import { FilterPanel } from './FilterPanel'
+import { loadFiltersOpen, saveFiltersOpen } from './filtersOpen'
 import { ResultsToolbar } from './ResultsToolbar'
 import { useBrowseState } from './useBrowseState'
 
@@ -21,9 +22,9 @@ interface Props {
 
 export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: Props) {
   const [state, setState] = useBrowseState()
-  // Filters start collapsed on narrow screens so cards are visible first.
-  const [filtersOpen, setFiltersOpen] = useState(
-    () => !window.matchMedia?.('(max-width: 760px)').matches,
+  // Collapsed on narrow screens; on wider ones, a closed drawer becomes a slim rail.
+  const [filtersOpen, setFiltersOpen] = useState(() =>
+    loadFiltersOpen(window.matchMedia?.('(max-width: 760px)').matches ?? false),
   )
   const [density, setDensity] = useState<Density>(loadDensity)
   const changeDensity = (d: Density) => {
@@ -44,7 +45,12 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
         <details
           className="filters-drawer"
           open={filtersOpen}
-          onToggle={(e) => setFiltersOpen(e.currentTarget.open)}
+          onToggle={(e) => {
+            const open = e.currentTarget.open
+            if (open === filtersOpen) return // the initial render's toggle event
+            setFiltersOpen(open)
+            saveFiltersOpen(open)
+          }}
         >
           <summary>Filters</summary>
           <FilterPanel state={state} sets={db.manifest.sets} onChange={setState} />

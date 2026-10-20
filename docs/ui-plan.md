@@ -12,7 +12,7 @@
 > Phase F is complete. G1 (pure sample-hand module) and G2 (sample hand dialog) are done.
 > C3 (virtualized grid and list) landed with the Standard sets, which grew the pool to about
 > 5,900 cards: 36,000 → 500 DOM elements, and a filter went from 17 s to 0.3 s. Phases A–G
-> are done. **Phase H** (visual polish) is in progress: H1 (calm empty deck) is done.
+> are done. **Phase H** (visual polish) is in progress: H1 (calm empty deck) and H2 (filter rail) are done.
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
@@ -99,7 +99,7 @@ A review of the app at 5,900 cards. High-impact items first; one PR each.
 | #   | Step                                                                                                                                                 | Verify                                                                         |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | H1  | ~~**Calm empty deck:** a deck with no cards shows "Add cards to build a Pioneer deck" in a muted color, with no ✗ and no problem list.~~ Done.       | Unit test for `deckStatus`; e2e: neutral text, no ✗ on the phone bar.          |
-| H2  | **Wider card grid on desktop:** the filter column collapses to a slim rail, so the grid gets more columns at 1440px.                                 | e2e: collapse/expand, remembered; column count grows; screenshots.             |
+| H2  | ~~**Wider card grid on desktop:** the filter column collapses to a slim rail, so the grid gets more columns at 1440px.~~ Done.                       | e2e: collapse/expand, remembered; column count grows; screenshots.             |
 | H3  | **Rarity and set icons in filters:** rarity gems in rarity colors, and a set picker that shows each set's symbol and year instead of a plain select. | Unit test for set grouping; e2e: pick a set by keyboard; axe on the open list. |
 
 Later, smaller items: type icons on the type filter, thousands separators ("5,920 cards"), a
