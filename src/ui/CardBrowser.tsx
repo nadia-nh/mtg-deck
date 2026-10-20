@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
+import { describeFilter } from '../domain/describeFilter'
 import { searchCards, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
 import { useCollection } from './collection/collectionContext'
@@ -38,6 +39,7 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
     // One tile per card name, using the preferred printing among the matches.
     return uniqueByName(found, (c) => db.byName.get(c.name)?.indexOf(c) ?? 0)
   }, [db, state.filter, state.sort, owned])
+  const activeFilters = describeFilter(state.filter).length
 
   return (
     <div className="browser">
@@ -52,7 +54,18 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
             saveFiltersOpen(open)
           }}
         >
-          <summary>Filters</summary>
+          <summary>
+            Filters
+            {activeFilters > 0 && (
+              <>
+                {' '}
+                <span className="filter-count" data-testid="filter-count">
+                  {activeFilters}
+                </span>
+                <span className="visually-hidden"> active</span>
+              </>
+            )}
+          </summary>
           <FilterPanel state={state} sets={db.manifest.sets} onChange={setState} />
         </details>
       </aside>

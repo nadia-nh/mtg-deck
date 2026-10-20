@@ -75,6 +75,18 @@ footer {
   font-weight: 600;
   cursor: pointer;
 }
+/* How many filters are on, so a collapsed drawer or rail still says so. */
+.filter-count {
+  display: inline-block;
+  min-width: 1.5em;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-size: var(--text-sm);
+  text-align: center;
+  text-combine-upright: all; /* stays upright in the vertical rail */
+}
 
 /* Browser + deck panel side by side; deck panel moves on top below 1100px. */
 .workspace {

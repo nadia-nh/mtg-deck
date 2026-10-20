@@ -107,6 +107,19 @@ test('density toggle switches to small tiles and is remembered', async ({ page }
   await expect(grid).toHaveAttribute('data-density', 'small')
 })
 
+test('the Filters toggle counts active filters, also when collapsed', async ({ page }) => {
+  await page.goto('/?g=izzet&r=rare')
+  const toggle = page.locator('.filters-drawer summary')
+  await expect(page.getByTestId('filter-count')).toHaveText('2')
+  await expect(toggle).toHaveAccessibleName('Filters 2 active')
+  await toggle.click()
+  await expect(page.getByRole('searchbox')).toBeHidden()
+  await expect(page.getByTestId('filter-count')).toBeVisible()
+  await page.getByRole('button', { name: 'Clear all' }).click()
+  await expect(page.getByTestId('filter-count')).toHaveCount(0)
+  await expect(toggle).toHaveAccessibleName('Filters')
+})
+
 test.describe('filter rail (H2)', () => {
   test.use({ viewport: { width: 1440, height: 900 } })
 
