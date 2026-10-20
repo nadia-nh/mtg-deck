@@ -337,6 +337,23 @@
   bottom: var(--space-1);
   font-size: var(--text-xs);
 }
+/* With a mouse, the + appears on hover or focus, so it doesn't cover the rules text while
+   browsing. Touch screens keep it visible. Keyboard focus shows it (focus-within). */
+@media (hover: hover) and (pointer: fine) {
+  .card-cell .tile-add {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .card-cell:hover .tile-add,
+  .card-cell:focus-within .tile-add {
+    opacity: 1;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .card-cell .tile-add {
+    transition: none;
+  }
+}
 .tile-count {
   position: absolute;
   left: var(--space-2);
