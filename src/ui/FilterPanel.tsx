@@ -11,6 +11,8 @@ import {
 } from '../domain/search'
 import { COLOR_NAMES } from '../domain/describeFilter'
 import type { BrowseState } from './filterParams'
+import { groupSetsByYear } from './setGroups'
+import { SetIcon } from './SetIcon'
 
 const capitalize = (s: string) => s[0].toUpperCase() + s.slice(1)
 
@@ -31,6 +33,10 @@ export function FilterPanel({ state, sets, onChange }: Props) {
   const setFilter = (patch: Partial<CardFilter>, opts?: { replace?: boolean }) =>
     onChange({ ...state, filter: { ...f, ...patch } }, opts)
   const parseCmc = (v: string) => (v === '' ? undefined : Number(v))
+  const setGroups = groupSetsByYear(sets)
+  // Rarity gems use the newest set's symbol, the way printed cards show rarity.
+  const gemSet = setGroups[0]?.sets[0]
+  const selectedSet = sets.find((s) => s.code === f.sets?.[0])
 
   return (
     <form className="filters" role="search" onSubmit={(e) => e.preventDefault()}>
@@ -139,6 +145,9 @@ export function FilterPanel({ state, sets, onChange }: Props) {
                 checked={!!f.rarities?.includes(r)}
                 onChange={() => setFilter({ rarities: toggle<Rarity>(f.rarities, r) })}
               />
+              {gemSet && (
+                <SetIcon code={gemSet.code} name="" decorative className={`rarity-gem ${r}`} />
+              )}
               {capitalize(r)}
             </label>
           ))}
@@ -172,19 +181,26 @@ export function FilterPanel({ state, sets, onChange }: Props) {
       </fieldset>
 
       {sets.length > 1 && (
-        <label className="field">
+        <label className="field set-field">
           <span>Set</span>
-          <select
-            value={f.sets?.[0] ?? ''}
-            onChange={(e) => setFilter({ sets: e.target.value ? [e.target.value] : undefined })}
-          >
-            <option value="">All sets</option>
-            {sets.map((s) => (
-              <option key={s.code} value={s.code}>
-                {s.name}
-              </option>
-            ))}
-          </select>
+          <span className="set-select">
+            {selectedSet && <SetIcon code={selectedSet.code} name={selectedSet.name} decorative />}
+            <select
+              value={f.sets?.[0] ?? ''}
+              onChange={(e) => setFilter({ sets: e.target.value ? [e.target.value] : undefined })}
+            >
+              <option value="">All sets</option>
+              {setGroups.map((g) => (
+                <optgroup key={g.year} label={g.year}>
+                  {g.sets.map((s) => (
+                    <option key={s.code} value={s.code}>
+                      {s.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </span>
         </label>
       )}
 

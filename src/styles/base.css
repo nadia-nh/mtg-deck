@@ -97,7 +97,7 @@ button {
 
 /* ---- Form fields ---- */
 
-.field > span,
+.field > span:first-child,
 .filters legend {
   display: block;
   font-size: var(--text-sm);
