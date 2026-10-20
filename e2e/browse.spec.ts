@@ -1,5 +1,6 @@
+import AxeBuilder from '@axe-core/playwright'
 import { expect, test, type Page } from '@playwright/test'
-import { totalCards, totalUniqueNames } from './manifest'
+import { manifest, totalCards, totalUniqueNames } from './manifest'
 
 const count = async (page: Page) => {
   const text = await page.locator('#results-heading').textContent()
@@ -282,6 +283,37 @@ test.describe('virtualized results (C3)', () => {
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
     await expect(page.locator(`.card-cell[aria-posinset="${totalUniqueNames}"]`)).toBeVisible()
     expect(await cells.count()).toBeLessThan(100)
+  })
+
+  test('the set sort shows a heading per set; other sorts and thin searches do not', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    const grid = page.getByRole('list', { name: 'Cards' })
+    const newest = manifest.sets[0]
+    await expect(grid.getByRole('heading', { level: 3 }).first()).toContainText(newest.name)
+    // Headings sit between the cards without changing the card count screen readers hear.
+    await expect(grid.locator('.card-cell').first()).toHaveAttribute(
+      'aria-setsize',
+      String(totalUniqueNames),
+    )
+    const { violations } = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+      .include('.card-grid')
+      .analyze()
+    expect(violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.help}`)).toEqual([])
+
+    // The last card is still reachable with the extra heading rows.
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+    await expect(page.locator(`.card-cell[aria-posinset="${totalUniqueNames}"]`)).toBeVisible()
+
+    await page.goto('/?sort=name')
+    await expect(grid.locator('.card-cell').first()).toBeVisible()
+    await expect(grid.getByRole('heading')).toHaveCount(0)
+
+    await page.goto('/?g=izzet&r=mythic') // about one card per set
+    await expect(grid.locator('.card-cell').first()).toBeVisible()
+    await expect(grid.getByRole('heading')).toHaveCount(0)
   })
 
   test('tabbing through tiles keeps rendering the next rows', async ({ page }) => {

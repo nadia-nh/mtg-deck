@@ -1,6 +1,13 @@
 import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
-import { cardTypes, collectorNumberValue, matchesFilter, searchCards, uniqueByName } from './search'
+import {
+  cardTypes,
+  collectorNumberValue,
+  matchesFilter,
+  searchCards,
+  setSections,
+  uniqueByName,
+} from './search'
 import grnJson from '../../public/data/sets/grn.json'
 import warJson from '../../public/data/sets/war.json'
 
@@ -146,5 +153,31 @@ describe('owned filter', () => {
     expect(searchCards(grn, {}, 'number', isOwned)).toHaveLength(grn.length)
     // No collection given: nothing counts as owned.
     expect(searchCards(grn, { owned: true })).toEqual([])
+  })
+})
+
+describe('setSections', () => {
+  test('splits set-sorted results into one run per set, in order', () => {
+    const res = searchCards([...grn, ...(warJson as Card[])], {}, 'number')
+    const sections = setSections(res)
+    expect(sections.map((s) => [s.set, s.setName])).toEqual([
+      ['war', 'War of the Spark'],
+      ['grn', 'Guilds of Ravnica'],
+    ])
+    expect(sections[0].start).toBe(0)
+    expect(sections[1].start).toBe(sections[0].count)
+    expect(sections[0].count + sections[1].count).toBe(res.length)
+  })
+
+  test('a narrow search spread thinly over sets gets no sections', () => {
+    const one = (set: string) => ({ ...grn[0], set }) as Card
+    const thin = ['war', 'rna', 'grn'].map(one) // one card per set
+    expect(setSections(thin)).toEqual([])
+    expect(setSections(thin, 1)).toHaveLength(3)
+  })
+
+  test('one set (or none) gets no sections', () => {
+    expect(setSections(grn)).toEqual([])
+    expect(setSections([])).toEqual([])
   })
 })

@@ -38,6 +38,9 @@
   --space-6: 24px;
   --space-8: 32px;
 
+  /* Set heading rows in the card grid (the virtualizer reads this for their height) */
+  --set-divider-h: 40px;
+
   /* Radii */
   --radius-sm: 6px;
   --radius: 10px;
