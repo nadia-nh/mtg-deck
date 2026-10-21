@@ -4,8 +4,15 @@ import { manifest, totalCards, totalUniqueNames } from './manifest'
 
 const count = async (page: Page) => {
   const text = await page.locator('#results-heading').textContent()
-  return Number(text?.match(/\d+/)?.[0])
+  // "5,920 cards" → 5920 (counts have thousands separators).
+  return Number(text?.match(/[\d,]+/)?.[0].replaceAll(',', ''))
 }
+
+test('the result count reads past the thousands separator', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#results-heading')).toContainText(',')
+  expect(await count(page)).toBe(totalUniqueNames)
+})
 
 test('filters by guild and restores the full list', async ({ page }) => {
   await page.goto('/')
