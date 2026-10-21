@@ -219,6 +219,34 @@
   padding: var(--space-2);
 }
 
+/* A set heading spanning the whole grid row, under the set sort. */
+.set-divider {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-end;
+  height: var(--set-divider-h);
+  border-bottom: 1px solid var(--border);
+}
+.set-divider h3 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-1);
+  min-width: 0;
+  font-size: var(--text-base);
+  white-space: nowrap;
+}
+.set-divider .set-icon {
+  align-self: center;
+}
+.set-divider-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
 /* ---- Loading skeleton ---- */
 
 .skeleton-card,

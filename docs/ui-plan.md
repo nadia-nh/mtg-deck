@@ -12,7 +12,7 @@
 > Phase F is complete. G1 (pure sample-hand module) and G2 (sample hand dialog) are done.
 > C3 (virtualized grid and list) landed with the Standard sets, which grew the pool to about
 > 5,900 cards: 36,000 → 500 DOM elements, and a filter went from 17 s to 0.3 s. Phases A–G
-> are done. **Phase H** (visual polish) is in progress: H1 (calm empty deck), H2 (filter rail) and H3 (rarity gems, set picker by year) are done.
+> are done. **Phase H** (visual polish) is done: H1–H3 plus the smaller items below.
 
 Goal: make mtg-deck feel like a polished MTG tool while keeping it fast, accessible and
 tested. The style direction is **polished neutral**: a clean, quiet interface where the card art
@@ -102,9 +102,11 @@ A review of the app at 5,900 cards. High-impact items first; one PR each.
 | H2  | ~~**Wider card grid on desktop:** the filter column collapses to a slim rail, so the grid gets more columns at 1440px.~~ Done.                    | e2e: collapse/expand, remembered; column count grows; screenshots.             |
 | H3  | ~~**Rarity and set icons in filters:** rarity gems in rarity colors, and a set picker grouped by year that shows the chosen set's symbol.~~ Done. | Unit test for set grouping; e2e: pick a set by keyboard; axe on the open list. |
 
-Later, smaller items: type icons on the type filter, thousands separators ("5,920 cards"), a
-lighter phone header, skeleton tiles while loading, an active-filter count on the collapsed
-Filters, an "in deck" badge on tiles, mana-curve chart polish, and set dividers in the grid.
+Smaller items, also done (one PR each): type icons on the type filter, thousands separators
+("5,920 cards"), a lighter phone header (theme behind one button), a card-shaped loading
+skeleton, an active-filter count on the Filters toggle, the tile + shown on hover/focus with a
+mouse (the "×2 in deck" badge already existed), count labels on the mana curve, and set
+headings in the grid under the set sort.
 
 ---
 

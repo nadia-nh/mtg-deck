@@ -163,6 +163,31 @@ export function searchCards(
   return found.sort(sort === 'number' ? bySetNewestFirst(found) : COMPARATORS[sort])
 }
 
+/** A run of consecutive results from one set (for set headings in the grid). */
+export interface SetSection {
+  set: string
+  setName: string
+  /** Index of the section's first card in the results. */
+  start: number
+  count: number
+}
+
+/**
+ * Splits results into runs of the same set, in order. Only meaningful when the results are
+ * sorted by set (the default sort). Returns [] for fewer than two runs (one heading for one
+ * set adds nothing), and when runs average under `minPerSet` cards: a narrow search spread
+ * over many sets would otherwise be mostly headings and half-empty rows.
+ */
+export function setSections(cards: readonly Card[], minPerSet = 6): SetSection[] {
+  const sections: SetSection[] = []
+  cards.forEach((c, i) => {
+    const last = sections.at(-1)
+    if (last?.set === c.set) last.count++
+    else sections.push({ set: c.set, setName: c.setName, start: i, count: 1 })
+  })
+  return sections.length > 1 && cards.length / sections.length >= minPerSet ? sections : []
+}
+
 /**
  * Keeps one printing per card name: the one with the lowest `rank`.
  * Preserves the order of the input, so apply it after sorting.

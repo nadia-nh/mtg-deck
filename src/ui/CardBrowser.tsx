@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import type { Card } from '../domain/card'
 import type { CardDb } from '../data/loadCards'
 import { describeFilter } from '../domain/describeFilter'
-import { searchCards, uniqueByName } from '../domain/search'
+import { searchCards, setSections, uniqueByName } from '../domain/search'
 import { CardGrid } from './CardGrid'
 import { useCollection } from './collection/collectionContext'
 import { CardTable } from './CardTable'
@@ -39,6 +39,11 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
     // One tile per card name, using the preferred printing among the matches.
     return uniqueByName(found, (c) => db.byName.get(c.name)?.indexOf(c) ?? 0)
   }, [db, state.filter, state.sort, owned])
+  // Set headings only make sense when the results are ordered by set.
+  const sections = useMemo(
+    () => (state.sort === 'number' ? setSections(results) : []),
+    [results, state.sort],
+  )
   const activeFilters = describeFilter(state.filter).length
 
   return (
@@ -92,6 +97,7 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
           <CardGrid
             density={density}
             cards={results}
+            sections={sections}
             onSelect={onSelect}
             onAdd={onAdd}
             deckCounts={deckCounts}
