@@ -72,7 +72,16 @@ export function resolveCardName(db: CardDb, name: string): Card | undefined {
 
 type FetchJson = (url: string) => Promise<{ ok: boolean; status: number; json(): Promise<unknown> }>
 
+/** Receives the database built from the initial sets, while background sets still load. */
+export type OnPartial = (db: CardDb) => void
+
+/**
+ * Loads the manifest and every set, and resolves with the complete database. When the
+ * manifest marks some sets as `background`, `onPartial` first gets a database of the other
+ * sets, so the app can show cards without waiting for the older ones.
+ */
 export async function loadCards(
+  onPartial?: OnPartial,
   baseUrl = `${import.meta.env.BASE_URL}data/`,
   fetchFn: FetchJson = (u) => fetch(u),
 ): Promise<CardDb> {
@@ -81,8 +90,15 @@ export async function loadCards(
     if (!res.ok) throw new Error(`Failed to load ${path} (HTTP ${res.status})`)
     return (await res.json()) as T
   }
+  const loadSets = async (sets: SetManifest['sets']) =>
+    (await Promise.all(sets.map((s) => getJson<Card[]>(s.file)))).flat()
 
   const manifest = await getJson<SetManifest>('manifest.json')
-  const perSet = await Promise.all(manifest.sets.map((s) => getJson<Card[]>(s.file)))
-  return buildCardDb(manifest, perSet.flat())
+  const initialSets = manifest.sets.filter((s) => !s.background)
+  const backgroundSets = manifest.sets.filter((s) => s.background)
+  const initial = await loadSets(initialSets)
+  if (backgroundSets.length === 0) return buildCardDb(manifest, initial)
+
+  onPartial?.(buildCardDb({ ...manifest, sets: initialSets }, initial))
+  return buildCardDb(manifest, [...initial, ...(await loadSets(backgroundSets))])
 }

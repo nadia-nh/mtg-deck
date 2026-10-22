@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { findByName, resolveCardName, type CardDb } from './data/loadCards'
+import { findByName, resolveCardName, type CardDb, type OnPartial } from './data/loadCards'
 import type { Card } from './domain/card'
 import { copiesByName } from './domain/deck'
 import { CardsProvider } from './data/CardsProvider'
@@ -17,6 +17,7 @@ import { DeckProvider } from './ui/deck/DeckProvider'
 import { useDeck } from './ui/deck/deckContext'
 import { UndoToast } from './ui/deck/UndoToast'
 import { LoadingSkeleton } from './ui/LoadingSkeleton'
+import { count } from './ui/format'
 import { Logo } from './ui/Logo'
 import { ThemeToggle } from './ui/ThemeToggle'
 import { useView, type View } from './ui/view'
@@ -24,12 +25,21 @@ import { ViewSwitch } from './ui/ViewSwitch'
 
 function DataStatus({ db }: { db: CardDb }) {
   const { cards, manifest } = db
+  const state = useCards()
   const n = manifest.sets.length
+  // Name a few sets; for a long list, the oldest and newest (the manifest is newest first).
+  const setRange =
+    n <= 4
+      ? manifest.sets.map((s) => s.name).join(', ')
+      : `${manifest.sets[n - 1].name} to ${manifest.sets[0].name}`
   return (
     <p className="data-status" data-testid="data-status">
-      Loaded {cards.length} cards from {n} {n === 1 ? 'set' : 'sets'} (
-      {manifest.sets.map((s) => s.name).join(', ')}). Prices as of{' '}
-      {new Date(manifest.fetchedAt).toLocaleDateString()}.
+      Loaded {count(cards.length)} cards from {n} {n === 1 ? 'set' : 'sets'} ({setRange}). Prices as
+      of {new Date(manifest.fetchedAt).toLocaleDateString()}.
+      {state.status === 'ready' && state.loadingMore && ' Loading older sets…'}
+      {state.status === 'ready' &&
+        state.moreError &&
+        ` Older sets couldn’t load (${state.moreError}).`}
     </p>
   )
 }
@@ -111,7 +121,7 @@ export default function App({
   load,
   deckStore,
 }: {
-  load?: () => Promise<CardDb>
+  load?: (onPartial?: OnPartial) => Promise<CardDb>
   deckStore?: DeckStore
 }) {
   const [view, setView] = useView()

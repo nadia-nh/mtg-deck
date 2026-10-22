@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Card } from '../domain/card'
+import { useCards } from '../data/cardsContext'
 import type { CardDb } from '../data/loadCards'
 import { describeFilter } from '../domain/describeFilter'
 import { searchCards, setSections, uniqueByName } from '../domain/search'
@@ -45,6 +46,14 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
     [results, state.sort],
   )
   const activeFilters = describeFilter(state.filter).length
+  // The older Pioneer sets arrive after the first screen (see loadCards).
+  const cardsState = useCards()
+  const loadingMore = cardsState.status === 'ready' && !!cardsState.loadingMore
+  const note = loadingMore
+    ? 'Loading older sets…'
+    : cardsState.status === 'ready' && cardsState.moreError
+      ? 'Older sets couldn’t load.'
+      : undefined
 
   return (
     <div className="browser">
@@ -82,8 +91,12 @@ export function CardBrowser({ db, onSelect, onAdd, deckCounts, copyAllowance }: 
           onChange={setState}
           density={density}
           onDensityChange={changeDensity}
+          note={note}
         />
-        {density === 'list' ? (
+        {results.length === 0 && loadingMore ? (
+          // An older set picked by link may not be here yet.
+          <p className="empty">Loading older sets…</p>
+        ) : density === 'list' ? (
           <CardTable
             cards={results}
             sort={state.sort}

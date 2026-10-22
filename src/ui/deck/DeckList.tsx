@@ -1,3 +1,4 @@
+import { useCards } from '../../data/cardsContext'
 import type { Card } from '../../domain/card'
 import { groupEntries, type ResolveCard, type Zone } from '../../domain/deck'
 import { ManaCost } from '../mana/ManaCost'
@@ -27,6 +28,12 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
   const groups = groupEntries(active, zone, resolve)
   const other: Zone = zone === 'main' ? 'side' : 'main'
   const { show, hide, preview } = useCardPreview()
+  const cardsState = useCards()
+  // Until the older sets arrive, their cards just aren't resolved yet.
+  const groupLabel = (group: string) =>
+    group === 'Unknown' && cardsState.status === 'ready' && cardsState.loadingMore
+      ? 'Loading older sets…'
+      : (GROUP_LABEL[group] ?? group)
 
   if (groups.length === 0) {
     return (
@@ -39,9 +46,9 @@ export function DeckList({ zone, resolve, onSelect }: Props) {
   return (
     <div className="deck-list">
       {groups.map(({ group, entries, total }) => (
-        <section key={group} aria-label={`${GROUP_LABEL[group]} (${total})`}>
+        <section key={group} aria-label={`${groupLabel(group)} (${total})`}>
           <h4>
-            {GROUP_LABEL[group]} <span className="muted">({total})</span>
+            {groupLabel(group)} <span className="muted">({total})</span>
           </h4>
           <ul>
             {entries.map(({ name, count, card }) => {

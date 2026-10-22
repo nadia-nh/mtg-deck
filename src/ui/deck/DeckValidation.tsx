@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { useCards } from '../../data/cardsContext'
 import type { ResolveCard } from '../../domain/deck'
 import { FORMATS, getFormat } from '../../domain/formats/registry'
 import { deckStatus } from '../../domain/formats/types'
@@ -6,14 +7,19 @@ import { useDeck } from './deckContext'
 
 export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
   const { active, setFormat } = useDeck()
+  const cardsState = useCards()
+  const loadingMore = cardsState.status === 'ready' && !!cardsState.loadingMore
   const format = getFormat(active.formatId)
   const issues = useMemo(() => {
-    const all = format.validate(active, resolve)
+    // Cards from older sets can't be checked until those sets arrive; don't warn yet.
+    const all = format
+      .validate(active, resolve)
+      .filter((i) => !(loadingMore && i.code === 'unknown-card'))
     // Errors first, then warnings.
     return [...all].sort((a, b) =>
       a.severity === b.severity ? 0 : a.severity === 'error' ? -1 : 1,
     )
-  }, [format, active, resolve])
+  }, [format, active, resolve, loadingMore])
   const status = deckStatus(active, issues)
   const errorCount = issues.filter((i) => i.severity === 'error').length
 

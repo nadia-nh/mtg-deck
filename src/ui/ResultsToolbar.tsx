@@ -23,10 +23,20 @@ interface Props {
   onChange: (next: BrowseState) => void
   density: Density
   onDensityChange: (d: Density) => void
+  /** A short status after the count, e.g. "Loading older sets…". */
+  note?: string
 }
 
 /** Result count, removable filter chips and "Clear all", then sort order and view density. */
-export function ResultsToolbar({ state, sets, count, onChange, density, onDensityChange }: Props) {
+export function ResultsToolbar({
+  state,
+  sets,
+  count,
+  onChange,
+  density,
+  onDensityChange,
+  note,
+}: Props) {
   const chips = describeFilter(state.filter, (code) => sets.find((s) => s.code === code)?.name)
   const listRef = useRef<HTMLUListElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -53,6 +63,9 @@ export function ResultsToolbar({ state, sets, count, onChange, density, onDensit
       >
         {cards(count)}
       </h2>
+      <span className="results-note" role="status" data-testid="results-note">
+        {note}
+      </span>
       {chips.length > 0 && (
         <>
           <ul ref={listRef} className="filter-chips" role="list" aria-label="Active filters">

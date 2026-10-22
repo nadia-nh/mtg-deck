@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest'
 import type { Card } from '../domain/card'
-import { buildCardDb, findByName, loadCards } from './loadCards'
+import { buildCardDb, findByName, loadCards, type CardDb } from './loadCards'
 import type { SetManifest } from './manifest'
 
 const card = (over: Partial<Card>): Card =>
@@ -63,14 +63,65 @@ describe('loadCards', () => {
       status: url in files ? 200 : 404,
       json: async () => files[url],
     }))
-    const db = await loadCards('/d/', fetchFn)
+    const db = await loadCards(undefined, '/d/', fetchFn)
     expect(db.cards).toHaveLength(3)
     expect(fetchFn).toHaveBeenCalledTimes(3)
   })
 
   test('surfaces HTTP failures', async () => {
     const fetchFn = async () => ({ ok: false, status: 500, json: async () => null })
-    await expect(loadCards('/d/', fetchFn)).rejects.toThrow(/manifest\.json.*500/)
+    await expect(loadCards(undefined, '/d/', fetchFn)).rejects.toThrow(/manifest\.json.*500/)
+  })
+})
+
+describe('loadCards with background sets', () => {
+  const withBackground: SetManifest = {
+    ...manifest,
+    sets: [manifest.sets[0], { ...manifest.sets[1], background: true }],
+  }
+  const files: Record<string, unknown> = {
+    '/d/manifest.json': withBackground,
+    '/d/sets/grn.json': [card({ id: 'g1' }), card({ id: 'g2' })],
+    '/d/sets/rna.json': [card({ id: 'r1', set: 'rna' })],
+  }
+  const fetchFn = async (url: string) => ({
+    ok: true,
+    status: 200,
+    json: async () => files[url],
+  })
+
+  test('hands over the initial sets first, then resolves with everything', async () => {
+    const partials: CardDb[] = []
+    const db = await loadCards((p) => partials.push(p), '/d/', fetchFn)
+    expect(partials).toHaveLength(1)
+    expect(partials[0].cards.map((c) => c.id)).toEqual(['r1'])
+    expect(partials[0].manifest.sets.map((s) => s.code)).toEqual(['rna'])
+    expect(db.cards.map((c) => c.id).sort()).toEqual(['g1', 'g2', 'r1'])
+    expect(db.manifest.sets).toHaveLength(2)
+  })
+
+  test('the initial database is not delayed by a slow background set', async () => {
+    let release: () => void = () => {}
+    const gate = new Promise<void>((r) => (release = r))
+    const slow = async (url: string) => {
+      if (url.endsWith('grn.json')) await gate
+      return fetchFn(url)
+    }
+    let partial: CardDb | undefined
+    const done = loadCards((p) => (partial = p), '/d/', slow)
+    await vi.waitFor(() => expect(partial?.cards).toHaveLength(1))
+    release()
+    expect((await done).cards).toHaveLength(3)
+  })
+
+  test('without background sets there is no partial step', async () => {
+    const onPartial = vi.fn()
+    const plain = async (url: string) =>
+      url.endsWith('manifest.json')
+        ? { ok: true, status: 200, json: async () => manifest }
+        : fetchFn(url)
+    expect((await loadCards(onPartial, '/d/', plain)).cards).toHaveLength(3)
+    expect(onPartial).not.toHaveBeenCalled()
   })
 })
 
