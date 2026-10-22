@@ -48,9 +48,11 @@ Chromium instead, set `PW_CHROMIUM_PATH=/path/to/chrome`.
   preference order (`comparePrintings`: newest set, regular before ★ alt-art, lowest number).
 - New format: implement `FormatRules` or call `constructedFormat()`, then register it in
   `src/domain/formats/registry.ts`.
-- New set: add its code to `sets.config.json`, run `npm run fetch-data`, and commit
-  `public/data/`. No code changes should be needed. The e2e tests read counts from the
-  manifest.
+- New set: add its code to `sets.config.json` (`initial`: loaded before the first screen;
+  `background`: loaded right after, marked `background` in the manifest), run
+  `npm run fetch-data`, and commit `public/data/`. No code changes should be needed. The e2e
+  tests read counts from the manifest; tests that need every set loaded should wait for the
+  empty `results-note` ("Loading older sets…" gone).
 - Styling: **only design tokens** from `src/styles/tokens.css` (colors use `light-dark()`;
   the theme is set via `<html data-theme>`). Don't hard-code colors or spacing in components
   or feature CSS.

@@ -1,9 +1,10 @@
 # mtg-deck
 
-A Magic: The Gathering card browser and deck builder for the web. It includes **every set
-in current Standard** (Wilds of Eldraine through Reality Fracture) plus the Ravnica trilogy
-(Guilds of Ravnica, Ravnica Allegiance, War of the Spark): about 5,900 cards. More sets
-and format rules can be added without touching the UI (see `sets.config.json`).
+A Magic: The Gathering card browser and deck builder for the web. It includes **every
+Pioneer expansion and core set**, from Return to Ravnica (2012) through Reality Fracture
+(2026): 65 sets and about 15,000 cards. Current Standard and the Ravnica trilogy show first;
+the older sets load in the background. More sets and format rules can be added without
+touching the UI (see `sets.config.json`).
 
 - Browse and filter cards by text, color, guild, type, rarity, mana value, and set, as
   large tiles, small tiles, or a sortable list. Active filters show as removable chips, and
@@ -49,7 +50,8 @@ never hits the API at runtime. Prices are a snapshot from the time of the fetch.
 
 ### Adding a set
 
-1. Add the set code (e.g. `"rna"`) to `sets.config.json`.
+1. Add the set code (e.g. `"rna"`) to `sets.config.json`: to `initial` if the app should wait
+   for it before showing cards, or to `background` to load it after the first screen.
 2. Run `npm run fetch-data`. The script warns if the card count doesn't match Scryfall's.
 3. Commit the updated `public/data/` files.
 
