@@ -4,7 +4,8 @@
  *   npm run fetch-data
  *   npm run fetch-data -- --icons-only   # refresh set symbols, keep the card snapshot
  *
- * To add a set: put its code in sets.config.json and rerun.
+ * To add a set: put its code in sets.config.json and rerun. "initial" sets load before the app
+ * shows anything; "background" sets (older Pioneer sets) load afterwards.
  * Output:
  *   public/data/manifest.json      – list of sets + fetch time
  *   public/data/sets/<code>.json   – normalized Card[] for that set
@@ -31,7 +32,11 @@ async function enableProxyIfConfigured() {
 async function main() {
   await enableProxyIfConfigured()
   const iconsOnly = process.argv.includes('--icons-only')
-  const codes: string[] = JSON.parse(await readFile(join(root, 'sets.config.json'), 'utf8'))
+  const config: { initial: string[]; background?: string[] } = JSON.parse(
+    await readFile(join(root, 'sets.config.json'), 'utf8'),
+  )
+  const background = new Set(config.background ?? [])
+  const codes = [...config.initial, ...background]
   const client = createClient(fetch)
   await mkdir(join(outDir, 'sets'), { recursive: true })
 
@@ -74,6 +79,7 @@ async function main() {
       iconSvgUri: set.icon_svg_uri,
       file: `sets/${code}.json`,
       icon: await saveIcon(set),
+      ...(background.has(code) && { background: true }),
     })
     console.log(`✓ ${set.name} (${code}): ${cards.length} cards`)
   }

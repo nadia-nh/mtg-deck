@@ -10,6 +10,7 @@ const count = async (page: Page) => {
 
 test('the result count reads past the thousands separator', async ({ page }) => {
   await page.goto('/')
+  await expect(page.getByTestId('results-note')).toBeEmpty() // older sets loaded too
   await expect(page.locator('#results-heading')).toContainText(',')
   expect(await count(page)).toBe(totalUniqueNames)
 })
@@ -252,7 +253,7 @@ test('list view: one row per card, sortable headers, add and open details', asyn
 
 test('text search narrows results', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('searchbox').fill('trophy')
+  await page.getByRole('searchbox').fill("assassin's trophy")
   await expect(page.locator('#results-heading')).toHaveText('1 card')
   await expect(page.getByRole('img', { name: "Assassin's Trophy" })).toBeVisible()
 })

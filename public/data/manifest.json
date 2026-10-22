@@ -1,12 +1,12 @@
 {
-  "fetchedAt": "2026-10-16T01:41:42.762Z",
+  "fetchedAt": "2026-10-22T16:25:30.128Z",
   "sets": [
     {
       "code": "fra",
       "name": "Reality Fracture",
       "releasedAt": "2026-10-02",
       "cardCount": 461,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/fra.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fra.svg?1792382400",
       "file": "sets/fra.json",
       "icon": "sets/fra.svg"
     },
@@ -15,7 +15,7 @@
       "name": "The Hobbit",
       "releasedAt": "2026-08-14",
       "cardCount": 321,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/hob.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/hob.svg?1792382400",
       "file": "sets/hob.json",
       "icon": "sets/hob.svg"
     },
@@ -24,7 +24,7 @@
       "name": "Marvel Super Heroes",
       "releasedAt": "2026-06-26",
       "cardCount": 453,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/msh.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/msh.svg?1792382400",
       "file": "sets/msh.json",
       "icon": "sets/msh.svg"
     },
@@ -33,7 +33,7 @@
       "name": "Secrets of Strixhaven",
       "releasedAt": "2026-04-24",
       "cardCount": 368,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/sos.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/sos.svg?1792382400",
       "file": "sets/sos.json",
       "icon": "sets/sos.svg"
     },
@@ -42,7 +42,7 @@
       "name": "Teenage Mutant Ninja Turtles",
       "releasedAt": "2026-03-06",
       "cardCount": 320,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/tmt.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tmt.svg?1792382400",
       "file": "sets/tmt.json",
       "icon": "sets/tmt.svg"
     },
@@ -51,7 +51,7 @@
       "name": "Lorwyn Eclipsed",
       "releasedAt": "2026-01-23",
       "cardCount": 408,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/ecl.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ecl.svg?1792382400",
       "file": "sets/ecl.json",
       "icon": "sets/ecl.svg"
     },
@@ -60,7 +60,7 @@
       "name": "Avatar: The Last Airbender",
       "releasedAt": "2025-11-21",
       "cardCount": 394,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/tla.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tla.svg?1792382400",
       "file": "sets/tla.json",
       "icon": "sets/tla.svg"
     },
@@ -69,7 +69,7 @@
       "name": "Marvel's Spider-Man",
       "releasedAt": "2025-09-26",
       "cardCount": 286,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/spm.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/spm.svg?1792382400",
       "file": "sets/spm.json",
       "icon": "sets/spm.svg"
     },
@@ -78,7 +78,7 @@
       "name": "Edge of Eternities",
       "releasedAt": "2025-08-01",
       "cardCount": 399,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/eoe.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/eoe.svg?1792382400",
       "file": "sets/eoe.json",
       "icon": "sets/eoe.svg"
     },
@@ -87,7 +87,7 @@
       "name": "Final Fantasy",
       "releasedAt": "2025-06-13",
       "cardCount": 594,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/fin.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fin.svg?1792382400",
       "file": "sets/fin.json",
       "icon": "sets/fin.svg"
     },
@@ -96,7 +96,7 @@
       "name": "Tarkir: Dragonstorm",
       "releasedAt": "2025-04-11",
       "cardCount": 426,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/tdm.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/tdm.svg?1792382400",
       "file": "sets/tdm.json",
       "icon": "sets/tdm.svg"
     },
@@ -105,7 +105,7 @@
       "name": "Aetherdrift",
       "releasedAt": "2025-02-14",
       "cardCount": 553,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/dft.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dft.svg?1792382400",
       "file": "sets/dft.json",
       "icon": "sets/dft.svg"
     },
@@ -114,7 +114,7 @@
       "name": "Foundations",
       "releasedAt": "2024-11-15",
       "cardCount": 771,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/fdn.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/fdn.svg?1792382400",
       "file": "sets/fdn.json",
       "icon": "sets/fdn.svg"
     },
@@ -123,7 +123,7 @@
       "name": "Duskmourn: House of Horror",
       "releasedAt": "2024-09-27",
       "cardCount": 417,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/dsk.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dsk.svg?1792382400",
       "file": "sets/dsk.json",
       "icon": "sets/dsk.svg"
     },
@@ -132,7 +132,7 @@
       "name": "Bloomburrow",
       "releasedAt": "2024-08-02",
       "cardCount": 397,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/blb.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/blb.svg?1792382400",
       "file": "sets/blb.json",
       "icon": "sets/blb.svg"
     },
@@ -141,7 +141,7 @@
       "name": "Outlaws of Thunder Junction",
       "releasedAt": "2024-04-19",
       "cardCount": 374,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/otj.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/otj.svg?1792382400",
       "file": "sets/otj.json",
       "icon": "sets/otj.svg"
     },
@@ -150,7 +150,7 @@
       "name": "The Big Score",
       "releasedAt": "2024-04-19",
       "cardCount": 95,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/big.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/big.svg?1792382400",
       "file": "sets/big.json",
       "icon": "sets/big.svg"
     },
@@ -159,7 +159,7 @@
       "name": "Murders at Karlov Manor",
       "releasedAt": "2024-02-09",
       "cardCount": 440,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/mkm.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/mkm.svg?1792382400",
       "file": "sets/mkm.json",
       "icon": "sets/mkm.svg"
     },
@@ -168,7 +168,7 @@
       "name": "The Lost Caverns of Ixalan",
       "releasedAt": "2023-11-17",
       "cardCount": 415,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/lci.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/lci.svg?1792382400",
       "file": "sets/lci.json",
       "icon": "sets/lci.svg"
     },
@@ -177,16 +177,196 @@
       "name": "Wilds of Eldraine",
       "releasedAt": "2023-09-08",
       "cardCount": 381,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/woe.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/woe.svg?1792382400",
       "file": "sets/woe.json",
       "icon": "sets/woe.svg"
+    },
+    {
+      "code": "mat",
+      "name": "March of the Machine: The Aftermath",
+      "releasedAt": "2023-05-12",
+      "cardCount": 230,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/mat.svg?1792382400",
+      "file": "sets/mat.json",
+      "icon": "sets/mat.svg",
+      "background": true
+    },
+    {
+      "code": "mom",
+      "name": "March of the Machine",
+      "releasedAt": "2023-04-21",
+      "cardCount": 387,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/mom.svg?1792382400",
+      "file": "sets/mom.json",
+      "icon": "sets/mom.svg",
+      "background": true
+    },
+    {
+      "code": "one",
+      "name": "Phyrexia: All Will Be One",
+      "releasedAt": "2023-02-10",
+      "cardCount": 479,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/one.svg?1792382400",
+      "file": "sets/one.json",
+      "icon": "sets/one.svg",
+      "background": true
+    },
+    {
+      "code": "bro",
+      "name": "The Brothers' War",
+      "releasedAt": "2022-11-18",
+      "cardCount": 387,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/bro.svg?1792382400",
+      "file": "sets/bro.json",
+      "icon": "sets/bro.svg",
+      "background": true
+    },
+    {
+      "code": "dmu",
+      "name": "Dominaria United",
+      "releasedAt": "2022-09-09",
+      "cardCount": 436,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dmu.svg?1792382400",
+      "file": "sets/dmu.json",
+      "icon": "sets/dmu.svg",
+      "background": true
+    },
+    {
+      "code": "snc",
+      "name": "Streets of New Capenna",
+      "releasedAt": "2022-04-29",
+      "cardCount": 469,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/snc.svg?1792382400",
+      "file": "sets/snc.json",
+      "icon": "sets/snc.svg",
+      "background": true
+    },
+    {
+      "code": "neo",
+      "name": "Kamigawa: Neon Dynasty",
+      "releasedAt": "2022-02-18",
+      "cardCount": 514,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/neo.svg?1792382400",
+      "file": "sets/neo.json",
+      "icon": "sets/neo.svg",
+      "background": true
+    },
+    {
+      "code": "vow",
+      "name": "Innistrad: Crimson Vow",
+      "releasedAt": "2021-11-19",
+      "cardCount": 412,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/vow.svg?1792382400",
+      "file": "sets/vow.json",
+      "icon": "sets/vow.svg",
+      "background": true
+    },
+    {
+      "code": "mid",
+      "name": "Innistrad: Midnight Hunt",
+      "releasedAt": "2021-09-24",
+      "cardCount": 391,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/mid.svg?1792382400",
+      "file": "sets/mid.json",
+      "icon": "sets/mid.svg",
+      "background": true
+    },
+    {
+      "code": "afr",
+      "name": "Adventures in the Forgotten Realms",
+      "releasedAt": "2021-07-23",
+      "cardCount": 402,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/afr.svg?1792382400",
+      "file": "sets/afr.json",
+      "icon": "sets/afr.svg",
+      "background": true
+    },
+    {
+      "code": "stx",
+      "name": "Strixhaven: School of Mages",
+      "releasedAt": "2021-04-23",
+      "cardCount": 383,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/stx.svg?1792382400",
+      "file": "sets/stx.json",
+      "icon": "sets/stx.svg",
+      "background": true
+    },
+    {
+      "code": "khm",
+      "name": "Kaldheim",
+      "releasedAt": "2021-02-05",
+      "cardCount": 407,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/khm.svg?1792382400",
+      "file": "sets/khm.json",
+      "icon": "sets/khm.svg",
+      "background": true
+    },
+    {
+      "code": "znr",
+      "name": "Zendikar Rising",
+      "releasedAt": "2020-09-25",
+      "cardCount": 391,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/znr.svg?1792382400",
+      "file": "sets/znr.json",
+      "icon": "sets/znr.svg",
+      "background": true
+    },
+    {
+      "code": "m21",
+      "name": "Core Set 2021",
+      "releasedAt": "2020-07-03",
+      "cardCount": 397,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/m21.svg?1792382400",
+      "file": "sets/m21.json",
+      "icon": "sets/m21.svg",
+      "background": true
+    },
+    {
+      "code": "iko",
+      "name": "Ikoria: Lair of Behemoths",
+      "releasedAt": "2020-04-24",
+      "cardCount": 387,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/iko.svg?1792382400",
+      "file": "sets/iko.json",
+      "icon": "sets/iko.svg",
+      "background": true
+    },
+    {
+      "code": "thb",
+      "name": "Theros Beyond Death",
+      "releasedAt": "2020-01-24",
+      "cardCount": 358,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/thb.svg?1792382400",
+      "file": "sets/thb.json",
+      "icon": "sets/thb.svg",
+      "background": true
+    },
+    {
+      "code": "eld",
+      "name": "Throne of Eldraine",
+      "releasedAt": "2019-10-04",
+      "cardCount": 397,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/eld.svg?1792382400",
+      "file": "sets/eld.json",
+      "icon": "sets/eld.svg",
+      "background": true
+    },
+    {
+      "code": "m20",
+      "name": "Core Set 2020",
+      "releasedAt": "2019-07-12",
+      "cardCount": 344,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/m20.svg?1792382400",
+      "file": "sets/m20.json",
+      "icon": "sets/m20.svg",
+      "background": true
     },
     {
       "code": "war",
       "name": "War of the Spark",
       "releasedAt": "2019-05-03",
       "cardCount": 311,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1792382400",
       "file": "sets/war.json",
       "icon": "sets/war.svg"
     },
@@ -195,7 +375,7 @@
       "name": "Ravnica Allegiance",
       "releasedAt": "2019-01-25",
       "cardCount": 273,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1792382400",
       "file": "sets/rna.json",
       "icon": "sets/rna.svg"
     },
@@ -204,9 +384,249 @@
       "name": "Guilds of Ravnica",
       "releasedAt": "2018-10-05",
       "cardCount": 273,
-      "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1791777600",
+      "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1792382400",
       "file": "sets/grn.json",
       "icon": "sets/grn.svg"
+    },
+    {
+      "code": "m19",
+      "name": "Core Set 2019",
+      "releasedAt": "2018-07-13",
+      "cardCount": 314,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/m19.svg?1792382400",
+      "file": "sets/m19.json",
+      "icon": "sets/m19.svg",
+      "background": true
+    },
+    {
+      "code": "dom",
+      "name": "Dominaria",
+      "releasedAt": "2018-04-27",
+      "cardCount": 280,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dom.svg?1792382400",
+      "file": "sets/dom.json",
+      "icon": "sets/dom.svg",
+      "background": true
+    },
+    {
+      "code": "rix",
+      "name": "Rivals of Ixalan",
+      "releasedAt": "2018-01-19",
+      "cardCount": 205,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/rix.svg?1792382400",
+      "file": "sets/rix.json",
+      "icon": "sets/rix.svg",
+      "background": true
+    },
+    {
+      "code": "xln",
+      "name": "Ixalan",
+      "releasedAt": "2017-09-29",
+      "cardCount": 289,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/xln.svg?1792382400",
+      "file": "sets/xln.json",
+      "icon": "sets/xln.svg",
+      "background": true
+    },
+    {
+      "code": "hou",
+      "name": "Hour of Devastation",
+      "releasedAt": "2017-07-14",
+      "cardCount": 209,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/hou.svg?1792382400",
+      "file": "sets/hou.json",
+      "icon": "sets/hou.svg",
+      "background": true
+    },
+    {
+      "code": "akh",
+      "name": "Amonkhet",
+      "releasedAt": "2017-04-28",
+      "cardCount": 287,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/akh.svg?1792382400",
+      "file": "sets/akh.json",
+      "icon": "sets/akh.svg",
+      "background": true
+    },
+    {
+      "code": "aer",
+      "name": "Aether Revolt",
+      "releasedAt": "2017-01-20",
+      "cardCount": 194,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/aer.svg?1792382400",
+      "file": "sets/aer.json",
+      "icon": "sets/aer.svg",
+      "background": true
+    },
+    {
+      "code": "kld",
+      "name": "Kaladesh",
+      "releasedAt": "2016-09-30",
+      "cardCount": 274,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/kld.svg?1792382400",
+      "file": "sets/kld.json",
+      "icon": "sets/kld.svg",
+      "background": true
+    },
+    {
+      "code": "emn",
+      "name": "Eldritch Moon",
+      "releasedAt": "2016-07-22",
+      "cardCount": 208,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/emn.svg?1792382400",
+      "file": "sets/emn.json",
+      "icon": "sets/emn.svg",
+      "background": true
+    },
+    {
+      "code": "soi",
+      "name": "Shadows over Innistrad",
+      "releasedAt": "2016-04-08",
+      "cardCount": 297,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/soi.svg?1792382400",
+      "file": "sets/soi.json",
+      "icon": "sets/soi.svg",
+      "background": true
+    },
+    {
+      "code": "ogw",
+      "name": "Oath of the Gatewatch",
+      "releasedAt": "2016-01-22",
+      "cardCount": 186,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ogw.svg?1792382400",
+      "file": "sets/ogw.json",
+      "icon": "sets/ogw.svg",
+      "background": true
+    },
+    {
+      "code": "bfz",
+      "name": "Battle for Zendikar",
+      "releasedAt": "2015-10-02",
+      "cardCount": 299,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/bfz.svg?1792382400",
+      "file": "sets/bfz.json",
+      "icon": "sets/bfz.svg",
+      "background": true
+    },
+    {
+      "code": "ori",
+      "name": "Magic Origins",
+      "releasedAt": "2015-07-17",
+      "cardCount": 288,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ori.svg?1792382400",
+      "file": "sets/ori.json",
+      "icon": "sets/ori.svg",
+      "background": true
+    },
+    {
+      "code": "dtk",
+      "name": "Dragons of Tarkir",
+      "releasedAt": "2015-03-27",
+      "cardCount": 264,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dtk.svg?1792382400",
+      "file": "sets/dtk.json",
+      "icon": "sets/dtk.svg",
+      "background": true
+    },
+    {
+      "code": "frf",
+      "name": "Fate Reforged",
+      "releasedAt": "2015-01-23",
+      "cardCount": 191,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/frf.svg?1792382400",
+      "file": "sets/frf.json",
+      "icon": "sets/frf.svg",
+      "background": true
+    },
+    {
+      "code": "ktk",
+      "name": "Khans of Tarkir",
+      "releasedAt": "2014-09-26",
+      "cardCount": 293,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ktk.svg?1792382400",
+      "file": "sets/ktk.json",
+      "icon": "sets/ktk.svg",
+      "background": true
+    },
+    {
+      "code": "m15",
+      "name": "Magic 2015",
+      "releasedAt": "2014-07-18",
+      "cardCount": 284,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/m15.svg?1792382400",
+      "file": "sets/m15.json",
+      "icon": "sets/m15.svg",
+      "background": true
+    },
+    {
+      "code": "jou",
+      "name": "Journey into Nyx",
+      "releasedAt": "2014-05-02",
+      "cardCount": 165,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/jou.svg?1792382400",
+      "file": "sets/jou.json",
+      "icon": "sets/jou.svg",
+      "background": true
+    },
+    {
+      "code": "bng",
+      "name": "Born of the Gods",
+      "releasedAt": "2014-02-07",
+      "cardCount": 165,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/bng.svg?1792382400",
+      "file": "sets/bng.json",
+      "icon": "sets/bng.svg",
+      "background": true
+    },
+    {
+      "code": "ths",
+      "name": "Theros",
+      "releasedAt": "2013-09-27",
+      "cardCount": 249,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/ths.svg?1792382400",
+      "file": "sets/ths.json",
+      "icon": "sets/ths.svg",
+      "background": true
+    },
+    {
+      "code": "m14",
+      "name": "Magic 2014",
+      "releasedAt": "2013-07-19",
+      "cardCount": 249,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/m14.svg?1792382400",
+      "file": "sets/m14.json",
+      "icon": "sets/m14.svg",
+      "background": true
+    },
+    {
+      "code": "dgm",
+      "name": "Dragon's Maze",
+      "releasedAt": "2013-05-03",
+      "cardCount": 156,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/dgm.svg?1792382400",
+      "file": "sets/dgm.json",
+      "icon": "sets/dgm.svg",
+      "background": true
+    },
+    {
+      "code": "gtc",
+      "name": "Gatecrash",
+      "releasedAt": "2013-02-01",
+      "cardCount": 249,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/gtc.svg?1792382400",
+      "file": "sets/gtc.json",
+      "icon": "sets/gtc.svg",
+      "background": true
+    },
+    {
+      "code": "rtr",
+      "name": "Return to Ravnica",
+      "releasedAt": "2012-10-05",
+      "cardCount": 274,
+      "iconSvgUri": "https://svgs.scryfall.io/sets/rtr.svg?1792382400",
+      "file": "sets/rtr.json",
+      "icon": "sets/rtr.svg",
+      "background": true
     }
   ]
 }
