@@ -45,7 +45,8 @@
 .validity.invalid {
   color: var(--danger);
 }
-.validity.empty {
+.validity.empty,
+.validity.incomplete {
   color: var(--muted);
   font-weight: 400;
 }

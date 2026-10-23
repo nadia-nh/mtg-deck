@@ -18,8 +18,9 @@ test('a bottom deck bar replaces the top panel and updates as cards are added', 
 
   await page.getByRole('button', { name: 'Add Lava Coil to deck' }).click()
   await expect(page.getByTestId('deck-bar-count')).toHaveText('1/60')
-  await expect(bar(page)).toHaveAccessibleName(/, 1 of 60 cards, 1 problem$/)
-  await expect(bar(page)).toContainText('✗')
+  // One card in: the deck is in progress, which isn't an error.
+  await expect(bar(page)).toHaveAccessibleName(/, 1 of 60 cards, in progress$/)
+  await expect(bar(page)).not.toContainText('✗')
 
   // Pinned to the bottom of the screen.
   const box = (await bar(page).boundingBox())!

@@ -132,10 +132,15 @@ describe('deckStatus', () => {
     expect(status(deckOf({}))).toBe('empty')
   })
 
-  test('any card makes it valid or invalid; a sideboard card alone counts', () => {
+  test('too few cards is "incomplete" (still building), not invalid', () => {
     expect(status(deckOf(BOROS))).toBe('valid')
-    expect(status(deckOf({ 'Lava Coil': 1 }))).toBe('invalid')
-    expect(status(deckOf({}, { 'Lava Coil': 1 }))).toBe('invalid')
+    expect(status(deckOf({ 'Lava Coil': 1 }))).toBe('incomplete')
+    expect(status(deckOf({}, { 'Lava Coil': 1 }))).toBe('incomplete')
+  })
+
+  test('a real rule break is invalid, even while the deck is incomplete', () => {
+    expect(status(deckOf({ 'Lava Coil': 5 }))).toBe('invalid')
+    expect(status(deckOf({ ...BOROS, 'Lava Coil': 5 }))).toBe('invalid')
   })
 })
 
