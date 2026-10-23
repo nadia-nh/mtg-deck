@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { useCards } from '../../data/cardsContext'
-import type { ResolveCard } from '../../domain/deck'
+import { zoneTotal, type ResolveCard } from '../../domain/deck'
 import { FORMATS, getFormat } from '../../domain/formats/registry'
-import { deckStatus } from '../../domain/formats/types'
+import { deckStatus, IN_PROGRESS_CODE } from '../../domain/formats/types'
 import { useDeck } from './deckContext'
 
 export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
@@ -22,6 +22,10 @@ export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
   }, [format, active, resolve, loadingMore])
   const status = deckStatus(active, issues)
   const errorCount = issues.filter((i) => i.severity === 'error').length
+  const main = zoneTotal(active, 'main')
+  // While building, the count line says how far along the deck is, so the list skips it.
+  const listed =
+    status === 'incomplete' ? issues.filter((i) => i.code !== IN_PROGRESS_CODE) : issues
 
   return (
     <section className="deck-validation" aria-label="Deck validation">
@@ -38,14 +42,16 @@ export function DeckValidation({ resolve }: { resolve: ResolveCard }) {
       <p className={`validity ${status}`} role="status" data-testid="validity">
         {status === 'empty'
           ? `Add cards to build a ${format.name} deck`
-          : status === 'valid'
-            ? `✓ Valid for ${format.name}`
-            : `✗ ${errorCount} ${errorCount === 1 ? 'problem' : 'problems'} for ${format.name}`}
+          : status === 'incomplete'
+            ? `${main} of ${format.minMainDeck} cards for ${format.name}`
+            : status === 'valid'
+              ? `✓ Valid for ${format.name}`
+              : `✗ ${errorCount} ${errorCount === 1 ? 'problem' : 'problems'} for ${format.name}`}
       </p>
-      {status !== 'empty' && issues.length > 0 && (
+      {status !== 'empty' && listed.length > 0 && (
         // Capped height and scrollable, so focusable for keyboard scrolling.
         <ul className="issues" tabIndex={0} aria-label="Deck problems">
-          {issues.map((issue) => (
+          {listed.map((issue) => (
             <li key={`${issue.code}:${issue.cardName ?? ''}`} className={issue.severity}>
               {issue.message}
             </li>

@@ -32,9 +32,11 @@ export function MobileDeck({ resolve, resolveForImport, onSelect }: Props) {
   const statusLabel =
     status === 'empty'
       ? 'empty'
-      : status === 'valid'
-        ? `valid for ${format.name}`
-        : `${errors} ${errors === 1 ? 'problem' : 'problems'}`
+      : status === 'incomplete'
+        ? 'in progress'
+        : status === 'valid'
+          ? `valid for ${format.name}`
+          : `${errors} ${errors === 1 ? 'problem' : 'problems'}`
 
   const close = () => dialog.current?.close()
 
@@ -86,7 +88,7 @@ export function MobileDeck({ resolve, resolveForImport, onSelect }: Props) {
         <span className="deck-bar-count" data-testid="deck-bar-count">
           {main}/{format.minMainDeck}
         </span>
-        {status !== 'empty' && (
+        {(status === 'valid' || status === 'invalid') && (
           <span className={`deck-bar-validity ${status}`} aria-hidden="true">
             {status === 'valid' ? '✓' : '✗'}
           </span>

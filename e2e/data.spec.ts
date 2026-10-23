@@ -85,7 +85,7 @@ test('deck cards from an older set wait for it instead of showing as unknown', a
   await page.goto('/')
   const panel = page.locator('.deck-panel')
   await expect(panel.getByRole('heading', { name: /Loading older sets…/ })).toBeVisible()
-  await expect(page.locator('.issues')).not.toContainText('isn’t in the loaded card data')
+  await expect(page.getByText('isn’t in the loaded card data')).toHaveCount(0)
 
   release()
   await expect(panel.getByRole('heading', { name: /Sorceries \(4\)/ })).toBeVisible()

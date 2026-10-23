@@ -37,15 +37,20 @@ test('build a 60-card Boros deck, validate it, break it, persist it', async ({ p
   await expect(stats).toContainText('26spells')
   await expect(page.getByTestId('deck-price')).toHaveText(/^\$[\d,]+\.\d{2}$/)
 
-  // Dropping below 60 is an error. (A 5th copy can't be added at all; see deck.spec.)
+  // Below 60 the deck is unfinished, not wrong: progress, no red and no problem list.
+  // (A 5th copy can't be added at all; see deck.spec.)
   await panel.getByRole('tab', { name: 'Cards' }).click()
   await panel.getByRole('button', { name: 'Remove one Mountain' }).click()
-  await expect(validity).toHaveText('✗ 1 problem for Pioneer')
-  await expect(page.locator('.issues')).toContainText('Main deck has 59 cards; needs at least 60.')
+  await expect(validity).toHaveText('59 of 60 cards for Pioneer')
+  await expect(validity).toHaveClass(/incomplete/)
+  await expect(page.locator('.issues')).toHaveCount(0)
 
   // Switching format re-validates: most GRN cards aren't Standard-legal.
   await page.getByRole('combobox', { name: /^Format/ }).selectOption('standard')
   await expect(page.locator('.issues')).toContainText('Boros Challenger is not legal in Standard.')
+  // A real rule break is red, and then the card count is listed among the problems too.
+  await expect(validity).toHaveText(/^✗ \d+ problems for Standard$/)
+  await expect(page.locator('.issues')).toContainText('Main deck has 59 cards; needs at least 60.')
 
   await page.reload()
   await expect(page.getByRole('combobox', { name: /^Format/ })).toHaveValue('standard')
