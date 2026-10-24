@@ -71,5 +71,9 @@ Chromium instead, set `PW_CHROMIUM_PATH=/path/to/chrome`.
   requests (already done in `scripts/scryfall.ts`).
 - TCGplayer prices come inside Scryfall data and are a snapshot from fetch time. The
   TCGplayer API itself is closed to new developers, so don't use it.
+- Prices are stored apart from the cards (`sets/<code>.prices.json`, merged by `loadCards`
+  via `src/data/prices.ts`) so a refresh doesn't rewrite the card files. Keep it that way:
+  don't put fast-changing fields back into `sets/<code>.json`. Tests that need real sets
+  import them from `src/testing/sets.ts`, which attaches the prices.
 - Keep the fan-content notice (footer + README). The logo is original art; don't use WotC
   logos or set/guild art beyond the Mana font's symbols.
