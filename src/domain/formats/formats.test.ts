@@ -4,7 +4,7 @@ import { addCard, createDeck, type Deck } from '../deck'
 import { copyLimitOverride } from './constructed'
 import { FORMATS, getFormat } from './registry'
 import { copiesLeft, deckStatus, hasErrors } from './types'
-import grnJson from '../../../public/data/sets/grn.json'
+import { grn as grnJson } from '../../testing/sets'
 
 const grn = grnJson as Card[]
 const byName = new Map(grn.map((c) => [c.name, c]))

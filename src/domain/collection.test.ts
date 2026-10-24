@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
 import { addCard, createDeck, type Deck } from './deck'
 import { missingCards, setOwned } from './collection'
-import grnJson from '../../public/data/sets/grn.json'
+import { grn as grnJson } from '../testing/sets'
 
 const byName = new Map((grnJson as Card[]).map((c) => [c.name, c]))
 const resolve = (n: string) => byName.get(n)

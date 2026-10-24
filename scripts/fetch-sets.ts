@@ -7,8 +7,10 @@
  * To add a set: put its code in sets.config.json and rerun. "initial" sets load before the app
  * shows anything; "background" sets (older Pioneer sets) load afterwards.
  * Output:
- *   public/data/manifest.json      – list of sets + fetch time
- *   public/data/sets/<code>.json   – normalized Card[] for that set
+ *   public/data/manifest.json             – list of sets + fetch time
+ *   public/data/sets/<code>.json          – normalized cards for that set, without prices
+ *   public/data/sets/<code>.prices.json   – that set's prices, kept apart so a refresh only
+ *                                           rewrites these (card files stay byte-identical)
  *   public/data/sets/<code>.svg    – set symbol (self-hosted so CSS masks avoid CORS)
  */
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
@@ -16,6 +18,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { normalizeCard, type Card } from '../src/domain/card'
 import type { SetManifest } from '../src/data/manifest'
+import { splitPrices } from '../src/data/prices'
 import { createClient, type ScryfallSet } from './scryfall'
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..')
@@ -70,7 +73,9 @@ async function main() {
       )
     }
 
-    await writeFile(join(outDir, 'sets', `${code}.json`), JSON.stringify(cards))
+    const split = splitPrices(cards)
+    await writeFile(join(outDir, 'sets', `${code}.json`), JSON.stringify(split.cards))
+    await writeFile(join(outDir, 'sets', `${code}.prices.json`), JSON.stringify(split.prices))
     manifest.sets.push({
       code: set.code,
       name: set.name,
@@ -78,6 +83,7 @@ async function main() {
       cardCount: cards.length,
       iconSvgUri: set.icon_svg_uri,
       file: `sets/${code}.json`,
+      prices: `sets/${code}.prices.json`,
       icon: await saveIcon(set),
       ...(background.has(code) && { background: true }),
     })

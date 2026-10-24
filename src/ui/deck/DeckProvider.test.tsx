@@ -6,9 +6,9 @@ import { buildCardDb } from '../../data/loadCards'
 import type { Card } from '../../domain/card'
 import { createDeck } from '../../domain/deck'
 import { createDeckStore } from '../../storage/decks'
-import grn from '../../../public/data/sets/grn.json'
 import { DeckProvider } from './DeckProvider'
 import { useDeck } from './deckContext'
+import { grn } from '../../testing/sets'
 
 class MemoryStorage {
   data = new Map<string, string>()

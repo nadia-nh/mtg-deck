@@ -68,6 +68,22 @@ describe('loadCards', () => {
     expect(fetchFn).toHaveBeenCalledTimes(3)
   })
 
+  test("attaches each set's prices from its own price file", async () => {
+    const priced: SetManifest = {
+      ...manifest,
+      sets: [{ ...manifest.sets[0], prices: 'sets/rna.prices.json' }],
+    }
+    const files: Record<string, unknown> = {
+      '/d/manifest.json': priced,
+      '/d/sets/rna.json': [card({ id: 'r1', set: 'rna' }), card({ id: 'r2', set: 'rna' })],
+      '/d/sets/rna.prices.json': { r1: [1.25, 4] },
+    }
+    const fetchFn = async (url: string) => ({ ok: true, status: 200, json: async () => files[url] })
+    const db = await loadCards(undefined, '/d/', fetchFn)
+    expect(db.byId.get('r1')?.prices).toEqual({ usd: 1.25, usdFoil: 4 })
+    expect(db.byId.get('r2')?.prices).toEqual({ usd: null, usdFoil: null })
+  })
+
   test('surfaces HTTP failures', async () => {
     const fetchFn = async () => ({ ok: false, status: 500, json: async () => null })
     await expect(loadCards(undefined, '/d/', fetchFn)).rejects.toThrow(/manifest\.json.*500/)
@@ -127,8 +143,7 @@ describe('loadCards with background sets', () => {
 
 describe('with the real GRN + RNA snapshot', () => {
   test('cards in both sets resolve to the newest printing', async () => {
-    const grn = (await import('../../public/data/sets/grn.json')).default as Card[]
-    const rna = (await import('../../public/data/sets/rna.json')).default as Card[]
+    const { grn, rna } = await import('../testing/sets')
     const db = buildCardDb(manifest, [...grn, ...rna])
     expect(db.cards).toHaveLength(grn.length + rna.length)
     expect(findByName(db, 'Mountain')?.set).toBe('rna')

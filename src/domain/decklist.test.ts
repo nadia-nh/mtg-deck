@@ -3,9 +3,9 @@ import type { Card } from './card'
 import { addCard, createDeck } from './deck'
 import { parseDecklist, serializeDecklist } from './decklist'
 import { buildCardDb, resolveCardName } from '../data/loadCards'
-import grnJson from '../../public/data/sets/grn.json'
 import delverRaw from './__fixtures__/delver-dfc.json'
 import { normalizeCard, type ScryfallCard } from './card'
+import { grn as grnJson } from '../testing/sets'
 
 const db = buildCardDb({ fetchedAt: '', sets: [] }, [
   ...(grnJson as Card[]),

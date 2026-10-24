@@ -3,8 +3,7 @@ import type { Card } from './card'
 import { addCard, createDeck, type Deck } from './deck'
 import { SUGGEST_AFTER, colorName, isAutoNamed, randomDeckName, suggestDeckName } from './deckNames'
 import { seededRng } from './sampleHand'
-import grnJson from '../../public/data/sets/grn.json'
-import rnaJson from '../../public/data/sets/rna.json'
+import { grn as grnJson, rna as rnaJson } from '../testing/sets'
 
 const cards = [...(grnJson as Card[]), ...(rnaJson as Card[])]
 const byName = new Map(cards.map((c) => [c.name, c]))
