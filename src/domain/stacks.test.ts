@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
 import { CURVE_BUCKETS, addCard, createDeck, deckStats, type Deck } from './deck'
 import { stackByManaValue, stackDeck } from './stacks'
-import grnJson from '../../public/data/sets/grn.json'
+import { grn as grnJson } from '../testing/sets'
 
 const grn = grnJson as Card[]
 const byName = new Map(grn.map((c) => [c.name, c]))

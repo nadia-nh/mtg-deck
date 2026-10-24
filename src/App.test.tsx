@@ -3,7 +3,7 @@ import { expect, test } from 'vitest'
 import App from './App'
 import { buildCardDb } from './data/loadCards'
 import type { Card } from './domain/card'
-import grn from '../public/data/sets/grn.json'
+import { grn } from './testing/sets'
 
 const manifest = {
   fetchedAt: '2026-10-03T00:00:00Z',

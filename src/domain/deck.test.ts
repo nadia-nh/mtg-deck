@@ -1,3 +1,4 @@
+import { grn as grnJson } from '../testing/sets'
 import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
 import {
@@ -13,7 +14,6 @@ import {
   typeGroup,
   zoneTotal,
 } from './deck'
-import grnJson from '../../public/data/sets/grn.json'
 
 const grn = grnJson as Card[]
 const resolve = (name: string) => grn.find((c) => c.name === name)

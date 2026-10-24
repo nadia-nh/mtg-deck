@@ -8,6 +8,7 @@
       "cardCount": 461,
       "iconSvgUri": "https://svgs.scryfall.io/sets/fra.svg?1792382400",
       "file": "sets/fra.json",
+      "prices": "sets/fra.prices.json",
       "icon": "sets/fra.svg"
     },
     {
@@ -17,6 +18,7 @@
       "cardCount": 321,
       "iconSvgUri": "https://svgs.scryfall.io/sets/hob.svg?1792382400",
       "file": "sets/hob.json",
+      "prices": "sets/hob.prices.json",
       "icon": "sets/hob.svg"
     },
     {
@@ -26,6 +28,7 @@
       "cardCount": 453,
       "iconSvgUri": "https://svgs.scryfall.io/sets/msh.svg?1792382400",
       "file": "sets/msh.json",
+      "prices": "sets/msh.prices.json",
       "icon": "sets/msh.svg"
     },
     {
@@ -35,6 +38,7 @@
       "cardCount": 368,
       "iconSvgUri": "https://svgs.scryfall.io/sets/sos.svg?1792382400",
       "file": "sets/sos.json",
+      "prices": "sets/sos.prices.json",
       "icon": "sets/sos.svg"
     },
     {
@@ -44,6 +48,7 @@
       "cardCount": 320,
       "iconSvgUri": "https://svgs.scryfall.io/sets/tmt.svg?1792382400",
       "file": "sets/tmt.json",
+      "prices": "sets/tmt.prices.json",
       "icon": "sets/tmt.svg"
     },
     {
@@ -53,6 +58,7 @@
       "cardCount": 408,
       "iconSvgUri": "https://svgs.scryfall.io/sets/ecl.svg?1792382400",
       "file": "sets/ecl.json",
+      "prices": "sets/ecl.prices.json",
       "icon": "sets/ecl.svg"
     },
     {
@@ -62,6 +68,7 @@
       "cardCount": 394,
       "iconSvgUri": "https://svgs.scryfall.io/sets/tla.svg?1792382400",
       "file": "sets/tla.json",
+      "prices": "sets/tla.prices.json",
       "icon": "sets/tla.svg"
     },
     {
@@ -71,6 +78,7 @@
       "cardCount": 286,
       "iconSvgUri": "https://svgs.scryfall.io/sets/spm.svg?1792382400",
       "file": "sets/spm.json",
+      "prices": "sets/spm.prices.json",
       "icon": "sets/spm.svg"
     },
     {
@@ -80,6 +88,7 @@
       "cardCount": 399,
       "iconSvgUri": "https://svgs.scryfall.io/sets/eoe.svg?1792382400",
       "file": "sets/eoe.json",
+      "prices": "sets/eoe.prices.json",
       "icon": "sets/eoe.svg"
     },
     {
@@ -89,6 +98,7 @@
       "cardCount": 594,
       "iconSvgUri": "https://svgs.scryfall.io/sets/fin.svg?1792382400",
       "file": "sets/fin.json",
+      "prices": "sets/fin.prices.json",
       "icon": "sets/fin.svg"
     },
     {
@@ -98,6 +108,7 @@
       "cardCount": 426,
       "iconSvgUri": "https://svgs.scryfall.io/sets/tdm.svg?1792382400",
       "file": "sets/tdm.json",
+      "prices": "sets/tdm.prices.json",
       "icon": "sets/tdm.svg"
     },
     {
@@ -107,6 +118,7 @@
       "cardCount": 553,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dft.svg?1792382400",
       "file": "sets/dft.json",
+      "prices": "sets/dft.prices.json",
       "icon": "sets/dft.svg"
     },
     {
@@ -116,6 +128,7 @@
       "cardCount": 771,
       "iconSvgUri": "https://svgs.scryfall.io/sets/fdn.svg?1792382400",
       "file": "sets/fdn.json",
+      "prices": "sets/fdn.prices.json",
       "icon": "sets/fdn.svg"
     },
     {
@@ -125,6 +138,7 @@
       "cardCount": 417,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dsk.svg?1792382400",
       "file": "sets/dsk.json",
+      "prices": "sets/dsk.prices.json",
       "icon": "sets/dsk.svg"
     },
     {
@@ -134,6 +148,7 @@
       "cardCount": 397,
       "iconSvgUri": "https://svgs.scryfall.io/sets/blb.svg?1792382400",
       "file": "sets/blb.json",
+      "prices": "sets/blb.prices.json",
       "icon": "sets/blb.svg"
     },
     {
@@ -143,6 +158,7 @@
       "cardCount": 374,
       "iconSvgUri": "https://svgs.scryfall.io/sets/otj.svg?1792382400",
       "file": "sets/otj.json",
+      "prices": "sets/otj.prices.json",
       "icon": "sets/otj.svg"
     },
     {
@@ -152,6 +168,7 @@
       "cardCount": 95,
       "iconSvgUri": "https://svgs.scryfall.io/sets/big.svg?1792382400",
       "file": "sets/big.json",
+      "prices": "sets/big.prices.json",
       "icon": "sets/big.svg"
     },
     {
@@ -161,6 +178,7 @@
       "cardCount": 440,
       "iconSvgUri": "https://svgs.scryfall.io/sets/mkm.svg?1792382400",
       "file": "sets/mkm.json",
+      "prices": "sets/mkm.prices.json",
       "icon": "sets/mkm.svg"
     },
     {
@@ -170,6 +188,7 @@
       "cardCount": 415,
       "iconSvgUri": "https://svgs.scryfall.io/sets/lci.svg?1792382400",
       "file": "sets/lci.json",
+      "prices": "sets/lci.prices.json",
       "icon": "sets/lci.svg"
     },
     {
@@ -179,6 +198,7 @@
       "cardCount": 381,
       "iconSvgUri": "https://svgs.scryfall.io/sets/woe.svg?1792382400",
       "file": "sets/woe.json",
+      "prices": "sets/woe.prices.json",
       "icon": "sets/woe.svg"
     },
     {
@@ -188,6 +208,7 @@
       "cardCount": 230,
       "iconSvgUri": "https://svgs.scryfall.io/sets/mat.svg?1792382400",
       "file": "sets/mat.json",
+      "prices": "sets/mat.prices.json",
       "icon": "sets/mat.svg",
       "background": true
     },
@@ -198,6 +219,7 @@
       "cardCount": 387,
       "iconSvgUri": "https://svgs.scryfall.io/sets/mom.svg?1792382400",
       "file": "sets/mom.json",
+      "prices": "sets/mom.prices.json",
       "icon": "sets/mom.svg",
       "background": true
     },
@@ -208,6 +230,7 @@
       "cardCount": 479,
       "iconSvgUri": "https://svgs.scryfall.io/sets/one.svg?1792382400",
       "file": "sets/one.json",
+      "prices": "sets/one.prices.json",
       "icon": "sets/one.svg",
       "background": true
     },
@@ -218,6 +241,7 @@
       "cardCount": 387,
       "iconSvgUri": "https://svgs.scryfall.io/sets/bro.svg?1792382400",
       "file": "sets/bro.json",
+      "prices": "sets/bro.prices.json",
       "icon": "sets/bro.svg",
       "background": true
     },
@@ -228,6 +252,7 @@
       "cardCount": 436,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dmu.svg?1792382400",
       "file": "sets/dmu.json",
+      "prices": "sets/dmu.prices.json",
       "icon": "sets/dmu.svg",
       "background": true
     },
@@ -238,6 +263,7 @@
       "cardCount": 469,
       "iconSvgUri": "https://svgs.scryfall.io/sets/snc.svg?1792382400",
       "file": "sets/snc.json",
+      "prices": "sets/snc.prices.json",
       "icon": "sets/snc.svg",
       "background": true
     },
@@ -248,6 +274,7 @@
       "cardCount": 514,
       "iconSvgUri": "https://svgs.scryfall.io/sets/neo.svg?1792382400",
       "file": "sets/neo.json",
+      "prices": "sets/neo.prices.json",
       "icon": "sets/neo.svg",
       "background": true
     },
@@ -258,6 +285,7 @@
       "cardCount": 412,
       "iconSvgUri": "https://svgs.scryfall.io/sets/vow.svg?1792382400",
       "file": "sets/vow.json",
+      "prices": "sets/vow.prices.json",
       "icon": "sets/vow.svg",
       "background": true
     },
@@ -268,6 +296,7 @@
       "cardCount": 391,
       "iconSvgUri": "https://svgs.scryfall.io/sets/mid.svg?1792382400",
       "file": "sets/mid.json",
+      "prices": "sets/mid.prices.json",
       "icon": "sets/mid.svg",
       "background": true
     },
@@ -278,6 +307,7 @@
       "cardCount": 402,
       "iconSvgUri": "https://svgs.scryfall.io/sets/afr.svg?1792382400",
       "file": "sets/afr.json",
+      "prices": "sets/afr.prices.json",
       "icon": "sets/afr.svg",
       "background": true
     },
@@ -288,6 +318,7 @@
       "cardCount": 383,
       "iconSvgUri": "https://svgs.scryfall.io/sets/stx.svg?1792382400",
       "file": "sets/stx.json",
+      "prices": "sets/stx.prices.json",
       "icon": "sets/stx.svg",
       "background": true
     },
@@ -298,6 +329,7 @@
       "cardCount": 407,
       "iconSvgUri": "https://svgs.scryfall.io/sets/khm.svg?1792382400",
       "file": "sets/khm.json",
+      "prices": "sets/khm.prices.json",
       "icon": "sets/khm.svg",
       "background": true
     },
@@ -308,6 +340,7 @@
       "cardCount": 391,
       "iconSvgUri": "https://svgs.scryfall.io/sets/znr.svg?1792382400",
       "file": "sets/znr.json",
+      "prices": "sets/znr.prices.json",
       "icon": "sets/znr.svg",
       "background": true
     },
@@ -318,6 +351,7 @@
       "cardCount": 397,
       "iconSvgUri": "https://svgs.scryfall.io/sets/m21.svg?1792382400",
       "file": "sets/m21.json",
+      "prices": "sets/m21.prices.json",
       "icon": "sets/m21.svg",
       "background": true
     },
@@ -328,6 +362,7 @@
       "cardCount": 387,
       "iconSvgUri": "https://svgs.scryfall.io/sets/iko.svg?1792382400",
       "file": "sets/iko.json",
+      "prices": "sets/iko.prices.json",
       "icon": "sets/iko.svg",
       "background": true
     },
@@ -338,6 +373,7 @@
       "cardCount": 358,
       "iconSvgUri": "https://svgs.scryfall.io/sets/thb.svg?1792382400",
       "file": "sets/thb.json",
+      "prices": "sets/thb.prices.json",
       "icon": "sets/thb.svg",
       "background": true
     },
@@ -348,6 +384,7 @@
       "cardCount": 397,
       "iconSvgUri": "https://svgs.scryfall.io/sets/eld.svg?1792382400",
       "file": "sets/eld.json",
+      "prices": "sets/eld.prices.json",
       "icon": "sets/eld.svg",
       "background": true
     },
@@ -358,6 +395,7 @@
       "cardCount": 344,
       "iconSvgUri": "https://svgs.scryfall.io/sets/m20.svg?1792382400",
       "file": "sets/m20.json",
+      "prices": "sets/m20.prices.json",
       "icon": "sets/m20.svg",
       "background": true
     },
@@ -368,6 +406,7 @@
       "cardCount": 311,
       "iconSvgUri": "https://svgs.scryfall.io/sets/war.svg?1792382400",
       "file": "sets/war.json",
+      "prices": "sets/war.prices.json",
       "icon": "sets/war.svg"
     },
     {
@@ -377,6 +416,7 @@
       "cardCount": 273,
       "iconSvgUri": "https://svgs.scryfall.io/sets/rna.svg?1792382400",
       "file": "sets/rna.json",
+      "prices": "sets/rna.prices.json",
       "icon": "sets/rna.svg"
     },
     {
@@ -386,6 +426,7 @@
       "cardCount": 273,
       "iconSvgUri": "https://svgs.scryfall.io/sets/grn.svg?1792382400",
       "file": "sets/grn.json",
+      "prices": "sets/grn.prices.json",
       "icon": "sets/grn.svg"
     },
     {
@@ -395,6 +436,7 @@
       "cardCount": 314,
       "iconSvgUri": "https://svgs.scryfall.io/sets/m19.svg?1792382400",
       "file": "sets/m19.json",
+      "prices": "sets/m19.prices.json",
       "icon": "sets/m19.svg",
       "background": true
     },
@@ -405,6 +447,7 @@
       "cardCount": 280,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dom.svg?1792382400",
       "file": "sets/dom.json",
+      "prices": "sets/dom.prices.json",
       "icon": "sets/dom.svg",
       "background": true
     },
@@ -415,6 +458,7 @@
       "cardCount": 205,
       "iconSvgUri": "https://svgs.scryfall.io/sets/rix.svg?1792382400",
       "file": "sets/rix.json",
+      "prices": "sets/rix.prices.json",
       "icon": "sets/rix.svg",
       "background": true
     },
@@ -425,6 +469,7 @@
       "cardCount": 289,
       "iconSvgUri": "https://svgs.scryfall.io/sets/xln.svg?1792382400",
       "file": "sets/xln.json",
+      "prices": "sets/xln.prices.json",
       "icon": "sets/xln.svg",
       "background": true
     },
@@ -435,6 +480,7 @@
       "cardCount": 209,
       "iconSvgUri": "https://svgs.scryfall.io/sets/hou.svg?1792382400",
       "file": "sets/hou.json",
+      "prices": "sets/hou.prices.json",
       "icon": "sets/hou.svg",
       "background": true
     },
@@ -445,6 +491,7 @@
       "cardCount": 287,
       "iconSvgUri": "https://svgs.scryfall.io/sets/akh.svg?1792382400",
       "file": "sets/akh.json",
+      "prices": "sets/akh.prices.json",
       "icon": "sets/akh.svg",
       "background": true
     },
@@ -455,6 +502,7 @@
       "cardCount": 194,
       "iconSvgUri": "https://svgs.scryfall.io/sets/aer.svg?1792382400",
       "file": "sets/aer.json",
+      "prices": "sets/aer.prices.json",
       "icon": "sets/aer.svg",
       "background": true
     },
@@ -465,6 +513,7 @@
       "cardCount": 274,
       "iconSvgUri": "https://svgs.scryfall.io/sets/kld.svg?1792382400",
       "file": "sets/kld.json",
+      "prices": "sets/kld.prices.json",
       "icon": "sets/kld.svg",
       "background": true
     },
@@ -475,6 +524,7 @@
       "cardCount": 208,
       "iconSvgUri": "https://svgs.scryfall.io/sets/emn.svg?1792382400",
       "file": "sets/emn.json",
+      "prices": "sets/emn.prices.json",
       "icon": "sets/emn.svg",
       "background": true
     },
@@ -485,6 +535,7 @@
       "cardCount": 297,
       "iconSvgUri": "https://svgs.scryfall.io/sets/soi.svg?1792382400",
       "file": "sets/soi.json",
+      "prices": "sets/soi.prices.json",
       "icon": "sets/soi.svg",
       "background": true
     },
@@ -495,6 +546,7 @@
       "cardCount": 186,
       "iconSvgUri": "https://svgs.scryfall.io/sets/ogw.svg?1792382400",
       "file": "sets/ogw.json",
+      "prices": "sets/ogw.prices.json",
       "icon": "sets/ogw.svg",
       "background": true
     },
@@ -505,6 +557,7 @@
       "cardCount": 299,
       "iconSvgUri": "https://svgs.scryfall.io/sets/bfz.svg?1792382400",
       "file": "sets/bfz.json",
+      "prices": "sets/bfz.prices.json",
       "icon": "sets/bfz.svg",
       "background": true
     },
@@ -515,6 +568,7 @@
       "cardCount": 288,
       "iconSvgUri": "https://svgs.scryfall.io/sets/ori.svg?1792382400",
       "file": "sets/ori.json",
+      "prices": "sets/ori.prices.json",
       "icon": "sets/ori.svg",
       "background": true
     },
@@ -525,6 +579,7 @@
       "cardCount": 264,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dtk.svg?1792382400",
       "file": "sets/dtk.json",
+      "prices": "sets/dtk.prices.json",
       "icon": "sets/dtk.svg",
       "background": true
     },
@@ -535,6 +590,7 @@
       "cardCount": 191,
       "iconSvgUri": "https://svgs.scryfall.io/sets/frf.svg?1792382400",
       "file": "sets/frf.json",
+      "prices": "sets/frf.prices.json",
       "icon": "sets/frf.svg",
       "background": true
     },
@@ -545,6 +601,7 @@
       "cardCount": 293,
       "iconSvgUri": "https://svgs.scryfall.io/sets/ktk.svg?1792382400",
       "file": "sets/ktk.json",
+      "prices": "sets/ktk.prices.json",
       "icon": "sets/ktk.svg",
       "background": true
     },
@@ -555,6 +612,7 @@
       "cardCount": 284,
       "iconSvgUri": "https://svgs.scryfall.io/sets/m15.svg?1792382400",
       "file": "sets/m15.json",
+      "prices": "sets/m15.prices.json",
       "icon": "sets/m15.svg",
       "background": true
     },
@@ -565,6 +623,7 @@
       "cardCount": 165,
       "iconSvgUri": "https://svgs.scryfall.io/sets/jou.svg?1792382400",
       "file": "sets/jou.json",
+      "prices": "sets/jou.prices.json",
       "icon": "sets/jou.svg",
       "background": true
     },
@@ -575,6 +634,7 @@
       "cardCount": 165,
       "iconSvgUri": "https://svgs.scryfall.io/sets/bng.svg?1792382400",
       "file": "sets/bng.json",
+      "prices": "sets/bng.prices.json",
       "icon": "sets/bng.svg",
       "background": true
     },
@@ -585,6 +645,7 @@
       "cardCount": 249,
       "iconSvgUri": "https://svgs.scryfall.io/sets/ths.svg?1792382400",
       "file": "sets/ths.json",
+      "prices": "sets/ths.prices.json",
       "icon": "sets/ths.svg",
       "background": true
     },
@@ -595,6 +656,7 @@
       "cardCount": 249,
       "iconSvgUri": "https://svgs.scryfall.io/sets/m14.svg?1792382400",
       "file": "sets/m14.json",
+      "prices": "sets/m14.prices.json",
       "icon": "sets/m14.svg",
       "background": true
     },
@@ -605,6 +667,7 @@
       "cardCount": 156,
       "iconSvgUri": "https://svgs.scryfall.io/sets/dgm.svg?1792382400",
       "file": "sets/dgm.json",
+      "prices": "sets/dgm.prices.json",
       "icon": "sets/dgm.svg",
       "background": true
     },
@@ -615,6 +678,7 @@
       "cardCount": 249,
       "iconSvgUri": "https://svgs.scryfall.io/sets/gtc.svg?1792382400",
       "file": "sets/gtc.json",
+      "prices": "sets/gtc.prices.json",
       "icon": "sets/gtc.svg",
       "background": true
     },
@@ -625,6 +689,7 @@
       "cardCount": 274,
       "iconSvgUri": "https://svgs.scryfall.io/sets/rtr.svg?1792382400",
       "file": "sets/rtr.json",
+      "prices": "sets/rtr.prices.json",
       "icon": "sets/rtr.svg",
       "background": true
     }

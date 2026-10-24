@@ -46,7 +46,10 @@ lint, type check, formatting, and both test suites on every pull request.
 Card data and images come from [Scryfall](https://scryfall.com/docs/api). TCGplayer prices
 are included in Scryfall's data. `npm run fetch-data` downloads every set listed in
 `sets.config.json` into `public/data/`, which is committed so the app works offline and
-never hits the API at runtime. Prices are a snapshot from the time of the fetch.
+never hits the API at runtime. Prices are a snapshot from the time of the fetch. They live
+in separate `sets/<code>.prices.json` files, so refreshing prices rewrites only those (about
+1 MB) while the card files stay unchanged. Without that split, every refresh would add
+about 8 MB to the git history.
 
 ### Adding a set
 

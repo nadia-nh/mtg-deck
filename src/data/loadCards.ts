@@ -1,6 +1,7 @@
 import type { Card } from '../domain/card'
 import { collectorNumberValue } from '../domain/search'
 import type { SetManifest } from './manifest'
+import { withPrices, type PriceTable, type StoredCard } from './prices'
 
 /** Regular printings have plain numeric collector numbers ("221", not "221★"). */
 const isRegularPrinting = (c: Card) => /^\d+$/.test(c.collectorNumber)
@@ -90,8 +91,16 @@ export async function loadCards(
     if (!res.ok) throw new Error(`Failed to load ${path} (HTTP ${res.status})`)
     return (await res.json()) as T
   }
+  // Each set's cards and prices come in separate files (see PriceTable) and load together.
+  const loadSet = async (set: SetManifest['sets'][number]) => {
+    const [cards, prices] = await Promise.all([
+      getJson<StoredCard[]>(set.file),
+      set.prices ? getJson<PriceTable>(set.prices) : undefined,
+    ])
+    return withPrices(cards, prices)
+  }
   const loadSets = async (sets: SetManifest['sets']) =>
-    (await Promise.all(sets.map((s) => getJson<Card[]>(s.file)))).flat()
+    (await Promise.all(sets.map(loadSet))).flat()
 
   const manifest = await getJson<SetManifest>('manifest.json')
   const initialSets = manifest.sets.filter((s) => !s.background)

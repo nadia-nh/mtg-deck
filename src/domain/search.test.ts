@@ -1,3 +1,4 @@
+import { grn as grnJson, war as warJson } from '../testing/sets'
 import { describe, expect, test } from 'vitest'
 import type { Card } from './card'
 import {
@@ -8,8 +9,6 @@ import {
   setSections,
   uniqueByName,
 } from './search'
-import grnJson from '../../public/data/sets/grn.json'
-import warJson from '../../public/data/sets/war.json'
 
 // The committed GRN snapshot doubles as a realistic fixture.
 const grn = grnJson as Card[]
